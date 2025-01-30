@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="416.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
+    <children>
+        <VBox layoutX="23.0" layoutY="101.0" prefWidth="200.0" spacing="10.0">
+            <Label text="ID:" />
+            <TextField fx:id="idField" />
+            <Label text="Name:" />
+            <TextField fx:id="nameField" />
+            <Label text="Email:" />
+            <TextField fx:id="emailField" />
+            <HBox spacing="10.0">
+                <Button onAction="#addTeacher" text="Add" />
+                <Button onAction="#updateTeacher" text="Update" />
+                <Button onAction="#deleteTeacher" text="Delete" />
+            </HBox>
+        </VBox>
+        <TableView fx:id="teacherTable" layoutX="264.0" layoutY="94.0" prefHeight="282.0" prefWidth="492.0">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
+                <TableColumn fx:id="emailColumn" prefWidth="115.0" text="Email" />
+            </columns>
+        </TableView>
+      <Label layoutX="242.0" layoutY="34.0" text="Teacher Management">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>
