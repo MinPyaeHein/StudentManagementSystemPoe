@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 public class StudentController {
 
@@ -18,13 +19,15 @@ public class StudentController {
     private TableColumn<Student, String> nameColumn;
     @FXML
     private TableColumn<Student, String> emailColumn;
-
     @FXML
-    private TextField idField;
+    private TableColumn<Student, String> addressColumn;
+
     @FXML
     private TextField nameField;
     @FXML
     private TextField emailField;
+    @FXML
+    private TextField addressField;
 
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
@@ -36,6 +39,7 @@ public class StudentController {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         studentTable.setItems(studentList);
         loadDummyData();
     }
@@ -47,10 +51,10 @@ public class StudentController {
 
     @FXML
     private void addStudent() {
-        int id = Integer.parseInt(idField.getText());
         String name = nameField.getText();
         String email = emailField.getText();
-        this.studentService.saveStudent(new Student(id, name, email));
+        String address =addressField.getText();
+        this.studentService.saveStudent(new Student(name, email,address));
         this.loadDummyData();
         clearFields();
     }
@@ -60,24 +64,37 @@ public class StudentController {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
         if (selectedStudent != null) {
            this.studentService.delete(selectedStudent.getId());
+           loadDummyData();
+           clearFields();
         }
     }
-
     @FXML
     private void updateStudent() {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedStudent);
         if (selectedStudent != null) {
             selectedStudent.setName(nameField.getText());
             selectedStudent.setEmail(emailField.getText());
+            selectedStudent.setAddress(addressField.getText());
             this.studentService.update(selectedStudent);
             studentTable.refresh();
-
+            clearFields();
+        }
+    }
+    @FXML
+    private void handleMouseAction(MouseEvent event) {
+        Student student = studentTable.getSelectionModel().getSelectedItem();
+        if (student != null) {
+            nameField.setText(student.getName());
+            emailField.setText(student.getEmail());
+            addressField.setText(student.getAddress());
         }
     }
 
     private void clearFields() {
-        idField.clear();
         nameField.clear();
         emailField.clear();
+        addressField.clear();
     }
+
 }

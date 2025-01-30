@@ -24,13 +24,18 @@ import annotation.Table;
             this.name = name;
             this.email = email;
         }
+        public Student(int id, String name, String email,String address) {
+            this.id = id;
+            this.name = name;
+            this.email = email;
+            this.address = address;
+        }
 
         public Student( String name, String email, String address) {
             this.name = name;
             this.email = email;
             this.address = address;
         }
-
 
         public int getId() {
             return id;

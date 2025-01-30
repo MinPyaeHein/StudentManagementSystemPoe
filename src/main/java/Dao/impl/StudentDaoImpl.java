@@ -17,7 +17,8 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
             return new Student(
                     rs.getInt("id"),
                     rs.getString("name"),
-                    rs.getString("email")
+                    rs.getString("email"),
+                    rs.getString("address")
             );
         } catch (SQLException e) {
             // TODO Auto-generated catch block
