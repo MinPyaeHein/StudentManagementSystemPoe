@@ -24,10 +24,10 @@ public class StudentService {
         this.studentDao.insert(student);
     }
     public boolean delete(int id) {
-        Student book=new Student(id);
-        book=this.studentDao.selectById(book);
-        if(book!=null) {
-            this.studentDao.delete(book);
+        Student student=new Student(id);
+        student=this.studentDao.selectById(student);
+        if(student!=null) {
+            this.studentDao.delete(student);
             return true;
         }else {
             return false;

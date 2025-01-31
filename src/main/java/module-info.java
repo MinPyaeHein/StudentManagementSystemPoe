@@ -9,5 +9,5 @@ module org.example.mylearningproject {
     exports Model;
     exports Controller;
     opens Controller to javafx.fxml;
-    exports org.example.mylearningproject;
+
 }
