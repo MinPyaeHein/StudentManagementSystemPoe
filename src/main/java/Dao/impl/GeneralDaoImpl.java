@@ -4,6 +4,7 @@ import Utils.DaoUtail;
 import annotation.Column;
 import annotation.Id;
 import annotation.Table;
+import Exception.ExceptionHandler;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -12,8 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     public ConnectionDaoImpl connectionDao;
     private Class<T> classType;
@@ -60,7 +59,6 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             System.out.println(query);
             list = executeQuerry(query, field.get(obj));
         } catch (IllegalAccessException e) {
-            System.out.println("error is here");
             throw new RuntimeException(e);
         } catch(NullPointerException e) {
             System.out.println("error is here null pointer exception "+this.tableName);
@@ -136,16 +134,17 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
                 }
             }
             int rowAffect = preparedStatement.executeUpdate();
+            System.out.println("rowAffect==="+rowAffect);
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+           ExceptionHandler.showError(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showError("Please Enter Valid Data!!");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.showError("Please Enter Valid Data!!");
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            ExceptionHandler.showError("Please Enter Valid Data!!");
         }
     }
     //insert,update,delete for customized

@@ -4,9 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="441.0" prefWidth="726.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
+<AnchorPane prefHeight="440.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
     <children>
-        <VBox layoutX="39.0" layoutY="92.0" prefHeight="87.0" prefWidth="202.0" spacing="10.0">
+        <VBox layoutX="37.0" layoutY="108.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
+            <Label text="ID:" />
+            <TextField fx:id="idField" />
             <Label text="Name:" />
             <TextField fx:id="nameField" />
             <Label text="Email:" />
@@ -17,9 +19,10 @@
                 <Button onAction="#addStudent" text="Add" />
                 <Button onAction="#updateStudent" text="Update" />
                 <Button onAction="#deleteStudent" text="Delete" />
+                <Button onAction="#clearForm" mnemonicParsing="false" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="studentTable" layoutX="267.0" onMouseClicked="#handleMouseAction" layoutY="92.0" prefHeight="308.0" prefWidth="432.0">
+        <TableView fx:id="studentTable" layoutX="327.0" layoutY="92.0" onMouseClicked="#handleMouseAction" prefHeight="308.0" prefWidth="432.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
@@ -27,10 +30,12 @@
                 <TableColumn fx:id="addressColumn" prefWidth="115.0" text="Address" />
             </columns>
         </TableView>
-      <Label layoutX="241.0" layoutY="40.0" text="Student Management ">
+      <Label layoutX="243.0" layoutY="28.0" text="Student Management ">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
+      <Label layoutX="543.0" layoutY="63.0" text="Search:" />
+      <TextField fx:id="searchField" onKeyPressed="#handleSearchAction" layoutX="599.0" layoutY="59.0" />
     </children>
 </AnchorPane>
