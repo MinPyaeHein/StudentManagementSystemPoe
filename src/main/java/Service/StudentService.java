@@ -3,7 +3,8 @@ package Service;
 
 import Dao.impl.StudentDaoImpl;
 import Model.Student;
-
+import Exception.ExceptionHandler;
+import Exception.CannotProcessException;
 import java.util.List;
 
 public class StudentService {
@@ -21,16 +22,33 @@ public class StudentService {
         return this.studentDao.selectById(new Student(studentId));
     }
     public void saveStudent(Student student) {
-        this.studentDao.insert(student);
-    }
-    public boolean delete(int id) {
-        Student student=new Student(id);
-        student=this.studentDao.selectById(student);
-        if(student!=null) {
-            this.studentDao.delete(student);
-            return true;
-        }else {
-            return false;
+        try{
+            validateFields(student);
+            validateExistStudent(student);
+            this.studentDao.insert(student);
+        }catch(CannotProcessException e){
+            ExceptionHandler.showError(e.getMessage());
         }
     }
+    public void delete(int id) {
+        Student book=new Student(id);
+        book=this.studentDao.selectById(book);
+        if(book!=null) {
+            this.studentDao.delete(book);
+        }else {
+        }
+    }
+
+    private void validateFields(Student student) {
+        if (student.getName().isEmpty() || student.getEmail().isEmpty() || student.getAddress().isEmpty()) {
+            throw new CannotProcessException("Please enter all required information!");
+        }
+    }
+    private void validateExistStudent(Student student) {
+        Student duplicateStudent = this.studentDao.findStudentByEmail(student.getEmail());
+        if (duplicateStudent != null) {
+            throw new CannotProcessException("Duplicate student found!!! " + student.getEmail());
+        }
+    }
+
 }

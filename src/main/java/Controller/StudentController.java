@@ -21,7 +21,10 @@ public class StudentController {
     private TableColumn<Student, String> emailColumn;
     @FXML
     private TableColumn<Student, String> addressColumn;
-
+    @FXML
+    private TextField searchField;
+    @FXML
+    private TextField idField;
     @FXML
     private TextField nameField;
     @FXML
@@ -35,6 +38,7 @@ public class StudentController {
 
     @FXML
     public void initialize() {
+        idField.setDisable(true);
         this.studentService = new StudentService();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -69,10 +73,16 @@ public class StudentController {
         }
     }
     @FXML
+    private void clearForm() {
+            clearFields();
+    }
+
+    @FXML
     private void updateStudent() {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedStudent);
         if (selectedStudent != null) {
+            selectedStudent.setId(Integer.parseInt(idField.getText()));
             selectedStudent.setName(nameField.getText());
             selectedStudent.setEmail(emailField.getText());
             selectedStudent.setAddress(addressField.getText());
@@ -85,13 +95,21 @@ public class StudentController {
     private void handleMouseAction(MouseEvent event) {
         Student student = studentTable.getSelectionModel().getSelectedItem();
         if (student != null) {
+            idField.setText(String.valueOf(student.getId()));
             nameField.setText(student.getName());
             emailField.setText(student.getEmail());
             addressField.setText(student.getAddress());
         }
     }
 
+    @FXML
+    private void handleSearchAction() {
+        String searchText = searchField.getText();
+        System.out.println("Search Text: " + searchText);
+    }
+
     private void clearFields() {
+        idField.clear();
         nameField.clear();
         emailField.clear();
         addressField.clear();

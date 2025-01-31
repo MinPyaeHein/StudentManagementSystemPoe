@@ -3,6 +3,7 @@ import Model.Student;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class StudentDaoImpl extends GeneralDaoImpl<Student> {
@@ -26,6 +27,14 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
             return null;
         }
 
+    }
+    public Student findStudentByEmail(String email){
+        String query = "SELECT * FROM students WHERE email =?";
+        List<Student> resultSet=executeQuerry(query, email);
+        for(Student student: resultSet){
+           return student;
+        }
+        return null;
     }
 
 }
