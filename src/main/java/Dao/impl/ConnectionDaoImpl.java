@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class ConnectionDaoImpl {
     public Connection connectionWithSqlDb() throws ClassNotFoundException, SQLException, IOException {
-        System.out.println("Arrive to database connection");
+
         Class.forName("org.postgresql.Driver");
         InputStream fis=  getClass().getClassLoader().getResourceAsStream("db.properties");
 
@@ -23,13 +23,7 @@ public class ConnectionDaoImpl {
         System.out.println("url: "+url);
         System.out.println("user: "+user);
         System.out.println("password: "+password);
-
         Connection c= DriverManager.getConnection(url,user,password);
-        if (c == null) {
-            System.out.println("Connection not established");
-        }else{
-            System.out.println("Connection established successfully");
-        }
         return c;
 
     }

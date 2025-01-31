@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
+import java.util.List;
+
 public class TeacherController {
 
     @FXML
@@ -22,7 +24,10 @@ public class TeacherController {
     @FXML
     private TableColumn<Teacher,String>  addressColumn;
 
-
+    @FXML
+    private TextField searchField;
+    @FXML
+    private TextField idField;
     @FXML
     private TextField nameField;
     @FXML
@@ -34,13 +39,12 @@ public class TeacherController {
     private TeacherService teacherService;
     @FXML
     public void initialize() {
+        idField.setDisable(true);
         this.teacherService = new TeacherService();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-
-
         teacherTable.setItems(teacherList);
         loadDummyData();
     }
@@ -59,8 +63,10 @@ public class TeacherController {
         this.loadDummyData();
         clearFields();
     }
-
-
+    @FXML
+    private void cleanForm(){
+        clearFields();
+    }
 
     @FXML
     private void deleteTeacher() {
@@ -89,13 +95,21 @@ public class TeacherController {
     private void handleMouseAction(MouseEvent event) {
         Teacher teacher = teacherTable.getSelectionModel().getSelectedItem();
         if (teacher != null) {
+            idField.setText(String.valueOf(teacher.getId()));
             nameField.setText(teacher.getName());
             emailField.setText(teacher.getEmail());
             addressField.setText(teacher.getAddress());
         }
     }
+    @FXML
+    private void handleSearchAction() {
+        List<Teacher> resultTeacher=this.teacherService.searchTeachersByName(searchField.getText());
+        teacherList.clear();
+        teacherList.addAll(resultTeacher);
+    }
 
     private void clearFields() {
+        idField.clear();
         nameField.clear();
         emailField.clear();
         addressField.clear();

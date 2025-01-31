@@ -2,7 +2,10 @@ package Service;
 
 import Dao.impl.TeacherDaoImpl;
 import Model.Teacher;
+import Exception .*;
+import Utils.AlertUtil;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class TeacherService {
@@ -13,7 +16,13 @@ public class TeacherService {
     }
 
     public void update(Teacher teacher){
-        teacherDao.update(teacher,"id");
+        try{
+            checkEmptyDataField(teacher);
+            teacherDao.update(teacher,"id");
+            AlertUtil.alert("Successfully updated","INFORMATION");
+        }catch(InvalidDataFormatException exception){
+            AlertUtil.alert(exception.getMessage(),"ERROR");
+        }
     }
 
     public List<Teacher> getAllTeacher(){
@@ -25,17 +34,39 @@ public class TeacherService {
     }
 
     public void saveTeacher(Teacher teacher){
-        this.teacherDao.insert(teacher);
-    }
-
-    public boolean delete(int id){
-        Teacher teacher = new Teacher(id);
-        teacher = this.teacherDao.selectById(teacher);
-        if(teacher != null){
-            this.teacherDao.delete(teacher);
-            return  true;
-        }else{
-            return false;
+        try{
+            checkEmptyDataField(teacher);
+            checkDuplicateTeacher(teacher);
+            this.teacherDao.insert(teacher);
+            AlertUtil.alert("Successfully Saved!!","INFORMATION");
+        }catch(UserAlreadyExist exception){
+            AlertUtil.alert(exception.getMessage() + teacher.getEmail(),"ERROR");
+        }catch(InvalidDataFormatException exception){
+            AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
+
+    public void delete(int id){
+        Teacher teacher = new Teacher(id);
+        teacher = this.teacherDao.selectById(teacher);
+        if(teacher != null &&
+                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+teacher.getEmail())){
+            this.teacherDao.delete(teacher);
+        }
+    }
+    public void checkDuplicateTeacher(Teacher teacher){
+        Teacher selectedTeacher=this.teacherDao.findTeacherByEmail(teacher.getEmail());
+        if(selectedTeacher!=null){
+            throw new UserAlreadyExist("Duplicate teacher found!!! " + teacher.getEmail());
+        }
+    }
+    public void checkEmptyDataField(Teacher teacher){
+        if(teacher.getName().isEmpty() || teacher.getEmail().isEmpty() || teacher.getAddress().isEmpty()) {
+            throw new InvalidDataFormatException("Please enter all required information!");
+        }
+    }
+    public List<Teacher> searchTeachersByName(String name){
+        return teacherDao.findTeachersByName(name);
+    }
+
 }
