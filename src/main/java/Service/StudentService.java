@@ -35,9 +35,7 @@ public class StudentService {
         book=this.studentDao.selectById(book);
         if(book!=null) {
             this.studentDao.delete(book);
-            return true;
         }else {
-            return false;
         }
     }
 
