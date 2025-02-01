@@ -35,8 +35,9 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
         }
         return null;
     }
-    public List<Teacher> findTeachersByName(String name){
-        String query = "SELECT * FROM teachers WHERE name LIKE ?";
-        return executeQuerry(query, "%" + name + "%");
+    public List<Teacher> findTeachersByName(String name) {
+        String query = "SELECT * FROM teachers WHERE LOWER(name) LIKE LOWER(?)";
+        return executeQuerry(query,  name.toLowerCase() + "%");
     }
+
 }

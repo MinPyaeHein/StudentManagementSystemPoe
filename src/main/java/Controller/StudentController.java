@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Student;
+import Model.Teacher;
 import Service.StudentService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+
+import java.util.List;
 
 public class StudentController {
 
@@ -104,8 +107,9 @@ public class StudentController {
 
     @FXML
     private void handleSearchAction() {
-        String searchText = searchField.getText();
-        System.out.println("Search Text: " + searchText);
+        List<Student> resultStudent=this.studentService.searchStudentByName(searchField.getText());
+        studentList.clear();
+        studentList.addAll(resultStudent);
     }
 
     private void clearFields() {

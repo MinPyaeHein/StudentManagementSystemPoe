@@ -5,6 +5,9 @@ import Dao.impl.StudentDaoImpl;
 import Model.Student;
 import Exception.ExceptionHandler;
 import Exception.CannotProcessException;
+import Model.Teacher;
+import Utils.AlertUtil;
+
 import java.util.List;
 
 public class StudentService {
@@ -13,8 +16,15 @@ public class StudentService {
         this.studentDao = new StudentDaoImpl();
     }
     public void update(Student student) {
-        studentDao.update(student,"id");
+     try {
+         validateFields(student);
+         studentDao.update(student, "id");
+         AlertUtil.alert("Successfully updated","INFORMATION");
+     }catch(CannotProcessException exception){
+         AlertUtil.alert(exception.getMessage(),"ERROR");
+     }
     }
+
     public List<Student> getAllStudent(){
         return studentDao.selectAll();
     }
@@ -26,16 +36,17 @@ public class StudentService {
             validateFields(student);
             validateExistStudent(student);
             this.studentDao.insert(student);
+            AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(CannotProcessException e){
             ExceptionHandler.showError(e.getMessage());
         }
     }
     public void delete(int id) {
-        Student book=new Student(id);
-        book=this.studentDao.selectById(book);
-        if(book!=null) {
-            this.studentDao.delete(book);
-        }else {
+        Student student=new Student(id);
+        student=this.studentDao.selectById(student);
+        if(student!=null &&
+                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+student.getEmail())){
+            this.studentDao.delete(student);
         }
     }
 
@@ -49,6 +60,11 @@ public class StudentService {
         if (duplicateStudent != null) {
             throw new CannotProcessException("Duplicate student found!!! " + student.getEmail());
         }
+    }
+
+    public List<Student> searchStudentByName(String name){
+
+        return studentDao.findStudentByName(name.toLowerCase());
     }
 
 }

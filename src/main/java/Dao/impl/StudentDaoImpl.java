@@ -1,5 +1,6 @@
 package Dao.impl;
 import Model.Student;
+import Model.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +36,11 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
            return student;
         }
         return null;
+    }
+
+    public List<Student> findStudentByName(String name) {
+        String query = "SELECT * FROM students WHERE LOWER(name) LIKE LOWER(?)";
+        return executeQuerry(query,  name.toLowerCase() + "%");
     }
 
 }

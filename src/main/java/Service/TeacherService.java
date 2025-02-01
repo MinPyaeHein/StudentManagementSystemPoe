@@ -66,7 +66,8 @@ public class TeacherService {
         }
     }
     public List<Teacher> searchTeachersByName(String name){
-        return teacherDao.findTeachersByName(name);
+
+        return teacherDao.findTeachersByName(name.toLowerCase());
     }
 
 }
