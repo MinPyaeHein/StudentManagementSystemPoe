@@ -1,17 +1,21 @@
 package Model;
 
-import annotation.Column;
-import annotation.Id;
-import annotation.Table;
+import annotation.*;
 
-    @Table(name="students")
+@Table(name="students")
     public class Student {
         @Id(name="id")
         private int id;
+        @NotNull(message="Name cannot be null!!")
         @Column(name="name")
         private String name;
+
+        @NotNull(message="Email cannot be null!!")
+        @EmailValidate(message="Email is not valid!!")
         @Column(name="email")
         private String email;
+
+        @NotNull(message="Address cannot be null!!")
         @Column(name="address")
         private String address;
 

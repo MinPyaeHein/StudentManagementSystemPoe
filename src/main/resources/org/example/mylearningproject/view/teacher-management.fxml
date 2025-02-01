@@ -41,7 +41,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <TextField fx:id="searchField" layoutX="618.0" layoutY="91.0" onKeyPressed="#handleSearchAction" />
+      <TextField fx:id="searchField" layoutX="618.0" layoutY="91.0" onKeyTyped="#handleSearchAction" />
       <Label layoutX="564.0" layoutY="95.0" text="Search" />
     </children>
 </AnchorPane>

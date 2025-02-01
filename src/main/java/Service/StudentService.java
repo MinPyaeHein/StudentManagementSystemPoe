@@ -3,10 +3,9 @@ package Service;
 
 import Dao.impl.StudentDaoImpl;
 import Model.Student;
-import Exception.ExceptionHandler;
-import Exception.CannotProcessException;
-import Model.Teacher;
 import Utils.AlertUtil;
+import Utils.ValidateUtail;
+import Exception.InvalidDataFormatException;
 
 import java.util.List;
 
@@ -17,10 +16,10 @@ public class StudentService {
     }
     public void update(Student student) {
      try {
-         validateFields(student);
+         ValidateUtail.validate(student);
          studentDao.update(student, "id");
          AlertUtil.alert("Successfully updated","INFORMATION");
-     }catch(CannotProcessException exception){
+     }catch(InvalidDataFormatException exception){
          AlertUtil.alert(exception.getMessage(),"ERROR");
      }
     }
@@ -33,12 +32,12 @@ public class StudentService {
     }
     public void saveStudent(Student student) {
         try{
-            validateFields(student);
+            ValidateUtail.validate(student);
             validateExistStudent(student);
             this.studentDao.insert(student);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
-        }catch(CannotProcessException e){
-            ExceptionHandler.showError(e.getMessage());
+        }catch(InvalidDataFormatException exception){
+            AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
     public void delete(int id) {
@@ -50,15 +49,10 @@ public class StudentService {
         }
     }
 
-    private void validateFields(Student student) {
-        if (student.getName().isEmpty() || student.getEmail().isEmpty() || student.getAddress().isEmpty()) {
-            throw new CannotProcessException("Please enter all required information!");
-        }
-    }
     private void validateExistStudent(Student student) {
         Student duplicateStudent = this.studentDao.findStudentByEmail(student.getEmail());
         if (duplicateStudent != null) {
-            throw new CannotProcessException("Duplicate student found!!! " + student.getEmail());
+            throw new InvalidDataFormatException("Duplicate student found!!! " + student.getEmail());
         }
     }
 

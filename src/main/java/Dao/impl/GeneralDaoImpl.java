@@ -1,10 +1,11 @@
 package Dao.impl;
 import Dao.GeneralDao;
+import Utils.AlertUtil;
 import Utils.DaoUtail;
 import annotation.Column;
 import annotation.Id;
 import annotation.Table;
-import Exception.ExceptionHandler;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -137,14 +138,12 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             System.out.println("rowAffect==="+rowAffect);
             preparedStatement.close();
             connection.close();
-        } catch (SQLException e) {
-           ExceptionHandler.showError(e.getMessage());
+        } catch (RuntimeException | SQLException | IllegalAccessException e) {
+            AlertUtil.alert(e.getMessage(),"ERROR");
         } catch (IOException e) {
-            ExceptionHandler.showError("Please Enter Valid Data!!");
+            AlertUtil.alert(e.getMessage(),"ERROR");
         } catch (ClassNotFoundException e) {
-            ExceptionHandler.showError("Please Enter Valid Data!!");
-        } catch (IllegalAccessException e) {
-            ExceptionHandler.showError("Please Enter Valid Data!!");
+            AlertUtil.alert(e.getMessage(),"ERROR");
         }
     }
     //insert,update,delete for customized
