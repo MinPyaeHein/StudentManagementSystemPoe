@@ -4,6 +4,7 @@ import Dao.impl.TeacherDaoImpl;
 import Model.Teacher;
 import Exception .*;
 import Utils.AlertUtil;
+import Utils.ValidateUtail;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,7 +18,7 @@ public class TeacherService {
 
     public void update(Teacher teacher){
         try{
-            checkEmptyDataField(teacher);
+            ValidateUtail.validate(teacher);
             teacherDao.update(teacher,"id");
             AlertUtil.alert("Successfully updated","INFORMATION");
         }catch(InvalidDataFormatException exception){
@@ -35,7 +36,7 @@ public class TeacherService {
 
     public void saveTeacher(Teacher teacher){
         try{
-            checkEmptyDataField(teacher);
+            ValidateUtail.validate(teacher);
             checkDuplicateTeacher(teacher);
             this.teacherDao.insert(teacher);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
@@ -60,11 +61,7 @@ public class TeacherService {
             throw new UserAlreadyExist("Duplicate teacher found!!! " + teacher.getEmail());
         }
     }
-    public void checkEmptyDataField(Teacher teacher){
-        if(teacher.getName().isEmpty() || teacher.getEmail().isEmpty() || teacher.getAddress().isEmpty()) {
-            throw new InvalidDataFormatException("Please enter all required information!");
-        }
-    }
+
     public List<Teacher> searchTeachersByName(String name){
 
         return teacherDao.findTeachersByName(name.toLowerCase());

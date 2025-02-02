@@ -31,3 +31,11 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.students
     OWNER to postgres;
+
+   //add ph column to students table
+   ALTER TABLE public.students
+   ADD COLUMN phone character varying(15) COLLATE pg_catalog."default";
+
+   //add ph column to teachers table
+   ALTER TABLE public.teachers
+   ADD COLUMN phone character varying(15) COLLATE pg_catalog."default";

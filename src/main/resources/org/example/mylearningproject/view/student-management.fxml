@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="440.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
+<AnchorPane prefHeight="440.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
     <children>
-        <VBox layoutX="37.0" layoutY="108.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
+        <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
             <Label text="ID:" />
             <TextField fx:id="idField" />
             <Label text="Name:" />
@@ -15,19 +21,22 @@
             <TextField fx:id="emailField" />
             <Label text="Address:" />
             <TextField fx:id="addressField" />
+            <Label text="Phone Number:" />
+            <TextField fx:id="phoneField" promptText="09-xxxxxxxxx" />
             <HBox spacing="10.0">
                 <Button onAction="#addStudent" text="Add" />
                 <Button onAction="#updateStudent" text="Update" />
                 <Button onAction="#deleteStudent" text="Delete" />
-                <Button onAction="#clearForm" mnemonicParsing="false" text="Clear" />
+                <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="studentTable" layoutX="327.0" layoutY="92.0" onMouseClicked="#handleMouseAction" prefHeight="308.0" prefWidth="432.0">
+        <TableView fx:id="studentTable" layoutX="306.0" layoutY="96.0" onMouseClicked="#handleMouseAction" prefHeight="308.0" prefWidth="565.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
                 <TableColumn fx:id="emailColumn" prefWidth="115.0" text="Email" />
                 <TableColumn fx:id="addressColumn" prefWidth="115.0" text="Address" />
+                <TableColumn fx:id="phoneColumn" prefWidth="119.19997558593752" text="Phone Number" />
             </columns>
         </TableView>
       <Label layoutX="243.0" layoutY="28.0" text="Student Management ">
@@ -35,7 +44,7 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="543.0" layoutY="63.0" text="Search:" />
-      <TextField fx:id="searchField" onKeyTyped="#handleSearchAction" layoutX="599.0" layoutY="59.0" />
+      <Label layoutX="641.0" layoutY="70.0" text="Search:" />
+      <TextField fx:id="searchField" layoutX="697.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

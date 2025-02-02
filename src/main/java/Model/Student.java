@@ -19,6 +19,11 @@ import annotation.*;
         @Column(name="address")
         private String address;
 
+        @NotNull(message="Phone Number cannot be null!!")
+        @PhoneValidate(message = "Phone number is not valid!!")
+        @Column(name = "phone")
+        private String phone;
+
         public Student(int id) {
             this.id=id;
         }
@@ -28,17 +33,19 @@ import annotation.*;
             this.name = name;
             this.email = email;
         }
-        public Student(int id, String name, String email,String address) {
+        public Student(int id, String name, String email,String address,String phone) {
             this.id = id;
             this.name = name;
             this.email = email;
             this.address = address;
+            this.phone = phone;
         }
 
-        public Student( String name, String email, String address) {
+        public Student( String name, String email,String address,String phone) {
             this.name = name;
             this.email = email;
             this.address = address;
+            this.phone = phone;
         }
 
         public int getId() {
@@ -65,9 +72,17 @@ import annotation.*;
         public void setAddress(String address) {
             this.address = address;
         }
-        @Override
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+    @Override
         public String toString() {
-            return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + "]";
+            return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address +  ", phone number=" + phone + "]";
         }
 
     }

@@ -1,20 +1,30 @@
 package Model;
 
 
-import annotation.Column;
-import annotation.Id;
-import annotation.Table;
+import annotation.*;
 
 @Table(name = "teachers")
 public class Teacher {
-    @Id(name = "id")
+    @Id(name="id")
     private int id;
-    @Column(name = "name")
+    @NotNull(message="Name cannot be null!!")
+    @Column(name="name")
     private String name;
-    @Column(name = "email")
+
+    @NotNull(message="Email cannot be null!!")
+    @EmailValidate(message="Email is not valid!!")
+    @Column(name="email")
     private String email;
-    @Column(name = "address")
+
+    @NotNull(message="Address cannot be null!!")
+    @Column(name="address")
     private String address;
+
+    @NotNull(message="Phone Number cannot be null!!")
+    @PhoneValidate(message = "Phone number is not valid!!")
+    @Column(name = "phone")
+    private String phone;
+
 
     public Teacher(int id){
         this.id = id;
@@ -24,17 +34,19 @@ public class Teacher {
         this.name = name;
         this.email = email;
     }
-    public Teacher(int id, String name, String email,String address) {
+    public Teacher(int id, String name, String email,String address,String phone) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
+        this.phone = phone;
     }
 
-    public Teacher(String name, String email,String address) {
+    public Teacher(String name, String email,String address,String phone) {
         this.name = name;
         this.email = email;
         this.address = address;
+        this.phone = phone;
     }
 
 
@@ -69,6 +81,15 @@ public class Teacher {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
 
 
 }

@@ -25,6 +25,9 @@ public class StudentController {
     @FXML
     private TableColumn<Student, String> addressColumn;
     @FXML
+    private TableColumn<Teacher, String> phoneColumn;
+
+    @FXML
     private TextField searchField;
     @FXML
     private TextField idField;
@@ -34,6 +37,8 @@ public class StudentController {
     private TextField emailField;
     @FXML
     private TextField addressField;
+    @FXML
+    private TextField phoneField;
 
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
@@ -47,6 +52,7 @@ public class StudentController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         studentTable.setItems(studentList);
         loadDummyData();
     }
@@ -61,7 +67,9 @@ public class StudentController {
         String name = nameField.getText();
         String email = emailField.getText();
         String address =addressField.getText();
-        this.studentService.saveStudent(new Student(name, email,address));
+        String phone = phoneField.getText();
+        this.studentService.saveStudent(new Student(name, email,address,phone));
+                System.out.println(phone);
         this.loadDummyData();
         clearFields();
     }
@@ -89,6 +97,7 @@ public class StudentController {
             selectedStudent.setName(nameField.getText());
             selectedStudent.setEmail(emailField.getText());
             selectedStudent.setAddress(addressField.getText());
+            selectedStudent.setPhone(phoneField.getText());
             this.studentService.update(selectedStudent);
             studentTable.refresh();
             clearFields();
@@ -102,6 +111,7 @@ public class StudentController {
             nameField.setText(student.getName());
             emailField.setText(student.getEmail());
             addressField.setText(student.getAddress());
+            phoneField.setText(student.getPhone());
         }
     }
 
@@ -116,6 +126,7 @@ public class StudentController {
         idField.clear();
         nameField.clear();
         emailField.clear();
+        phoneField.clear();
         addressField.clear();
     }
 

@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="458.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
+<AnchorPane prefHeight="440.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
     <children>
-        <VBox layoutX="23.0" layoutY="103.0" prefHeight="358.0" prefWidth="281.0" spacing="10.0">
+        <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
          <Label text="ID" />
          <TextField fx:id="idField" />
             <Label text="Name:" />
@@ -21,6 +21,8 @@
             <TextField fx:id="emailField" />
          <Label text="Address:" />
          <TextField fx:id="addressField" />
+            <Label text="Phone Number:" />
+            <TextField fx:id="phoneField" promptText="09-xxxxxxxxx" />
             <HBox spacing="10.0">
                 <Button onAction="#addTeacher" text="Add" />
                 <Button onAction="#updateTeacher" text="Update" />
@@ -28,20 +30,21 @@
                 <Button mnemonicParsing="false" onAction="#cleanForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="teacherTable" layoutX="327.0" layoutY="125.0" onMouseClicked="#handleMouseAction" prefHeight="266.0" prefWidth="494.0">
+        <TableView fx:id="teacherTable" layoutX="306.0" layoutY="96.0" onMouseClicked="#handleMouseAction" prefHeight="308.0" prefWidth="558.0">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
-                <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
-                <TableColumn fx:id="emailColumn" prefWidth="120.79995727539062" text="Email" />
-            <TableColumn fx:id="addressColumn" prefWidth="155.99993896484375" text="Address" />
+                <TableColumn fx:id="idColumn" prefWidth="88.79998779296875" text="ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="112.0" text="Name" />
+                <TableColumn fx:id="emailColumn" prefWidth="121.60000610351562" text="Email" />
+            <TableColumn fx:id="addressColumn" prefWidth="116.800048828125" text="Address" />
+                <TableColumn fx:id="phoneColumn" prefWidth="116.79998779296875" text="Phone Number" />
             </columns>
         </TableView>
-      <Label layoutX="242.0" layoutY="34.0" text="Teacher Management">
+        <Label layoutX="243.0" layoutY="28.0" text="Teacher Management">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <TextField fx:id="searchField" layoutX="618.0" layoutY="91.0" onKeyTyped="#handleSearchAction" />
-      <Label layoutX="564.0" layoutY="95.0" text="Search" />
+        <Label layoutX="641.0" layoutY="70.0" text="Search:" />
+        <TextField fx:id="searchField" layoutX="697.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

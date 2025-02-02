@@ -20,7 +20,8 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("email"),
-                    rs.getString("address")
+                    rs.getString("address"),
+                    rs.getString("phone")
             );
         } catch (SQLException e) {
             // TODO Auto-generated catch block

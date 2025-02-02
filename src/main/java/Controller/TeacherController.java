@@ -23,6 +23,9 @@ public class TeacherController {
     private TableColumn<Teacher, String> emailColumn;
     @FXML
     private TableColumn<Teacher,String>  addressColumn;
+    @FXML
+    private TableColumn<Teacher,String>  phoneColumn;
+
 
     @FXML
     private TextField searchField;
@@ -32,8 +35,11 @@ public class TeacherController {
     private TextField nameField;
     @FXML
     private TextField emailField;
+
     @FXML
     private TextField addressField;
+    @FXML
+    private TextField phoneField;
 
     private final ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
     private TeacherService teacherService;
@@ -45,6 +51,7 @@ public class TeacherController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         teacherTable.setItems(teacherList);
         loadDummyData();
     }
@@ -59,7 +66,8 @@ public class TeacherController {
         String name = nameField.getText();
         String email = emailField.getText();
         String address = addressField.getText();
-        this.teacherService.saveTeacher(new Teacher( name, email,address));
+        String phone = phoneField.getText();
+        this.teacherService.saveTeacher(new Teacher(name, email,address,phone));
         this.loadDummyData();
         clearFields();
     }
@@ -85,6 +93,7 @@ public class TeacherController {
             selectedTeacher.setName(nameField.getText());
             selectedTeacher.setEmail(emailField.getText());
             selectedTeacher.setAddress(addressField.getText());
+            selectedTeacher.setAddress(phoneField.getText());
             this.teacherService.update(selectedTeacher);
             teacherTable.refresh();
             clearFields();
@@ -99,6 +108,7 @@ public class TeacherController {
             nameField.setText(teacher.getName());
             emailField.setText(teacher.getEmail());
             addressField.setText(teacher.getAddress());
+            phoneField.setText(teacher.getPhone());
         }
     }
     @FXML
@@ -113,5 +123,6 @@ public class TeacherController {
         nameField.clear();
         emailField.clear();
         addressField.clear();
+        phoneField.clear();
     }
 }

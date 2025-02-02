@@ -1,8 +1,11 @@
 package Utils;
 
+import Model.Teacher;
 import annotation.EmailValidate;
 import annotation.NotNull;
 import Exception.InvalidDataFormatException;
+import annotation.PhoneValidate;
+
 import java.lang.reflect.Field;
 
 public class ValidateUtail {
@@ -25,12 +28,11 @@ public class ValidateUtail {
                     throw new RuntimeException(e);
                 }
             }
-
             if(field.isAnnotationPresent(EmailValidate.class)){
                 field.setAccessible(true);
                 try {
                     Object value=field.get(obj);
-                    if(!emailValidator(value.toString())){
+                    if(!emailValidator(value.toString()) && !value.toString().isEmpty()){
                         EmailValidate annotation = field.getAnnotation(EmailValidate.class);
                         errorMessage+=annotation.message()+"\n";
                     }
@@ -38,13 +40,31 @@ public class ValidateUtail {
                     throw new RuntimeException(e);
                 }
             }
+            if(field.isAnnotationPresent(PhoneValidate.class)){
+                field.setAccessible(true);
+                try {
+                    Object value=field.get(obj);
+                    if(!phoneValidator(value.toString()) && !value.toString().isEmpty()){
+                        PhoneValidate annotation = field.getAnnotation(PhoneValidate.class);
+                        errorMessage+=annotation.message()+"\n";
+                    }
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         }
         if(!errorMessage.isEmpty()){
             throw new InvalidDataFormatException(errorMessage);
         }
     }
+
+
     private static boolean emailValidator(String email){
         return email.matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
+    }
+    private static boolean phoneValidator(String phone){
+        return phone.matches("^09-\\d{9}$");
     }
 
 }
