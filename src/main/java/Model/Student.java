@@ -24,6 +24,9 @@ import annotation.*;
         @Column(name = "phone")
         private String phone;
 
+        @ManyToOne(name = "faculty_id")
+        private Faculty faculty;
+
         public Student(int id) {
             this.id=id;
         }
@@ -47,8 +50,24 @@ import annotation.*;
             this.address = address;
             this.phone = phone;
         }
+    public Student( String name, String email,String address,String phone,Faculty faculty) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.faculty = faculty;
+    }
 
-        public int getId() {
+    public Student(int id, String name, String email, String address, String phone, Faculty faculty) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.faculty = faculty;
+    }
+
+    public int getId() {
             return id;
         }
         public void setId(int id) {
@@ -75,9 +94,16 @@ import annotation.*;
         public String getPhone() {
             return phone;
         }
-
         public void setPhone(String phone) {
             this.phone = phone;
+        }
+
+        public Faculty getFaculty() {
+            return faculty;
+        }
+
+        public void setFaculty(Faculty faculty) {
+            this.faculty = faculty;
         }
 
     @Override
@@ -85,4 +111,4 @@ import annotation.*;
             return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address +  ", phone number=" + phone + "]";
         }
 
-    }
+}

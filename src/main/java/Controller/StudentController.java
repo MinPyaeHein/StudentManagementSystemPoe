@@ -2,13 +2,17 @@ package Controller;
 
 import Model.Student;
 import Model.Teacher;
+import Service.FacultyService;
+import Service.impl.FacultyServiceImpl;
 import Service.StudentService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import Model.Faculty;
 
 import java.util.List;
 
@@ -25,8 +29,12 @@ public class StudentController {
     @FXML
     private TableColumn<Student, String> addressColumn;
     @FXML
-    private TableColumn<Teacher, String> phoneColumn;
+    private TableColumn<Student, String> phoneColumn;
+    @FXML
+    private TableColumn<Student, String> facultyColumn;
 
+    @FXML
+    private ChoiceBox<String> choiceBoxField;
     @FXML
     private TextField searchField;
     @FXML
@@ -43,16 +51,24 @@ public class StudentController {
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
     private StudentService studentService;
+    private FacultyService facultyService;
 
     @FXML
     public void initialize() {
         idField.setDisable(true);
         this.studentService = new StudentService();
+        this.facultyService = new FacultyServiceImpl();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("faculty.name"));
+        facultyColumn.setCellValueFactory(cellData -> {
+            Faculty faculty = cellData.getValue().getFaculty();
+            return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
+        });
+        choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
         studentTable.setItems(studentList);
         loadDummyData();
     }
@@ -68,7 +84,10 @@ public class StudentController {
         String email = emailField.getText();
         String address =addressField.getText();
         String phone = phoneField.getText();
-        this.studentService.saveStudent(new Student(name, email,address,phone));
+        String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
+        Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
+        System.out.println("Faculty====>"+faculty);
+        this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
                 System.out.println(phone);
         this.loadDummyData();
         clearFields();
@@ -98,6 +117,7 @@ public class StudentController {
             selectedStudent.setEmail(emailField.getText());
             selectedStudent.setAddress(addressField.getText());
             selectedStudent.setPhone(phoneField.getText());
+
             this.studentService.update(selectedStudent);
             studentTable.refresh();
             clearFields();
@@ -117,7 +137,7 @@ public class StudentController {
 
     @FXML
     private void handleSearchAction() {
-        List<Student> resultStudent=this.studentService.searchStudentByName(searchField.getText());
+        List<Student> resultStudent=this.studentService.searchStudentByKeyword(searchField.getText());
         studentList.clear();
         studentList.addAll(resultStudent);
     }

@@ -39,3 +39,28 @@ ALTER TABLE IF EXISTS public.students
    //add ph column to teachers table
    ALTER TABLE public.teachers
    ADD COLUMN phone character varying(15) COLLATE pg_catalog."default";
+
+CREATE TABLE faculties (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    website_link VARCHAR(255),
+    phone VARCHAR(20)
+);
+
+INSERT INTO faculties (name, email, website_link, phone) VALUES
+('Dr. Alice Johnson', 'alice.johnson@example.com', 'https://aliceuniversity.edu', '123-456-7890'),
+('Prof. Bob Smith', 'bob.smith@example.com', 'https://bobfaculty.edu', '234-567-8901'),
+('Dr. Charlie Brown', 'charlie.brown@example.com', 'https://charlieacademy.edu', '345-678-9012'),
+('Prof. David White', 'david.white@example.com', 'https://daviduniversity.edu', '456-789-0123'),
+('Dr. Emma Green', 'emma.green@example.com', 'https://emmagreenedu.edu', '567-890-1234'),
+('Prof. Frank Black', 'frank.black@example.com', 'https://frankfaculty.edu', '678-901-2345'),
+('Dr. Grace Adams', 'grace.adams@example.com', 'https://graceacademy.edu', '789-012-3456'),
+('Prof. Henry Ford', 'henry.ford@example.com', 'https://henryfaculty.edu', '890-123-4567'),
+('Dr. Ivy Lee', 'ivy.lee@example.com', 'https://ivyuniversity.edu', '901-234-5678'),
+('Prof. Jack King', 'jack.king@example.com', 'https://jackfaculty.edu', '012-345-6789');
+
+ALTER TABLE public.students
+ADD COLUMN faculty_id INTEGER NOT NULL DEFAULT 1,
+ADD CONSTRAINT students_faculty_fk FOREIGN KEY (faculty_id)
+REFERENCES public.faculties (id) ON DELETE SET DEFAULT;

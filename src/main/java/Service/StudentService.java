@@ -56,9 +56,8 @@ public class StudentService {
         }
     }
 
-    public List<Student> searchStudentByName(String name){
-
-        return studentDao.findStudentByName(name.toLowerCase());
+    public List<Student> searchStudentByKeyword(String keyword) {
+        return studentDao.findStudentByKeyword(keyword);
     }
 
 }
