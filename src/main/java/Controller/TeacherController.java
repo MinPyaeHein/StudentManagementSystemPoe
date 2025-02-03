@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Teacher;
 import Service.TeacherService;
+import Utils.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -89,15 +90,21 @@ public class TeacherController {
     @FXML
     private void updateTeacher() {
         Teacher selectedTeacher = teacherTable.getSelectionModel().getSelectedItem();
-        if (selectedTeacher != null) {
-            selectedTeacher.setName(nameField.getText());
-            selectedTeacher.setEmail(emailField.getText());
-            selectedTeacher.setAddress(addressField.getText());
-            selectedTeacher.setAddress(phoneField.getText());
-            this.teacherService.update(selectedTeacher);
-            teacherTable.refresh();
+        if(selectedTeacher == null){
+            AlertUtil.alert("Please select a teacher from the table to update.", "ERROR");
             clearFields();
         }
+        if (selectedTeacher != null) {
+               selectedTeacher.setName(nameField.getText());
+               selectedTeacher.setEmail(emailField.getText());
+               selectedTeacher.setAddress(addressField.getText());
+               selectedTeacher.setAddress(phoneField.getText());
+               this.teacherService.update(selectedTeacher);
+               teacherTable.refresh();
+               loadDummyData();
+               clearFields();
+        }
+
     }
 
     @FXML
@@ -113,7 +120,7 @@ public class TeacherController {
     }
     @FXML
     private void handleSearchAction() {
-        List<Teacher> resultTeacher=this.teacherService.searchTeachersByName(searchField.getText());
+        List<Teacher> resultTeacher=this.teacherService.searchTeacherByKeyword(searchField.getText());
         teacherList.clear();
         teacherList.addAll(resultTeacher);
     }

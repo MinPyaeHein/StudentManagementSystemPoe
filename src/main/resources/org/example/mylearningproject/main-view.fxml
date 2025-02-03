@@ -11,6 +11,7 @@
                     <MenuItem text="Students" onAction="#showStudentManagement"/>
                     <MenuItem text="Teachers" onAction="#showTeacherManagement"/>
                     <MenuItem text="Classrooms" onAction="#showClassroomManagement"/>
+                    <MenuItem text="Faculties" onAction="#showFacultyManagement"/>
                 </Menu>
             </menus>
         </MenuBar>

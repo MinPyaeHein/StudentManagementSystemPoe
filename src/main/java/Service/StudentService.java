@@ -14,8 +14,10 @@ public class StudentService {
     public StudentService() {
         this.studentDao = new StudentDaoImpl();
     }
+
     public void update(Student student) {
      try {
+
          ValidateUtail.validate(student);
          studentDao.update(student, "id");
          AlertUtil.alert("Successfully updated","INFORMATION");
@@ -40,11 +42,13 @@ public class StudentService {
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
+
     public void delete(int id) {
-        Student student=new Student(id);
-        student=this.studentDao.selectById(student);
+        Student student = new Student(id);
+        System.out.println("Student OBJECT:" + student);
+        student = this.studentDao.selectById( student);
         if(student!=null &&
-                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+student.getEmail())){
+                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getEmail())){
             this.studentDao.delete(student);
         }
     }

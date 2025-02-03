@@ -35,5 +35,9 @@ public class MainController {
         loadPage("classroom-management.fxml");
     }
 
+    @FXML
+    public void showFacultyManagement() {
+        loadPage("faculty-management.fxml");
+    }
 }
 

@@ -5,6 +5,7 @@ import Model.Teacher;
 import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
 import Service.StudentService;
+import Utils.AlertUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,11 +64,11 @@ public class StudentController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("faculty.name"));
-        facultyColumn.setCellValueFactory(cellData -> {
-            Faculty faculty = cellData.getValue().getFaculty();
-            return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
-        });
+        facultyColumn.setCellValueFactory(new PropertyValueFactory<>("faculty.name"));
+           facultyColumn.setCellValueFactory(cellData -> {
+               Faculty faculty = cellData.getValue().getFaculty();
+               return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
+           });
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
         studentTable.setItems(studentList);
         loadDummyData();
@@ -85,10 +86,13 @@ public class StudentController {
         String address =addressField.getText();
         String phone = phoneField.getText();
         String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-        Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
-        System.out.println("Faculty====>"+faculty);
-        this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
-                System.out.println(phone);
+        try {
+            Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
+            this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
+        }catch(NullPointerException e){
+            AlertUtil.alert(e.getMessage(),"ERROR" );
+        }
+
         this.loadDummyData();
         clearFields();
     }
@@ -111,15 +115,24 @@ public class StudentController {
     private void updateStudent() {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedStudent);
+        if(selectedStudent == null){
+            AlertUtil.alert("Please select a Student from the table to update.", "ERROR");
+            clearFields();
+            return;
+        }
         if (selectedStudent != null) {
             selectedStudent.setId(Integer.parseInt(idField.getText()));
             selectedStudent.setName(nameField.getText());
             selectedStudent.setEmail(emailField.getText());
             selectedStudent.setAddress(addressField.getText());
             selectedStudent.setPhone(phoneField.getText());
-
+            String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
+            Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
+            System.out.println("Faculty====>"+faculty);
+            selectedStudent.setFaculty(faculty);
             this.studentService.update(selectedStudent);
             studentTable.refresh();
+            loadDummyData();
             clearFields();
         }
     }
@@ -132,6 +145,8 @@ public class StudentController {
             emailField.setText(student.getEmail());
             addressField.setText(student.getAddress());
             phoneField.setText(student.getPhone());
+            String chosed = String.valueOf(student.getFaculty().getName());
+            choiceBoxField.setValue(chosed);
         }
     }
 
@@ -148,6 +163,7 @@ public class StudentController {
         emailField.clear();
         phoneField.clear();
         addressField.clear();
+        choiceBoxField.setValue(null);
     }
 
 }

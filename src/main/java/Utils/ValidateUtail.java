@@ -1,7 +1,6 @@
 package Utils;
-
-import Model.Teacher;
 import annotation.EmailValidate;
+import annotation.ManyToOne;
 import annotation.NotNull;
 import Exception.InvalidDataFormatException;
 import annotation.PhoneValidate;

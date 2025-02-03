@@ -37,6 +37,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     @Override
     public void update(T obj,String... conductions) {
         String query=generateUpdateQuery(obj,conductions);
+        System.out.println("update query: "+ query);
         executeUpdate("update",obj,query,conductions);
 
     }
@@ -128,6 +129,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             if(type.equals("update")||type.equals("delete")){
                 List<Object> values= DaoUtail.getFieldValueFromObj(obj,true,conductions);
                 for(Object value:values){
+                    System.out.println("value to delete==="+value.toString());
                     preparedStatement.setObject(count, value);
                     count++;
                 }
@@ -187,6 +189,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
         query += ")";
         return query;
     }
+
     private String generateUpdateQuery(Object obj,String... conductions){
 
         String sql = "UPDATE " + this.tableName + " SET " ;

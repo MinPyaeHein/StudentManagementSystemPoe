@@ -20,9 +20,6 @@ public class ConnectionDaoImpl {
         String url= prop.getProperty("db.url");
         String user = prop.getProperty("db.user");
         String password= prop.getProperty("db.password");
-        System.out.println("url: "+url);
-        System.out.println("user: "+user);
-        System.out.println("password: "+password);
         Connection c= DriverManager.getConnection(url,user,password);
         return c;
 

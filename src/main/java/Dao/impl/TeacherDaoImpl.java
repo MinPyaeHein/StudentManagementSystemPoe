@@ -1,5 +1,4 @@
 package Dao.impl;
-import Model.Student;
 import Model.Teacher;
 
 import java.sql.ResultSet;
@@ -36,9 +35,15 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
         }
         return null;
     }
-    public List<Teacher> findTeachersByName(String name) {
-        String query = "SELECT * FROM teachers WHERE LOWER(name) LIKE LOWER(?)";
-        return executeQuerry(query,  name.toLowerCase() + "%");
+    public List<Teacher> findTeacherByKeyword(String keyword) {
+        String query = "SELECT * FROM teachers WHERE " +
+                "CAST(id AS TEXT) LIKE ? OR " +
+                "LOWER(name) LIKE LOWER(?) OR " +
+                "LOWER(email) LIKE LOWER(?) OR " +
+                "LOWER(address) LIKE LOWER(?) OR " +
+                "CAST(phone AS TEXT) LIKE ?";
+        String searchPattern = "%" + keyword.toLowerCase() + "%";
+        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern,searchPattern);
     }
 
 }
