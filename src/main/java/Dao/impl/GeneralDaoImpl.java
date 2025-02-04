@@ -156,7 +156,14 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             int rowAffect = preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
-        } catch (Exception e) {
+        }  catch (RuntimeException | SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
