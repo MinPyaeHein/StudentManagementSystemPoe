@@ -24,6 +24,11 @@ import annotation.*;
         @Column(name = "phone")
         private String phone;
 
+        @NotNull(message="Gender cannot be null!!")
+        @Column(name = "gender")
+        private Gender gender;
+
+        @NotNull(message="Please Choose a Faculty !!")
         @ManyToOne(name = "faculty_id")
         private Faculty faculty;
 
@@ -50,12 +55,13 @@ import annotation.*;
             this.address = address;
             this.phone = phone;
         }
-    public Student( String name, String email,String address,String phone,Faculty faculty) {
+    public Student( String name, String email,String address,String phone,Faculty faculty,Gender gender) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.faculty = faculty;
+        this.gender = gender;
     }
 
     public Student(int id, String name, String email, String address, String phone, Faculty faculty) {
@@ -104,6 +110,13 @@ import annotation.*;
 
         public void setFaculty(Faculty faculty) {
             this.faculty = faculty;
+        }
+        public Gender getGender() {
+            return gender;
+        }
+
+        public void setGender(Gender gender) {
+            this.gender = gender;
         }
 
     @Override

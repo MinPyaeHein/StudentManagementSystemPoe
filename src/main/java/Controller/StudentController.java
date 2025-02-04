@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Gender;
 import Model.Student;
 import Model.Teacher;
 import Service.FacultyService;
@@ -32,7 +33,10 @@ public class StudentController {
     private TableColumn<Student, String> phoneColumn;
     @FXML
     private TableColumn<Student, String> facultyColumn;
-
+    @FXML
+    private RadioButton maleField;
+    @FXML
+    private RadioButton femaleField;
     @FXML
     private ChoiceBox<String> choiceBoxField;
     @FXML
@@ -63,7 +67,6 @@ public class StudentController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("faculty.name"));
         facultyColumn.setCellValueFactory(cellData -> {
             Faculty faculty = cellData.getValue().getFaculty();
             return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
@@ -86,9 +89,18 @@ public class StudentController {
         String phone = phoneField.getText();
         String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
         Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
-        System.out.println("Faculty====>"+faculty);
-        this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
-                System.out.println(phone);
+        Gender gender;
+        if (maleField.isSelected()) {
+            gender = Gender.MALE;
+        } else if (femaleField.isSelected()) {
+            gender = Gender.FEMALE;
+        } else {
+            System.out.println("No gender selected");
+            return;
+        }
+        System.out.println("gender---> "+gender);
+
+        this.studentService.saveStudent(new Student(name, email,address,phone,faculty,gender));
         this.loadDummyData();
         clearFields();
     }

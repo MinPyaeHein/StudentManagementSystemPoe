@@ -101,10 +101,13 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             connection.close();
             return list;
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -138,10 +141,13 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             connection.close();
         } catch (RuntimeException | SQLException | IllegalAccessException e) {
            e.printStackTrace();
+           throw new RuntimeException(e);
         } catch (IOException e) {
            e.printStackTrace();
+           throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
-           e.printStackTrace();
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     //insert,update,delete for customized
@@ -163,8 +169,10 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
