@@ -63,18 +63,19 @@ public class DaoUtail {
                 value=field.get(obj);
             } else if(manyToOneAnnotation!=null){
                 Object relatedObject = field.get(obj);
-                Field idField=getIdField(relatedObject.getClass());
-                idField.setAccessible(true);
-                value=idField.get(relatedObject);
-                fieldName = manyToOneAnnotation.name();
-                System.out.println(fieldName+"="+value);
+                if(relatedObject != null){
+                    Field idField=getIdField(relatedObject.getClass());
+                    idField.setAccessible(true);
+                    value=idField.get(relatedObject);
+                    fieldName = manyToOneAnnotation.name();
+                }
             }
             if(need){
-                if(listFields.contains(fieldName)){
+                if(fieldName != null && listFields.contains(fieldName)){
                     values.add(value);
                 }
             }else{
-                if(!listFields.contains(fieldName)){
+                if(fieldName != null && !listFields.contains(fieldName)){
                     values.add(value);
                 }
             }
@@ -84,7 +85,6 @@ public class DaoUtail {
     private static Field getIdField(Class<?> clazz){
         for(Field field : clazz.getDeclaredFields()){
             if(field.isAnnotationPresent(Id.class)){
-                System.out.println("Field " + field.getName() + " is annotated with @Id");
                 return field;
             }
         }

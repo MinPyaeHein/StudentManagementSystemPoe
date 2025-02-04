@@ -39,6 +39,7 @@ public class StudentService {
             this.studentDao.insert(student);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(InvalidDataFormatException exception){
+            exception.printStackTrace();
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
@@ -47,13 +48,13 @@ public class StudentService {
         Student student = new Student(id);
         System.out.println("Student OBJECT:" + student);
         student = this.studentDao.selectById( student);
-        if(student!=null &&
-                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getEmail())){
+        if(student!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getName())){
             this.studentDao.delete(student);
         }
     }
 
     private void validateExistStudent(Student student) {
+        System.out.println("Arrived to validate duplicate:" + student);
         Student duplicateStudent = this.studentDao.findStudentByEmail(student.getEmail());
         if (duplicateStudent != null) {
             throw new InvalidDataFormatException("Duplicate student found!!! " + student.getEmail());

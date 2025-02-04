@@ -29,7 +29,6 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     @Override
     public void insert(T obj){
         String query=generateInsertQuery(obj);
-        System.out.println(query);
         String idColumn=getColumnName(obj,"Id");
         executeUpdate( "insert",obj, query,idColumn);
     }
@@ -37,7 +36,6 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     @Override
     public void update(T obj,String... conductions)  {
         String query=generateUpdateQuery(obj,conductions);
-        System.out.println("update query: "+ query);
         executeUpdate("update",obj,query,conductions);
 
     }
@@ -58,13 +56,12 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             String idColumn=getColumnName(obj,"Id");
             Object object= DaoUtail.getFieldValueFromObj(obj,true,idColumn).get(0);
             query  = "SELECT  * From " + this.tableName + " where "+idColumn+" = ?";
-            System.out.println(query);
             list = executeQuerry(query, object);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch(NullPointerException e) {
-            System.out.println("error is here null pointer exception "+this.tableName);
-            System.out.println("querry"+query);
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         if(list!=null){
             return list.get(0);
@@ -86,7 +83,6 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
         Connection connection = null;
         try {
             connection = connectionDao.connectionWithSqlDb();
-            System.out.println("connection"+connection);
             PreparedStatement preparedStatement =  connection.prepareStatement(query);
             int count = 1;
             for (Object obj : values) {
@@ -117,7 +113,6 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             if(!type.equals("delete")){
                 List<Object> values= DaoUtail.getFieldValueFromObj(obj,false ,conductions);
                 for (Object value : values) {
-                   System.out.println("value to insert==="+value.toString());
                     preparedStatement.setObject(count, value);
                     count++;
                 }
@@ -125,7 +120,6 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             if(type.equals("update")||type.equals("delete")){
                 List<Object> values= DaoUtail.getFieldValueFromObj(obj,true,conductions);
                 for(Object value:values){
-                    System.out.println("value to delete==="+value.toString());
                     preparedStatement.setObject(count, value);
                     count++;
                 }
@@ -134,9 +128,9 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
 
             preparedStatement.close();
             connection.close();
-        } catch (Exception e) {
-           e.printStackTrace();
-           throw new RuntimeException(e);
+        }  catch (RuntimeException | IOException | ClassNotFoundException | SQLException | IllegalAccessException e)  {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     //insert,update,delete for customized
@@ -156,7 +150,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             int rowAffect = preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
-        }  catch (RuntimeException | SQLException e) {
+        }  catch (RuntimeException | SQLException e)  {
             e.printStackTrace();
             throw new RuntimeException(e);
         } catch (IOException e) {

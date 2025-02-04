@@ -43,7 +43,7 @@ public class ValidateUtail {
                 field.setAccessible(true);
                 try {
                     Object value=field.get(obj);
-                    if(!phoneValidator(value.toString()) && !value.toString().isEmpty()){
+                    if( value!=null && !phoneValidator(value.toString()) && !value.toString().isEmpty()){
                         PhoneValidate annotation = field.getAnnotation(PhoneValidate.class);
                         errorMessage+=annotation.message()+"\n";
                     }

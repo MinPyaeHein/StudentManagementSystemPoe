@@ -100,7 +100,6 @@ public class StudentController {
     @FXML
     private void deleteStudent() {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
-        System.out.println("Arrive to delete Student====>"+selectedStudent);
         if (selectedStudent != null) {
            this.studentService.delete(selectedStudent.getId());
            loadDummyData();
@@ -129,7 +128,6 @@ public class StudentController {
             selectedStudent.setPhone(phoneField.getText());
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
             Faculty faculty = facultyService.findFacultyByName(facultyName);
-            System.out.println("Faculty====>"+faculty);
             selectedStudent.setFaculty(faculty);
             this.studentService.update(selectedStudent);
             studentTable.refresh();
