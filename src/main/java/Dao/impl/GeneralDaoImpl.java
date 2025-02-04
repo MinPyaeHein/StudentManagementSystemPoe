@@ -24,10 +24,10 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
         connectionDao = new ConnectionDaoImpl();
         this.tableName=classType.getAnnotation(Table.class).name();
     }
-    public abstract T  convertToObject(ResultSet rs) throws SQLException;
+    public abstract T  convertToObject(ResultSet rs) ;
     //insert
     @Override
-    public void insert(T obj) {
+    public void insert(T obj){
         String query=generateInsertQuery(obj);
         System.out.println(query);
         String idColumn=getColumnName(obj,"Id");
@@ -35,7 +35,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     }
 
     @Override
-    public void update(T obj,String... conductions) {
+    public void update(T obj,String... conductions)  {
         String query=generateUpdateQuery(obj,conductions);
         System.out.println("update query: "+ query);
         executeUpdate("update",obj,query,conductions);
@@ -43,7 +43,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     }
     @Override
     //Delete Row
-    public void delete(T obj) {
+    public void delete(T obj)  {
         String idColumn=getColumnName(obj,"Id");
         String sql = "DELETE FROM " + this.tableName +" WHERE "+idColumn+" = ?";
         executeUpdate("delete",obj,sql,"id");
@@ -101,11 +101,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             preparedStatement.close();
             connection.close();
             return list;
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -113,7 +109,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
 
 
     //insert,update,delete
-    private void executeUpdate(String type,Object obj,String query,String... conductions){
+    private void executeUpdate(String type,Object obj,String query,String... conductions) {
         try {
             Connection connection = connectionDao.connectionWithSqlDb();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -138,12 +134,9 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
 
             preparedStatement.close();
             connection.close();
-        } catch (RuntimeException | SQLException | IllegalAccessException e) {
+        } catch (Exception e) {
            e.printStackTrace();
-        } catch (IOException e) {
-           e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-           e.printStackTrace();
+           throw new RuntimeException(e);
         }
     }
     //insert,update,delete for customized
@@ -163,11 +156,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             int rowAffect = preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

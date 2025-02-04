@@ -87,7 +87,7 @@ public class StudentController {
         String phone = phoneField.getText();
         String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
         try {
-            Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
+            Faculty faculty = facultyService.findFacultyByName(facultyName);
             this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
         }catch(NullPointerException e){
             AlertUtil.alert(e.getMessage(),"ERROR" );
@@ -100,6 +100,7 @@ public class StudentController {
     @FXML
     private void deleteStudent() {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
+        System.out.println("Arrive to delete Student====>"+selectedStudent);
         if (selectedStudent != null) {
            this.studentService.delete(selectedStudent.getId());
            loadDummyData();
@@ -127,7 +128,7 @@ public class StudentController {
             selectedStudent.setAddress(addressField.getText());
             selectedStudent.setPhone(phoneField.getText());
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-            Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
+            Faculty faculty = facultyService.findFacultyByName(facultyName);
             System.out.println("Faculty====>"+faculty);
             selectedStudent.setFaculty(faculty);
             this.studentService.update(selectedStudent);

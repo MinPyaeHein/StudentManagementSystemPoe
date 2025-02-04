@@ -17,9 +17,9 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
 
 
     @Override
-    public Student convertToObject(ResultSet rs) throws SQLException {
-        Faculty faculty=this.facultyDao.selectById(new Faculty(rs.getInt("faculty_id")));
+    public Student convertToObject(ResultSet rs){
         try {
+        Faculty faculty=this.facultyDao.selectById(new Faculty(rs.getInt("faculty_id")));
             return new Student(
                     rs.getInt("id"),
                     rs.getString("name"),
@@ -28,12 +28,10 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
                     rs.getString("phone"),
                     faculty
             );
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
-
     }
     public Student findStudentByEmail(String email){
         String query = "SELECT * FROM students WHERE email =?";
