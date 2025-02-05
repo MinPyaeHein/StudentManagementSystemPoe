@@ -54,5 +54,15 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
         String searchPattern = "%" + keyword.toLowerCase() + "%";
         return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern);
     }
+    @Override
+    public void insert(Student student){
+        String query = "INSERT INTO students (name, email, address, phone, gender,faculty_id) VALUES (?,?,?,?,?::gender_enum,?)";
+        executeUpdate(query, student.getName()
+                , student.getEmail()
+                , student.getAddress()
+                , student.getPhone()
+                , student.getGender().name()
+                , student.getFaculty().getId());
+    }
 
 }

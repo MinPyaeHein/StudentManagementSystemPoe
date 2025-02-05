@@ -123,7 +123,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             if(!type.equals("delete")){
                 List<Object> values= DaoUtail.getFieldValueFromObj(obj,false ,conductions);
                 for (Object value : values) {
-                   System.out.println("value to insert==="+value.toString());
+                    System.out.println("value to insert==="+value.toString());
                     preparedStatement.setObject(count, value);
                     count++;
                 }
