@@ -1,10 +1,9 @@
 package Controller;
 
 import Model.Student;
-import Model.Teacher;
 import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
-import Service.StudentService;
+import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -51,13 +50,13 @@ public class StudentController {
 
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
-    private StudentService studentService;
+    private StudentServiceImpl studentService;
     private FacultyService facultyService;
 
     @FXML
     public void initialize() {
         idField.setDisable(true);
-        this.studentService = new StudentService();
+        this.studentService = new StudentServiceImpl();
         this.facultyService = new FacultyServiceImpl();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -69,6 +68,7 @@ public class StudentController {
                Faculty faculty = cellData.getValue().getFaculty();
                return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
            });
+        choiceBoxField.getItems().add("-");
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
         studentTable.setItems(studentList);
         loadDummyData();

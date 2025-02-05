@@ -43,7 +43,7 @@ public class FacultyServiceImpl  implements FacultyService {
         Faculty faculty = new Faculty(id);
         faculty = this.facultyDao.selectById(faculty);
         if(faculty != null &&
-                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+faculty.getEmail())){
+                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete faculty?\n"+faculty.getEmail())){
             this.facultyDao.delete(faculty);
         }
     }
@@ -61,7 +61,7 @@ public class FacultyServiceImpl  implements FacultyService {
     private void validateExistFaculty(Faculty faculty) {
         Faculty duplicateFaculty = this.facultyDao.findFacultyByEmail(faculty.getEmail());
         if (duplicateFaculty != null) {
-            throw new InvalidDataFormatException("Duplicate student found!!! " + faculty.getEmail());
+            throw new InvalidDataFormatException("Duplicate faculty found!!! " + faculty.getEmail());
         }
     }
     @Override

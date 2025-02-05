@@ -1,8 +1,11 @@
 package Controller;
 
+import Model.Department;
 import Model.Teacher;
-import Service.TeacherService;
+import Service.impl.DepartmentServiceImpl;
+import Service.impl.TeacherServiceImpl;
 import Utils.AlertUtil;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +29,13 @@ public class TeacherController {
     private TableColumn<Teacher,String>  addressColumn;
     @FXML
     private TableColumn<Teacher,String>  phoneColumn;
+    @FXML
+    private TableColumn<Teacher,String>  departmentColumn;
+    @FXML
+    private TableColumn<Teacher,String>  degreeColumn;
+    @FXML
+    private ChoiceBox<String> choiceBoxField;
+
 
 
     @FXML
@@ -41,18 +51,30 @@ public class TeacherController {
     private TextField addressField;
     @FXML
     private TextField phoneField;
+    @FXML
+    private TextField degreeField;
+
 
     private final ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
-    private TeacherService teacherService;
+    private TeacherServiceImpl teacherService;
+    private DepartmentServiceImpl departmentService;
     @FXML
     public void initialize() {
         idField.setDisable(true);
-        this.teacherService = new TeacherService();
+        this.teacherService = new TeacherServiceImpl();
+        this.departmentService=new DepartmentServiceImpl();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        degreeColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department.name"));
+        departmentColumn.setCellValueFactory(cellData -> {
+            Department department = cellData.getValue().getDepartment();
+            return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
+        });
+        choiceBoxField.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
         teacherTable.setItems(teacherList);
         loadDummyData();
     }
@@ -68,7 +90,14 @@ public class TeacherController {
         String email = emailField.getText();
         String address = addressField.getText();
         String phone = phoneField.getText();
-        this.teacherService.saveTeacher(new Teacher(name, email,address,phone));
+        String degree = degreeField.getText();
+        String departmentName=this.choiceBoxField.getSelectionModel().getSelectedItem();
+        try {
+            Department department= departmentService.findDepartmentByName(departmentName);
+            this.teacherService.saveTeacher(new Teacher(name, email,address,phone,degree,department));
+        }catch(NullPointerException e){
+            AlertUtil.alert(e.getMessage(),"ERROR" );
+        }
         this.loadDummyData();
         clearFields();
     }
@@ -98,7 +127,11 @@ public class TeacherController {
                selectedTeacher.setName(nameField.getText());
                selectedTeacher.setEmail(emailField.getText());
                selectedTeacher.setAddress(addressField.getText());
-               selectedTeacher.setAddress(phoneField.getText());
+               selectedTeacher.setPhone(phoneField.getText());
+               selectedTeacher.setDegree(degreeField.getText());
+               String departmentName=this.choiceBoxField.getSelectionModel().getSelectedItem();
+               Department department = departmentService.findDepartmentByName(departmentName);
+            selectedTeacher.setDepartment(department);
                this.teacherService.update(selectedTeacher);
                teacherTable.refresh();
                loadDummyData();
@@ -116,6 +149,9 @@ public class TeacherController {
             emailField.setText(teacher.getEmail());
             addressField.setText(teacher.getAddress());
             phoneField.setText(teacher.getPhone());
+            degreeField.setText(teacher.getDegree());
+            String chosed = String.valueOf(teacher.getDepartment().getDepartment());
+            choiceBoxField.setValue(chosed);
         }
     }
     @FXML
@@ -131,5 +167,7 @@ public class TeacherController {
         emailField.clear();
         addressField.clear();
         phoneField.clear();
+        degreeField.clear();
+        choiceBoxField.setValue(null);
     }
 }

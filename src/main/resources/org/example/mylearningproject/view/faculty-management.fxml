@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="517.0" prefWidth="1205.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FacultyController">
     <children>
-        <VBox layoutX="83.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
+        <VBox layoutX="81.0" layoutY="76.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
             <Label text="ID:">
                 <font>
                     <Font size="15.0" />
@@ -45,7 +45,7 @@
                 <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="facultyTable" layoutX="413.0" layoutY="99.0" onMouseClicked="#handleMouseAction" prefHeight="298.0" prefWidth="627.0">
+        <TableView fx:id="facultyTable" layoutX="413.0" layoutY="99.0" onMouseClicked="#handleMouseAction" prefHeight="345.0" prefWidth="747.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
@@ -54,12 +54,12 @@
                 <TableColumn fx:id="phoneColumn" prefWidth="149.59991455078125" text="Phone Number" />
             </columns>
         </TableView>
-        <Label layoutX="374.0" layoutY="27.0" text="Faculty Management ">
+        <Label layoutX="497.0" layoutY="14.0" text="Faculty Management ">
             <font>
                 <Font size="26.0" />
             </font>
         </Label>
-        <Label layoutX="826.0" layoutY="71.0" prefWidth="57.0" text="Search:" />
-        <TextField fx:id="searchField" layoutX="891.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
+        <Label layoutX="945.0" layoutY="71.0" prefWidth="57.0" text="Search:" />
+        <TextField fx:id="searchField" layoutX="1010.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

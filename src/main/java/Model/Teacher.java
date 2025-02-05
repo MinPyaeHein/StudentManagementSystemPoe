@@ -25,6 +25,11 @@ public class Teacher {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name="degree")
+    private String degree;
+    @ManyToOne(name="department_id")
+    private Department department;
+
 
     public Teacher(int id){
         this.id = id;
@@ -47,6 +52,24 @@ public class Teacher {
         this.email = email;
         this.address = address;
         this.phone = phone;
+    }
+    public Teacher(int id,String name, String email,String address,String phone,String degree,Department department) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.degree = degree;
+        this.department = department;
+    }
+
+    public Teacher(String name, String email,String address,String phone,String degree,Department department) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.degree = degree;
+        this.department = department;
     }
 
 
@@ -88,6 +111,21 @@ public class Teacher {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
 

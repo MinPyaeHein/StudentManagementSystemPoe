@@ -12,6 +12,9 @@
                     <MenuItem text="Teachers" onAction="#showTeacherManagement"/>
                     <MenuItem text="Classrooms" onAction="#showClassroomManagement"/>
                     <MenuItem text="Faculties" onAction="#showFacultyManagement"/>
+                    <MenuItem text="Departments" onAction="#showDepartmentManagement"/>
+
+
                 </Menu>
             </menus>
         </MenuBar>

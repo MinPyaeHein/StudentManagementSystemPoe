@@ -118,6 +118,7 @@ public class FacultyController {
             phoneField.setText(faculty.getPhone());
         }
     }
+
     @FXML
     private void handleSearchAction() {
         List<Faculty> resultFaculty= this.facultyService.searchFacultyByKeyword(searchField.getText());

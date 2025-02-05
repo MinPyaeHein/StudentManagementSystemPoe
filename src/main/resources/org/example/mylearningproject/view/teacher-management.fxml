@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="440.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
+<AnchorPane prefHeight="618.0" prefWidth="1163.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
     <children>
         <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
          <Label text="ID" />
@@ -19,6 +20,10 @@
             <TextField fx:id="nameField" />
             <Label text="Email:" />
             <TextField fx:id="emailField" />
+         <Label text="Degree" />
+         <TextField fx:id="degreeField" />
+         <Label text="Department" />
+         <ChoiceBox fx:id="choiceBoxField" prefHeight="26.0" prefWidth="246.0" />
          <Label text="Address:" />
          <TextField fx:id="addressField" />
             <Label text="Phone Number:" />
@@ -30,21 +35,23 @@
                 <Button mnemonicParsing="false" onAction="#cleanForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="teacherTable" layoutX="306.0" layoutY="96.0" onMouseClicked="#handleMouseAction" prefHeight="308.0" prefWidth="558.0">
+        <TableView fx:id="teacherTable" layoutX="337.0" layoutY="113.0" onMouseClicked="#handleMouseAction" prefHeight="389.0" prefWidth="796.0">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="88.79998779296875" text="ID" />
-                <TableColumn fx:id="nameColumn" prefWidth="112.0" text="Name" />
-                <TableColumn fx:id="emailColumn" prefWidth="121.60000610351562" text="Email" />
-            <TableColumn fx:id="addressColumn" prefWidth="116.800048828125" text="Address" />
-                <TableColumn fx:id="phoneColumn" prefWidth="116.79998779296875" text="Phone Number" />
+                <TableColumn fx:id="idColumn" prefWidth="70.4000244140625" text="ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="123.20001220703125" text="Name" />
+                <TableColumn fx:id="emailColumn" prefWidth="130.4000244140625" text="Email" />
+            <TableColumn fx:id="addressColumn" prefWidth="107.20001220703125" text="Address" />
+                <TableColumn fx:id="phoneColumn" prefWidth="127.20001220703125" text="Phone Number" />
+         <TableColumn fx:id="departmentColumn" prefWidth="116.79998779296875" text="Department" />
+            <TableColumn fx:id="degreeColumn" prefWidth="116.79998779296875" text="Degree" />
             </columns>
         </TableView>
-        <Label layoutX="243.0" layoutY="28.0" text="Teacher Management">
+        <Label layoutX="465.0" layoutY="26.0" text="Teacher Management">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-        <Label layoutX="641.0" layoutY="70.0" text="Search:" />
-        <TextField fx:id="searchField" layoutX="697.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
+        <Label layoutX="927.0" layoutY="78.0" text="Search:" />
+        <TextField fx:id="searchField" layoutX="983.0" layoutY="74.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>
