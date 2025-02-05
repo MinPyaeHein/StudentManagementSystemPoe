@@ -86,9 +86,12 @@ public class StudentController {
         String address =addressField.getText();
         String phone = phoneField.getText();
         String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-        Faculty faculty = facultyService.findFacultyByName(facultyName);
-        this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
-
+        try {
+            Faculty faculty = facultyService.findFacultyByName(facultyName);
+            this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
+        }catch(NullPointerException e){
+            AlertUtil.alert(e.getMessage(),"ERROR" );
+        }
 
         this.loadDummyData();
         clearFields();
@@ -124,8 +127,7 @@ public class StudentController {
             selectedStudent.setAddress(addressField.getText());
             selectedStudent.setPhone(phoneField.getText());
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-            Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
-            System.out.println("Faculty====>"+faculty);
+            Faculty faculty = facultyService.findFacultyByName(facultyName);
             selectedStudent.setFaculty(faculty);
             this.studentService.update(selectedStudent);
             studentTable.refresh();

@@ -10,9 +10,7 @@ public class MainController {
 
     private void loadPage(String fxmlFile) {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mylearningproject/view/" + fxmlFile));
-            System.out.println("Loading: " + "/view/" + loader.getRoot());
             AnchorPane view = loader.load();
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
