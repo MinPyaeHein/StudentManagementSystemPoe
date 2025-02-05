@@ -86,12 +86,9 @@ public class StudentController {
         String address =addressField.getText();
         String phone = phoneField.getText();
         String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-        try {
-            Faculty faculty = facultyService.findFacultyByName(facultyName.trim());
-            this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
-        }catch(NullPointerException e){
-            AlertUtil.alert(e.getMessage(),"ERROR" );
-        }
+        Faculty faculty = facultyService.findFacultyByName(facultyName);
+        this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
+
 
         this.loadDummyData();
         clearFields();
