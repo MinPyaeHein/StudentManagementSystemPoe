@@ -55,10 +55,12 @@ public class FacultyDaoImpl extends GeneralDaoImpl<Faculty> implements FacultyDa
                 "CAST(id AS TEXT) LIKE ? OR " +
                 "LOWER(name) LIKE LOWER(?) OR " +
                 "LOWER(email) LIKE LOWER(?) OR " +
-                "LOWER(address) LIKE LOWER(?)";
+                "LOWER(website_link) LIKE LOWER(?) OR " +
+                "LOWER(CAST(phone AS TEXT)) LIKE ?";
         String searchPattern = "%" + keyword.toLowerCase() + "%";
-        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern);
+        return executeQuerry(query, searchPattern, searchPattern, searchPattern, searchPattern,searchPattern);
     }
+
 
 
 }

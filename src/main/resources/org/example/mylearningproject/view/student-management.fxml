@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="558.0" prefWidth="1216.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
+<AnchorPane prefHeight="498.0" prefWidth="1205.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
     <children>
         <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
+         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="imageView"/>
+         <Button mnemonicParsing="false" text="Select Image" fx:id="selectImageButton" onAction="#openImageFileChooser" />
             <Label text="ID:">
             <font>
                <Font size="15.0" />
@@ -30,8 +33,11 @@
          </Label>
 
             <HBox spacing="10.0">
-        <RadioButton fx:id="maleField" mnemonicParsing="false" text="Male" toggleGroup="$genderGroup"/>
-         <RadioButton fx:id="femaleField" mnemonicParsing="false" text="Female" toggleGroup="$genderGroup"/>
+         <RadioButton fx:id="maleField" mnemonicParsing="false" text="Male">
+               <toggleGroup>
+                  <ToggleGroup fx:id="genderGroup" />
+               </toggleGroup></RadioButton>
+         <RadioButton fx:id="femaleField" mnemonicParsing="false" text="Female" toggleGroup="$genderGroup" />
             </HBox>
             <Label text="Email:">
             <font>
@@ -48,6 +54,8 @@
                <Font size="15.0" />
             </font></Label>
             <TextField fx:id="phoneField" promptText="09-xxxxxxxxx" />
+         <Label text="EndDateToApply:" />
+         <DatePicker />
             <HBox spacing="10.0">
                 <Button onAction="#addStudent" text="Add" />
                 <Button onAction="#updateStudent" text="Update" />
@@ -60,9 +68,9 @@
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
                 <TableColumn fx:id="emailColumn" prefWidth="115.0" text="Email" />
-                <TableColumn fx:id="addressColumn" prefWidth="196.0" text="Address" />
-                <TableColumn fx:id="phoneColumn" prefWidth="137.0" text="Phone Number" />
-                <TableColumn fx:id="facultyColumn" prefWidth="154.0" text="Faculty" />
+                <TableColumn fx:id="addressColumn" prefWidth="154.4000244140625" text="Address" />
+                <TableColumn fx:id="phoneColumn" prefWidth="149.59991455078125" text="Phone Number" />
+                <TableColumn fx:id="facultyColumn" prefWidth="184.79998779296875" text="Faculty" />
             </columns>
         </TableView>
       <Label layoutX="487.0" layoutY="27.0" text="Student Management ">
@@ -70,10 +78,7 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="907.0" layoutY="72.0" prefWidth="57.0" text="Search:">
-         <font>
-            <Font size="15.0" />
-         </font></Label>
-      <TextField fx:id="searchField" layoutX="975.0" layoutY="67.0" onKeyTyped="#handleSearchAction" />
+      <Label layoutX="744.0" layoutY="71.0" prefWidth="57.0" text="Search:" />
+      <TextField fx:id="searchField" layoutX="809.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

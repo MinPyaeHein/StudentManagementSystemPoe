@@ -6,7 +6,6 @@ import Exception .*;
 import Utils.AlertUtil;
 import Utils.ValidateUtail;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class TeacherService {
@@ -61,10 +60,10 @@ public class TeacherService {
             throw new UserAlreadyExist("Duplicate teacher found!!! " + teacher.getEmail());
         }
     }
-
-    public List<Teacher> searchTeachersByName(String name){
-
-        return teacherDao.findTeachersByName(name.toLowerCase());
+    public List<Teacher> searchTeacherByKeyword(String keyword) {
+        return teacherDao.findTeacherByKeyword(keyword);
     }
+
+
 
 }

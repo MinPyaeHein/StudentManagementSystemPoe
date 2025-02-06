@@ -28,7 +28,7 @@ import annotation.*;
         @Column(name = "gender")
         private Gender gender;
 
-        @NotNull(message="Please Choose a Faculty !!")
+        @NotNull(message="Faculty cannot be null!!")
         @ManyToOne(name = "faculty_id")
         private Faculty faculty;
 

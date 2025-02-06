@@ -1,7 +1,6 @@
 package Utils;
-
-import Model.Teacher;
 import annotation.EmailValidate;
+import annotation.ManyToOne;
 import annotation.NotNull;
 import Exception.InvalidDataFormatException;
 import annotation.PhoneValidate;
@@ -44,7 +43,7 @@ public class ValidateUtail {
                 field.setAccessible(true);
                 try {
                     Object value=field.get(obj);
-                    if(!phoneValidator(value.toString()) && !value.toString().isEmpty()){
+                    if( value!=null && !phoneValidator(value.toString()) && !value.toString().isEmpty()){
                         PhoneValidate annotation = field.getAnnotation(PhoneValidate.class);
                         errorMessage+=annotation.message()+"\n";
                     }

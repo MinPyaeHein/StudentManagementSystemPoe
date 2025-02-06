@@ -2,7 +2,6 @@ package Dao.impl;
 import Dao.FacultyDao;
 import Model.Faculty;
 import Model.Student;
-import Model.Teacher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,15 +11,15 @@ import java.util.List;
 public class StudentDaoImpl extends GeneralDaoImpl<Student> {
     private FacultyDao facultyDao;
     public StudentDaoImpl() {
-
         super(Student.class);
         this.facultyDao=new FacultyDaoImpl();
     }
 
+
     @Override
-    public Student convertToObject(ResultSet rs) throws SQLException {
-        Faculty faculty=this.facultyDao.selectById(new Faculty(rs.getInt("faculty_id")));
+    public Student convertToObject(ResultSet rs){
         try {
+        Faculty faculty=this.facultyDao.selectById(new Faculty(rs.getInt("faculty_id")));
             return new Student(
                     rs.getInt("id"),
                     rs.getString("name"),
@@ -29,12 +28,10 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
                     rs.getString("phone"),
                     faculty
             );
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
-
     }
     public Student findStudentByEmail(String email){
         String query = "SELECT * FROM students WHERE email =?";
@@ -50,9 +47,10 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
                 "CAST(id AS TEXT) LIKE ? OR " +
                 "LOWER(name) LIKE LOWER(?) OR " +
                 "LOWER(email) LIKE LOWER(?) OR " +
-                "LOWER(address) LIKE LOWER(?)";
+                "LOWER(address) LIKE LOWER(?) OR " +
+                "CAST(faculty_id AS TEXT) LIKE LOWER(?)";
         String searchPattern = "%" + keyword.toLowerCase() + "%";
-        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern);
+        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern,searchPattern);
     }
     @Override
     public void insert(Student student){

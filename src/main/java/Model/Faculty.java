@@ -1,21 +1,34 @@
 package Model;
 
-import annotation.Column;
-import annotation.Id;
-import annotation.Table;
+import annotation.*;
 
 @Table(name = "faculties")
 public class Faculty {
     @Id(name="id")
     private int id;
+    @NotNull(message="Name cannot be null!!")
     @Column(name="name")
     private String name;
+
+    @NotNull(message="Email cannot be null!!")
+    @EmailValidate(message="Email is not valid!!")
     @Column(name="email")
     private String email;
+
+    @NotNull(message="Website Link cannot be null!!")
     @Column(name="website_link")
     private String website_link;
+
+    @NotNull(message="Phone Number cannot be null!!")
     @Column(name="phone")
     private String phone;
+
+    public Faculty( String name, String email, String website_link, String phone) {
+        this.name = name;
+        this.email = email;
+        this.website_link = website_link;
+        this.phone = phone;
+    }
 
     public Faculty(int id, String name, String email, String website_link, String phone) {
         this.id = id;
