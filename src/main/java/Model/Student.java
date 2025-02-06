@@ -24,9 +24,13 @@ import annotation.*;
         @Column(name = "phone")
         private String phone;
 
-
+        @NotNull(message="Faculty cannot be null!!")
         @ManyToOne(name = "faculty_id")
         private Faculty faculty;
+
+        @NotNull(message="Gender cannot be null!!")
+        @Column(name = "gender")
+        private Gender gender;
 
         public Student(int id) {
             this.id=id;
@@ -51,12 +55,13 @@ import annotation.*;
             this.address = address;
             this.phone = phone;
         }
-    public Student( String name, String email,String address,String phone,Faculty faculty) {
+    public Student( String name, String email,String address,String phone,Faculty faculty,Gender gender) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.faculty = faculty;
+        this.gender = gender;
     }
 
     public Student(int id, String name, String email, String address, String phone, Faculty faculty) {
@@ -98,18 +103,22 @@ import annotation.*;
         public void setPhone(String phone) {
             this.phone = phone;
         }
-
         public Faculty getFaculty() {
             return faculty;
         }
-
         public void setFaculty(Faculty faculty) {
             this.faculty = faculty;
         }
-
-    @Override
-        public String toString() {
-            return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address +  ", phone number=" + phone + "]";
+        public Gender getGender() {
+            return gender;
         }
+        public void setGender(Gender gender) {
+            this.gender = gender;
+        }
+        @Override
+            public String toString() {
+                return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address +  ", phone number=" + phone + "]";
+            }
+
 
 }

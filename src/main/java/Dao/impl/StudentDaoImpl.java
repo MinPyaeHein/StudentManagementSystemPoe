@@ -41,6 +41,19 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
         }
         return null;
     }
+    @Override
+    public void insert(Student student){
+        String query = "INSERT INTO students (name, email, address, phone, gender, faculty_id) " +
+                "VALUES (?, ?, ?, ?, ?::gender_enum, ?)";
+        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId());
+    }
+    @Override
+    public void update(Student student, String... conductions) {
+        String query = "UPDATE students SET " +
+                "name =?, email =?, address =?, phone =?, gender =?::gender_enum, faculty_id =?" +
+                " WHERE id =?";
+        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId(), student.getId());
+    }
 
     public List<Student> findStudentByKeyword(String keyword) {
         String query = "SELECT * FROM students WHERE " +

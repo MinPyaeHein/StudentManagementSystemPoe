@@ -19,7 +19,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void update(Student student) {
      try {
-
          ValidateUtail.validate(student);
          studentDao.update(student, "id");
          AlertUtil.alert("Successfully updated","INFORMATION");

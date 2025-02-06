@@ -76,18 +76,6 @@ ADD CONSTRAINT students_faculty_fk FOREIGN KEY (faculty_id)
     ON UPDATE NO ACTION
     ON DELETE SET NULL;
 
-
-<-add degree and department to teachers ->
-ALTER TABLE public.teachers
-ADD COLUMN degree VARCHAR(255),
-ADD COLUMN department_id integer NOT NULL DEFAULT 1,
-ADD CONSTRAINT teachers_department_fk FOREIGN KEY (department_id)
-    REFERENCES public.departments (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE SET DEFAULT;
-
-select*from teachers
-
 <-Create departments table->
 CREATE TABLE departments (
     id SERIAL PRIMARY KEY,
@@ -102,3 +90,21 @@ INSERT INTO departments (department) VALUES
 ('Health Sciences'),
 ('Arts and Design'),
 ('Law');
+
+<-add degree and department to teachers ->
+ALTER TABLE public.teachers
+ADD COLUMN degree VARCHAR(255),
+ADD COLUMN department_id integer NOT NULL DEFAULT 1,
+ADD CONSTRAINT teachers_department_fk FOREIGN KEY (department_id)
+    REFERENCES public.departments (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE SET DEFAULT;
+
+select*from teachers
+
+
+
+CREATE TYPE gender_enum AS ENUM ('male', 'female');
+ALTER TABLE public.students ADD COLUMN gender gender_enum NOT NULL DEFAULT 'male';
+
+

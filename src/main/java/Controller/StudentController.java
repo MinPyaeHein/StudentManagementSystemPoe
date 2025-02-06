@@ -1,10 +1,12 @@
 package Controller;
 
+import Model.Gender;
 import Model.Student;
 import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
+import Utils.ValidateUtail;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,6 +50,15 @@ public class StudentController {
     @FXML
     private TextField phoneField;
 
+    @FXML
+    private ToggleGroup genderGroup;
+
+    @FXML
+    private RadioButton maleField;
+
+    @FXML
+    private RadioButton femaleField;
+
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
     private StudentServiceImpl studentService;
@@ -55,6 +66,10 @@ public class StudentController {
 
     @FXML
     public void initialize() {
+        genderGroup = new ToggleGroup();
+        maleField.setToggleGroup(genderGroup);
+        femaleField.setToggleGroup(genderGroup);
+
         idField.setDisable(true);
         this.studentService = new StudentServiceImpl();
         this.facultyService = new FacultyServiceImpl();
@@ -85,11 +100,14 @@ public class StudentController {
         String email = emailField.getText();
         String address =addressField.getText();
         String phone = phoneField.getText();
-        String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
         try {
+            String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
+            Gender gender = Gender.valueOf(genderStr);
+            String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
             Faculty faculty = facultyService.findFacultyByName(facultyName);
-            this.studentService.saveStudent(new Student(name, email,address,phone,faculty));
+            this.studentService.saveStudent(new Student(name, email,address,phone,faculty,gender));
         }catch(NullPointerException e){
+            e.printStackTrace();
             AlertUtil.alert(e.getMessage(),"ERROR" );
         }
 
@@ -129,6 +147,9 @@ public class StudentController {
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
             Faculty faculty = facultyService.findFacultyByName(facultyName);
             selectedStudent.setFaculty(faculty);
+            String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
+            Gender gender = Gender.valueOf(genderStr);
+            selectedStudent.setGender(gender);
             this.studentService.update(selectedStudent);
             studentTable.refresh();
             loadDummyData();
