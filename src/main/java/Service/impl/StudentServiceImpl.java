@@ -64,6 +64,10 @@ public class StudentServiceImpl implements StudentService {
         }
     }
     @Override
+    public Student getStudentByEmail(String email) {
+        return this.studentDao.findStudentByEmail(email);
+    }
+    @Override
     public List<Student> searchStudentByKeyword(String keyword) {
         return studentDao.findStudentByKeyword(keyword);
     }

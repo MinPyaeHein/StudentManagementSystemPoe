@@ -6,17 +6,25 @@ import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
-import Utils.ValidateUtail;
+import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import Model.Faculty;
 import Exception.*;
-
+import javafx.stage.FileChooser;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 public class StudentController {
@@ -62,6 +70,14 @@ public class StudentController {
 
     @FXML
     private RadioButton femaleField;
+
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private Button selectImageButton;
+    @FXML
+    private File selectedImageFile;
 
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
@@ -127,7 +143,11 @@ public class StudentController {
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
             Faculty faculty = facultyService.findFacultyByName(facultyName);
             this.studentService.saveStudent(new Student(name, email,address,phone,faculty,gender));
+            Student student=this.studentService.getStudentByEmail(email);
+            saveImageWithStudentId(student.getId());
         }catch (InvalidDataFormatException e) {
+            AlertUtil.alert(e.getMessage(), "ERROR");
+        } catch (IOException e) {
             AlertUtil.alert(e.getMessage(), "ERROR");
         }
         this.loadDummyData();
@@ -192,8 +212,35 @@ public class StudentController {
                     genderGroup.selectToggle(femaleField);
                 }
             }
+            displayProfileImage(student.getId());
             String chosed = String.valueOf(student.getFaculty().getName());
             choiceBoxField.setValue(chosed);
+        }
+    }
+    @FXML
+    private void openImageFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg");
+        fileChooser.getExtensionFilters().add(extFilter);
+        selectedImageFile = fileChooser.showOpenDialog(selectImageButton.getScene().getWindow());
+        if (selectedImageFile != null) {
+            Image image = new Image(selectedImageFile.toURI().toString());
+            imageView.setImage(image);
+        }
+    }
+
+    public void saveImageWithStudentId(int studentId) throws IOException {
+        if (selectedImageFile != null) {
+            try {
+                Path targetDirectory = Path.of(System.getProperty("user.dir"));
+                System.out.println("Target directory: " + targetDirectory.toString());
+                Path targetFile = targetDirectory.resolve("student_images/" + studentId + ".jpg");
+                Files.createDirectories(targetFile.getParent());
+                Files.copy(selectedImageFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image saved at: " + targetFile.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -213,6 +260,16 @@ public class StudentController {
         choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
 
+    }
+
+    private void displayProfileImage(int studentId){
+        try {
+            String imagePath = System.getProperty("user.dir") + "/student_images/" + studentId + ".jpg";
+            Image image = new Image("file:" + imagePath);
+            imageView.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

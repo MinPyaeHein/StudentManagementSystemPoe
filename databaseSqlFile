@@ -135,3 +135,42 @@ ADD CONSTRAINT teachers_degree_fk FOREIGN KEY (degree_id)
 ALTER TABLE public.teachers ADD COLUMN gender gender_enum NOT NULL DEFAULT 'male';
 
 
+//Add Course Table
+CREATE TABLE courses (
+    id SERIAL PRIMARY KEY, -- Unique identifier for the course
+    course_name VARCHAR(255) NOT NULL, -- The name of the course
+    course_code VARCHAR(50) NOT NULL UNIQUE, -- A unique code for the course (e.g., "CS101")
+    description TEXT, -- A brief description of the course
+    credits INT NOT NULL CHECK (credits > 0), -- Number of credits the course offers (must be positive)
+    department_id INT NOT NULL, -- Foreign key referencing the department
+    teacher_id INT NOT NULL, -- Foreign key referencing the instructor/teacher
+    schedule VARCHAR(255), -- Information on when the course will be held (days/times)
+    capacity INT NOT NULL CHECK (capacity > 0), -- Maximum number of students allowed in the course
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Optional: For record creation timestamp
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Optional: For record updates
+);
+
+-- Adding foreign key constraints
+ALTER TABLE courses
+ADD CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE;
+
+ALTER TABLE courses
+ADD CONSTRAINT fk_teacher FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE SET NULL;
+
+//Add enrollments
+CREATE TABLE enrollments (
+    id SERIAL PRIMARY KEY, -- Unique identifier for the enrollment
+    student_id INT NOT NULL, -- Foreign key referencing the Student model
+    course_id INT NOT NULL, -- Foreign key referencing the Course model
+    enrollment_date DATE DEFAULT CURRENT_DATE, -- The date the student enrolled in the course
+    grade VARCHAR(5), -- Optionally, the student’s grade in the course (e.g., A, B, C, etc.)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Record creation timestamp
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Record update timestamp
+);
+
+-- Adding foreign key constraints
+ALTER TABLE enrollments
+ADD CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE;
+
+ALTER TABLE enrollments
+ADD CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE;

@@ -3,6 +3,7 @@ module org.example.mylearningproject {
     requires javafx.fxml;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires java.desktop;
 
     opens org.example.mylearningproject to javafx.fxml;
     opens org.example.mylearningproject.view to javafx.fxml;

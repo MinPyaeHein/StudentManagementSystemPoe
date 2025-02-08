@@ -11,6 +11,7 @@ public interface StudentService {
     public void saveStudent(Student student);
     public void delete(int id);
     public List<Student> searchStudentByKeyword(String keyword);
+    public Student getStudentByEmail(String email);
 
 
 }

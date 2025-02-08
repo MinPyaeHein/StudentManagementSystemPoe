@@ -10,9 +10,9 @@
     <children>
         <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
             <StackPane prefHeight="182.0" prefWidth="242.0" style="-fx-background-color: gray;">
-                <ImageView fitHeight="150.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
-            <Button mnemonicParsing="false" text="Select Image" />
+            <Button fx:id="selectImageButton" mnemonicParsing="false" text="Select Image" onMouseClicked="#openImageFileChooser"/>
             <Label text="ID:">
             <font>
                <Font size="15.0" />
