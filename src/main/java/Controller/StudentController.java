@@ -181,6 +181,13 @@ public class StudentController {
             phoneField.setText(student.getPhone());
             String chosed = String.valueOf(student.getFaculty().getName());
             choiceBoxField.setValue(chosed);
+            try {
+                String imagePath = System.getProperty("user.dir") + "/student_images/" + student.getId() + ".jpg";
+                Image image = new Image("file:" + imagePath);
+                imageView.setImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -214,28 +221,16 @@ public class StudentController {
     public void saveStudentWithImage(int studentId) throws IOException {
         if (selectedImageFile != null) {
             try {
-                // Define the target directory (project root)
-                Path targetDirectory = Path.of(System.getProperty("user.dir")); // Get the project root directory
+                Path targetDirectory = Path.of(System.getProperty("user.dir"));
                 Path targetFile = targetDirectory.resolve("student_images/" + studentId + ".jpg");
-
-                // Create the student_images directory if it doesn't exist
                 Files.createDirectories(targetFile.getParent());
-
-                // Copy the image to the target directory
                 Files.copy(selectedImageFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
-
-                // Here you would save the student object to the database with the image path
                 System.out.println("Image saved at: " + targetFile.toString());
-
-                // Example: Save the student object with the image path (assuming you have a Student object)
-                // student.setImagePath(targetFile.toString());
-                // studentService.save(student);  // Save the student to the database
-
             } catch (IOException e) {
                 e.printStackTrace();
-                // Handle the exception
             }
         }
     }
+
 
 }
