@@ -45,7 +45,7 @@
                 <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="facultyTable" layoutX="413.0" layoutY="99.0" onMouseClicked="#handleMouseAction" prefHeight="345.0" prefWidth="747.0">
+        <TableView fx:id="facultyTable" layoutX="413.0" layoutY="99.0" onMouseClicked="#handleMouseAction" prefHeight="346.0" prefWidth="636.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
