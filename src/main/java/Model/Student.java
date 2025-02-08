@@ -24,7 +24,7 @@ import annotation.*;
         @Column(name = "phone")
         private String phone;
 
-        @NotNull(message="Faculty cannot be null!!")
+        @NotNull(message="Faculty cannot be null!")
         @ManyToOne(name = "faculty_id")
         private Faculty faculty;
 

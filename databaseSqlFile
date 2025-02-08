@@ -108,3 +108,25 @@ CREATE TYPE gender_enum AS ENUM ('male', 'female');
 ALTER TABLE public.students ADD COLUMN gender gender_enum NOT NULL DEFAULT 'male';
 
 
+	CREATE TABLE degree (
+    id SERIAL PRIMARY KEY,
+    degree VARCHAR(255) NOT NULL
+);
+
+INSERT INTO degree (degree) VALUES
+('Bachelor of Arts (B.A.)'),
+('Bachelor of Science (B.S.)'),
+('Bachelor of Engineering (B.Eng)'),
+('Bachelor of Commerce (B.Com)'),
+('Bachelor of Education (B.Ed)'),
+('Bachelor of Fine Arts (B.F.A)');
+
+ALTER TABLE public.teachers
+DROP COLUMN degree,
+ADD COLUMN degree_id INTEGER NOT NULL DEFAULT 1,
+ADD CONSTRAINT teachers_degree_fk FOREIGN KEY (degree_id)
+    REFERENCES public.degree (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE RESTRICT;
+
+

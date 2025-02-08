@@ -1,7 +1,10 @@
 package Controller;
 
+import Model.Degree;
 import Model.Department;
+import Model.Gender;
 import Model.Teacher;
+import Service.impl.DegreeServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
 import Utils.AlertUtil;
@@ -12,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import Exception.*;
 
 import java.util.List;
 
@@ -35,9 +39,14 @@ public class TeacherController {
     private TableColumn<Teacher,String>  degreeColumn;
     @FXML
     private ChoiceBox<String> choiceBoxField;
-
-
-
+    @FXML
+    private ChoiceBox<String> degreeChoiceField;
+    @FXML
+    private ToggleGroup genderGroup;
+    @FXML
+    private RadioButton maleField;
+    @FXML
+    private RadioButton femaleField;
     @FXML
     private TextField searchField;
     @FXML
@@ -46,34 +55,44 @@ public class TeacherController {
     private TextField nameField;
     @FXML
     private TextField emailField;
-
     @FXML
     private TextField addressField;
     @FXML
     private TextField phoneField;
-    @FXML
-    private TextField degreeField;
+
 
 
     private final ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
     private TeacherServiceImpl teacherService;
     private DepartmentServiceImpl departmentService;
+    private DegreeServiceImpl degreeService;
     @FXML
     public void initialize() {
+        genderGroup = new ToggleGroup();
+        maleField.setToggleGroup(genderGroup);
+        femaleField.setToggleGroup(genderGroup);
+
         idField.setDisable(true);
         this.teacherService = new TeacherServiceImpl();
         this.departmentService=new DepartmentServiceImpl();
+        this.degreeService=new DegreeServiceImpl();
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        degreeColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department.name"));
+        degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree.name"));
+        degreeColumn.setCellValueFactory(cellData -> {
+            Degree degree = cellData.getValue().getDegree();
+            return new SimpleStringProperty(degree != null ? degree.getDegree() : "No Degree");
+        });
+
         departmentColumn.setCellValueFactory(cellData -> {
             Department department = cellData.getValue().getDepartment();
             return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
         });
+
+        degreeChoiceField.getItems().addAll(degreeService.getAllDegree().stream().map(Degree::getDegree).toList());
         choiceBoxField.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
         teacherTable.setItems(teacherList);
         loadDummyData();
@@ -90,17 +109,29 @@ public class TeacherController {
         String email = emailField.getText();
         String address = addressField.getText();
         String phone = phoneField.getText();
-        String degree = degreeField.getText();
-        String departmentName=this.choiceBoxField.getSelectionModel().getSelectedItem();
+        String degreeName = this.degreeChoiceField.getSelectionModel().getSelectedItem();
+        String departmentName = this.choiceBoxField.getSelectionModel().getSelectedItem();
         try {
-            Department department= departmentService.findDepartmentByName(departmentName);
-            this.teacherService.saveTeacher(new Teacher(name, email,address,phone,degree,department));
-        }catch(NullPointerException e){
-            AlertUtil.alert(e.getMessage(),"ERROR" );
+            Toggle selectedToggle = genderGroup.getSelectedToggle();
+            Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
+
+            Department department = departmentService.findDepartmentByName(departmentName);
+            Degree degree = degreeService.findDegreeByName(degreeName);
+
+
+
+            this.teacherService.saveTeacher(new Teacher(name, email, address, phone, degree, department, gender));
+        }catch (InvalidDataFormatException e) {
+            AlertUtil.alert(e.getMessage(), "ERROR");
+        } catch (IllegalArgumentException e) {
+            AlertUtil.alert("Invalid gender selection.", "ERROR");
         }
+
         this.loadDummyData();
         clearFields();
     }
+
+
     @FXML
     private void cleanForm(){
         clearFields();
@@ -122,16 +153,22 @@ public class TeacherController {
         if(selectedTeacher == null){
             AlertUtil.alert("Please select a teacher from the table to update.", "ERROR");
             clearFields();
+            return;
         }
         if (selectedTeacher != null) {
                selectedTeacher.setName(nameField.getText());
                selectedTeacher.setEmail(emailField.getText());
                selectedTeacher.setAddress(addressField.getText());
                selectedTeacher.setPhone(phoneField.getText());
-               selectedTeacher.setDegree(degreeField.getText());
+               String degreeName = this.degreeChoiceField.getSelectionModel().getSelectedItem();
+               Degree degree = degreeService.findDegreeByName(degreeName);
+               selectedTeacher.setDegree(degree);
                String departmentName=this.choiceBoxField.getSelectionModel().getSelectedItem();
                Department department = departmentService.findDepartmentByName(departmentName);
-            selectedTeacher.setDepartment(department);
+               selectedTeacher.setDepartment(department);
+               String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
+               Gender gender = Gender.valueOf(genderStr);
+               selectedTeacher.setGender(gender);
                this.teacherService.update(selectedTeacher);
                teacherTable.refresh();
                loadDummyData();
@@ -149,7 +186,8 @@ public class TeacherController {
             emailField.setText(teacher.getEmail());
             addressField.setText(teacher.getAddress());
             phoneField.setText(teacher.getPhone());
-            degreeField.setText(teacher.getDegree());
+            String degreeChosed = String.valueOf(teacher.getDegree().getDegree());
+            degreeChoiceField.setValue(degreeChosed);
             String chosed = String.valueOf(teacher.getDepartment().getDepartment());
             choiceBoxField.setValue(chosed);
         }
@@ -167,7 +205,8 @@ public class TeacherController {
         emailField.clear();
         addressField.clear();
         phoneField.clear();
-        degreeField.clear();
+        degreeChoiceField.setValue(null);
         choiceBoxField.setValue(null);
+        genderGroup.selectToggle(null);
     }
 }

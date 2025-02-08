@@ -43,7 +43,6 @@ public class StudentServiceImpl implements StudentService {
             this.studentDao.insert(student);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(InvalidDataFormatException exception){
-            exception.printStackTrace();
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }

@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import Model.Faculty;
+import Exception.*;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class StudentController {
     private TableColumn<Student, String> phoneColumn;
     @FXML
     private TableColumn<Student, String> facultyColumn;
+    @FXML
+    private TableColumn<Student, String> genderColumn;
+
 
     @FXML
     private ChoiceBox<String> choiceBoxField;
@@ -78,13 +82,16 @@ public class StudentController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        facultyColumn.setCellValueFactory(new PropertyValueFactory<>("faculty.name"));
+
            facultyColumn.setCellValueFactory(cellData -> {
                Faculty faculty = cellData.getValue().getFaculty();
                return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
            });
         choiceBoxField.getItems().add("-");
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
+
+
+
         studentTable.setItems(studentList);
         loadDummyData();
     }
@@ -101,16 +108,14 @@ public class StudentController {
         String address =addressField.getText();
         String phone = phoneField.getText();
         try {
-            String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
-            Gender gender = Gender.valueOf(genderStr);
+            Toggle selectedToggle = genderGroup.getSelectedToggle();
+            Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
             Faculty faculty = facultyService.findFacultyByName(facultyName);
             this.studentService.saveStudent(new Student(name, email,address,phone,faculty,gender));
-        }catch(NullPointerException e){
-            e.printStackTrace();
-            AlertUtil.alert(e.getMessage(),"ERROR" );
+        }catch (InvalidDataFormatException e) {
+            AlertUtil.alert(e.getMessage(), "ERROR");
         }
-
         this.loadDummyData();
         clearFields();
     }
@@ -150,6 +155,7 @@ public class StudentController {
             String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
             Gender gender = Gender.valueOf(genderStr);
             selectedStudent.setGender(gender);
+
             this.studentService.update(selectedStudent);
             studentTable.refresh();
             loadDummyData();
@@ -184,6 +190,8 @@ public class StudentController {
         phoneField.clear();
         addressField.clear();
         choiceBoxField.setValue(null);
+        genderGroup.selectToggle(null);
+
     }
 
 }

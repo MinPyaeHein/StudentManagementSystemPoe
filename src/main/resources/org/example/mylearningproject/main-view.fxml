@@ -13,6 +13,8 @@
                     <MenuItem text="Classrooms" onAction="#showClassroomManagement"/>
                     <MenuItem text="Faculties" onAction="#showFacultyManagement"/>
                     <MenuItem text="Departments" onAction="#showDepartmentManagement"/>
+                    <MenuItem text="Degree" onAction="#showDegreeManagement"/>
+
 
 
                 </Menu>

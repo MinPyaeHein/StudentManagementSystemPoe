@@ -25,10 +25,17 @@ public class Teacher {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name="degree")
-    private String degree;
+    @ManyToOne(name="degree_id")
+    private Degree degree;
     @ManyToOne(name="department_id")
     private Department department;
+
+    @NotNull(message="Gender cannot be null!!")
+    @Column(name = "gender")
+    private Gender gender;
+
+
+
 
 
     public Teacher(int id){
@@ -47,13 +54,17 @@ public class Teacher {
         this.phone = phone;
     }
 
-    public Teacher(String name, String email,String address,String phone) {
+    public Teacher(String name, String email, String address, String phone, Degree degree, Department department, Gender gender) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.phone = phone;
+        this.department = department;
+        this.degree = degree;
+        this.gender = gender;
     }
-    public Teacher(int id,String name, String email,String address,String phone,String degree,Department department) {
+
+    public Teacher(int id,String name, String email,String address,String phone,Degree degree,Department department,Gender gender) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -61,9 +72,12 @@ public class Teacher {
         this.phone = phone;
         this.degree = degree;
         this.department = department;
+        this.gender = gender;
     }
 
-    public Teacher(String name, String email,String address,String phone,String degree,Department department) {
+
+    public Teacher(int id,String name, String email,String address,String phone,Degree degree,Department department) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
@@ -112,11 +126,11 @@ public class Teacher {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public String getDegree() {
+    public Degree getDegree() {
         return degree;
     }
 
-    public void setDegree(String degree) {
+    public void setDegree(Degree degree) {
         this.degree = degree;
     }
 
@@ -129,5 +143,11 @@ public class Teacher {
     }
 
 
+    public Gender getGender() {
+        return gender;
+    }
 
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }
