@@ -25,8 +25,11 @@ public class Teacher {
     @Column(name = "phone")
     private String phone;
 
+    @NotNull(message = "Degree cannot be null!!")
     @ManyToOne(name="degree_id")
     private Degree degree;
+
+    @NotNull(message = "Department cannot be null!!")
     @ManyToOne(name="department_id")
     private Department department;
 

@@ -27,7 +27,8 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
                     rs.getString("address"),
                     rs.getString("phone"),
                     degree,
-                    department
+                    department,
+                    rs.getString("gender").equals("male")? Gender.male : Gender.female
 
                     );
         } catch (SQLException e) {
@@ -61,16 +62,21 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
     }
 
     public List<Teacher> findTeacherByKeyword(String keyword) {
-        String query = "SELECT * FROM teachers WHERE " +
-                "CAST(id AS TEXT) LIKE ? OR " +
-                "LOWER(name) LIKE LOWER(?) OR " +
-                "LOWER(email) LIKE LOWER(?) OR " +
-                "LOWER(address) LIKE LOWER(?) OR " +
-                "CAST(phone AS TEXT) LIKE ? OR " +
-                "LOWER(degree AS TEXT) LIKE LOWER(?) OR " +
-                "CAST(department_id AS TEXT) LIKE LOWER(?)";
+        String query = "SELECT t.* FROM teachers t, degree d, departments de WHERE " +
+                "t.degree_id = d.id AND t.department_id = de.id AND (" +
+                "CAST(t.id AS TEXT) LIKE ? OR " +
+                "LOWER(t.name) LIKE LOWER(?) OR " +
+                "LOWER(t.email) LIKE LOWER(?) OR " +
+                "LOWER(t.address) LIKE LOWER(?) OR " +
+                "CAST(t.phone AS TEXT) LIKE ? OR " +
+                "LOWER(d.degree) LIKE LOWER(?) OR " +
+                "LOWER(de.department) LIKE LOWER(?)" +
+                ")";
+
         String searchPattern = "%" + keyword.toLowerCase() + "%";
-        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern,searchPattern,searchPattern,searchPattern);
+        return executeQuerry(query, searchPattern, searchPattern, searchPattern, searchPattern,
+                searchPattern, searchPattern, searchPattern);
     }
+
 
 }

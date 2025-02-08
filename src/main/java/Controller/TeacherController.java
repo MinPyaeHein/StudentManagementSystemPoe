@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Degree;
-import Model.Department;
-import Model.Gender;
-import Model.Teacher;
+import Model.*;
 import Service.impl.DegreeServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
@@ -37,6 +34,9 @@ public class TeacherController {
     private TableColumn<Teacher,String>  departmentColumn;
     @FXML
     private TableColumn<Teacher,String>  degreeColumn;
+    @FXML
+    private TableColumn<Teacher, String> genderColumn;
+
     @FXML
     private ChoiceBox<String> choiceBoxField;
     @FXML
@@ -92,8 +92,31 @@ public class TeacherController {
             return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
         });
 
+
+        degreeChoiceField.getItems().add("--Please select one Degree--");
         degreeChoiceField.getItems().addAll(degreeService.getAllDegree().stream().map(Degree::getDegree).toList());
+        degreeChoiceField.getSelectionModel().selectFirst();  // Select first item
+
+
+        choiceBoxField.getItems().add("--Please select one Department--");
         choiceBoxField.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
+        choiceBoxField.getSelectionModel().selectFirst();  // Select first item
+
+
+        genderColumn.setCellValueFactory(cellData ->{
+            Gender gender = cellData.getValue().getGender();
+            String genderStr = null;
+            if(gender!=null) {
+                genderStr = gender.name();
+                if (genderStr.equalsIgnoreCase("male")) {
+                    genderStr = "Male";
+                } else if (genderStr.equalsIgnoreCase("femal")) {
+                    genderStr = "Female";
+                }
+            }
+            return new SimpleStringProperty(genderStr);
+
+        });
         teacherTable.setItems(teacherList);
         loadDummyData();
     }
@@ -109,22 +132,16 @@ public class TeacherController {
         String email = emailField.getText();
         String address = addressField.getText();
         String phone = phoneField.getText();
-        String degreeName = this.degreeChoiceField.getSelectionModel().getSelectedItem();
-        String departmentName = this.choiceBoxField.getSelectionModel().getSelectedItem();
         try {
-            Toggle selectedToggle = genderGroup.getSelectedToggle();
-            Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
-
+            String degreeName = this.degreeChoiceField.getSelectionModel().getSelectedItem();
+            String departmentName = this.choiceBoxField.getSelectionModel().getSelectedItem();
             Department department = departmentService.findDepartmentByName(departmentName);
             Degree degree = degreeService.findDegreeByName(degreeName);
-
-
-
+            Toggle selectedToggle = genderGroup.getSelectedToggle();
+            Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
             this.teacherService.saveTeacher(new Teacher(name, email, address, phone, degree, department, gender));
         }catch (InvalidDataFormatException e) {
             AlertUtil.alert(e.getMessage(), "ERROR");
-        } catch (IllegalArgumentException e) {
-            AlertUtil.alert("Invalid gender selection.", "ERROR");
         }
 
         this.loadDummyData();
@@ -190,6 +207,13 @@ public class TeacherController {
             degreeChoiceField.setValue(degreeChosed);
             String chosed = String.valueOf(teacher.getDepartment().getDepartment());
             choiceBoxField.setValue(chosed);
+            if(teacher.getGender()!=null){
+                if(teacher.getGender() == Gender.male){
+                    genderGroup.selectToggle(maleField);
+                }else if(teacher.getGender() == Gender.female){
+                    genderGroup.selectToggle(femaleField);
+                }
+            }
         }
     }
     @FXML
@@ -205,8 +229,8 @@ public class TeacherController {
         emailField.clear();
         addressField.clear();
         phoneField.clear();
-        degreeChoiceField.setValue(null);
-        choiceBoxField.setValue(null);
+        degreeChoiceField.getSelectionModel().selectFirst();
+        choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
     }
 }
