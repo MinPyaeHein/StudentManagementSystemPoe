@@ -64,13 +64,14 @@ import annotation.*;
         this.gender = gender;
     }
 
-    public Student(int id, String name, String email, String address, String phone, Faculty faculty) {
+    public Student(int id, String name, String email, String address, String phone, Faculty faculty,Gender gender) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.faculty = faculty;
+        this.gender = gender;
     }
 
     public int getId() {

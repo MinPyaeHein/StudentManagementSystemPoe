@@ -83,15 +83,29 @@ public class StudentController {
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
+
            facultyColumn.setCellValueFactory(cellData -> {
                Faculty faculty = cellData.getValue().getFaculty();
                return new SimpleStringProperty(faculty != null ? faculty.getName() : "No Faculty");
            });
-        choiceBoxField.getItems().add("-");
+
+        genderColumn.setCellValueFactory(cellData -> {
+            Gender gender = cellData.getValue().getGender();
+            String genderStr=null;
+            if(gender != null){
+                genderStr = gender.name();
+                if(genderStr.equalsIgnoreCase("male")){
+                    genderStr = "Male";
+                }else if(genderStr.equalsIgnoreCase("female")){
+                    genderStr = "Female";
+                }
+            }
+            return new SimpleStringProperty(genderStr);
+         });
+
+        choiceBoxField.getItems().add("----Plese Select One Faculty ----");
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
-
-
-
+        choiceBoxField.getSelectionModel().selectFirst();
         studentTable.setItems(studentList);
         loadDummyData();
     }
@@ -155,7 +169,6 @@ public class StudentController {
             String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
             Gender gender = Gender.valueOf(genderStr);
             selectedStudent.setGender(gender);
-
             this.studentService.update(selectedStudent);
             studentTable.refresh();
             loadDummyData();
@@ -171,6 +184,14 @@ public class StudentController {
             emailField.setText(student.getEmail());
             addressField.setText(student.getAddress());
             phoneField.setText(student.getPhone());
+
+            if (student.getGender() != null) {
+                if (student.getGender() == Gender.male) {
+                    genderGroup.selectToggle(maleField);
+                } else if (student.getGender() == Gender.female) {
+                    genderGroup.selectToggle(femaleField);
+                }
+            }
             String chosed = String.valueOf(student.getFaculty().getName());
             choiceBoxField.setValue(chosed);
         }
@@ -189,7 +210,7 @@ public class StudentController {
         emailField.clear();
         phoneField.clear();
         addressField.clear();
-        choiceBoxField.setValue(null);
+        choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
 
     }

@@ -1,6 +1,7 @@
 package Dao.impl;
 import Dao.FacultyDao;
 import Model.Faculty;
+import Model.Gender;
 import Model.Student;
 
 import java.sql.ResultSet;
@@ -26,7 +27,8 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
                     rs.getString("email"),
                     rs.getString("address"),
                     rs.getString("phone"),
-                    faculty
+                    faculty,
+                    rs.getString("gender").equals("male") ? Gender.male : Gender.female
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,14 +58,18 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
     }
 
     public List<Student> findStudentByKeyword(String keyword) {
-        String query = "SELECT * FROM students WHERE " +
-                "CAST(id AS TEXT) LIKE ? OR " +
-                "LOWER(name) LIKE LOWER(?) OR " +
-                "LOWER(email) LIKE LOWER(?) OR " +
-                "LOWER(address) LIKE LOWER(?) OR " +
-                "CAST(faculty_id AS TEXT) LIKE LOWER(?)";
+        String query = "SELECT s.* FROM students s, faculties f WHERE " +
+                "s.faculty_id = f.id AND (" +
+                "CAST(s.id AS TEXT) LIKE ? OR " +
+                "LOWER(f.name) LIKE LOWER(?) OR " +
+                "LOWER(s.name) LIKE LOWER(?) OR " +
+                "LOWER(s.email) LIKE LOWER(?) OR " +
+                "LOWER(s.address) LIKE LOWER(?) OR " +
+                "LOWER(f.name) LIKE LOWER(?)" +
+                ")";
         String searchPattern = "%" + keyword.toLowerCase() + "%";
-        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern,searchPattern);
+        return executeQuerry(query,  searchPattern,searchPattern,searchPattern,searchPattern,searchPattern,searchPattern);
     }
+
 
 }
