@@ -81,17 +81,16 @@ public class TeacherController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree.name"));
-        degreeColumn.setCellValueFactory(cellData -> {
-            Degree degree = cellData.getValue().getDegree();
-            return new SimpleStringProperty(degree != null ? degree.getDegree() : "No Degree");
-        });
+        degreeColumn.setCellValueFactory(new PropertyValueFactory<>("degree"));
 
         departmentColumn.setCellValueFactory(cellData -> {
             Department department = cellData.getValue().getDepartment();
             return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
         });
-
+        degreeColumn.setCellValueFactory(cellData -> {
+            Degree degree = cellData.getValue().getDegree();
+            return new SimpleStringProperty(degree != null ? degree.getDegree() : "No Degree");
+        });
 
         degreeChoiceField.getItems().add("--Please select one Degree--");
         degreeChoiceField.getItems().addAll(degreeService.getAllDegree().stream().map(Degree::getDegree).toList());

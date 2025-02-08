@@ -6,10 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="732.0" prefWidth="1214.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
+<AnchorPane prefHeight="758.0" prefWidth="1219.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
     <children>
         <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
-         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <StackPane prefHeight="182.0" prefWidth="242.0" style="-fx-background-color: gray;">
+                <ImageView fitHeight="150.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true" />
+            </StackPane>
+            <Button mnemonicParsing="false" text="Select Image" />
             <Label text="ID:">
             <font>
                <Font size="15.0" />
@@ -65,7 +68,7 @@
                 <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="studentTable" layoutX="335.0" layoutY="109.0" onMouseClicked="#handleMouseAction" prefHeight="338.0" prefWidth="844.0">
+        <TableView fx:id="studentTable" layoutX="321.0" layoutY="109.0" onMouseClicked="#handleMouseAction" prefHeight="588.0" prefWidth="858.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />

@@ -67,7 +67,7 @@
                 <TableColumn fx:id="emailColumn" prefWidth="130.4000244140625" text="Email" />
             <TableColumn fx:id="addressColumn" prefWidth="107.20001220703125" text="Address" />
                 <TableColumn fx:id="phoneColumn" prefWidth="127.20001220703125" text="Phone Number" />
-         <TableColumn fx:id="departmentColumn" prefWidth="116.79998779296875" text="Department" />
+            <TableColumn fx:id="departmentColumn" prefWidth="116.79998779296875" text="Department" />
             <TableColumn fx:id="degreeColumn" prefWidth="135.2000732421875" text="Degree" />
             <TableColumn fx:id="genderColumn" prefWidth="98.39990234375" text="Gender" />
             </columns>

@@ -17,9 +17,8 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
     @Override
     public Teacher convertToObject(ResultSet rs) {
         try {
-            Department department=this.departmentDao.selectById(new Department(rs.getInt("department_id")));
             Degree degree = this.degreeDao.selectById(new Degree(rs.getInt("degree_id")));
-
+            Department department=this.departmentDao.selectById(new Department(rs.getInt("department_id")));
             return new Teacher(
                     rs.getInt("id"),
                     rs.getString("name"),
@@ -29,7 +28,6 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
                     degree,
                     department,
                     rs.getString("gender").equals("male")? Gender.male : Gender.female
-
                     );
         } catch (SQLException e) {
             // TODO Auto-generated catch block
