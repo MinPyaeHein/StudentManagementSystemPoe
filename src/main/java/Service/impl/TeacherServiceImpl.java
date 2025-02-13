@@ -1,6 +1,7 @@
 package Service.impl;
 
 import Dao.impl.TeacherDaoImpl;
+import Model.Faculty;
 import Model.Teacher;
 import Exception .*;
 import Service.TeacherService;
@@ -16,6 +17,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.teacherDao = new TeacherDaoImpl();
     }
 
+    @Override
     public void update(Teacher teacher){
         try{
             ValidateUtail.validate(teacher);
@@ -25,15 +27,15 @@ public class TeacherServiceImpl implements TeacherService {
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
-
+    @Override
     public List<Teacher> getAllTeacher(){
         return teacherDao.selectAll();
     }
-
+    @Override
     public Teacher getTeacherById(int teacherId) {
         return this.teacherDao.selectById(new Teacher(teacherId));
     }
-
+    @Override
     public void saveTeacher(Teacher teacher){
         try{
             ValidateUtail.validate(teacher);
@@ -46,7 +48,7 @@ public class TeacherServiceImpl implements TeacherService {
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
-
+    @Override
     public void delete(int id){
         Teacher teacher = new Teacher(id);
         teacher = this.teacherDao.selectById(teacher);
@@ -61,9 +63,18 @@ public class TeacherServiceImpl implements TeacherService {
             throw new UserAlreadyExist("Duplicate teacher found!!! " + teacher.getEmail());
         }
     }
+    @Override
     public List<Teacher> searchTeacherByKeyword(String keyword) {
         return teacherDao.findTeacherByKeyword(keyword);
     }
+    @Override
+    public Teacher getTeacherByEmail(String email){
+        return this.teacherDao.findTeacherByEmail(email);
+    }
+    public Teacher findTeacherByName(String name) {
+        return teacherDao.findTeacherByName(name);
+    }
+
 
 
 

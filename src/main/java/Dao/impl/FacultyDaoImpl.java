@@ -44,8 +44,8 @@ public class FacultyDaoImpl extends GeneralDaoImpl<Faculty> implements FacultyDa
     public Faculty findFacultyByName(String name) {
         String query = "SELECT * FROM faculties WHERE name =?";
         List<Faculty> resultSet=executeQuerry(query, name);
-        for(Faculty student: resultSet){
-            return student;
+        for(Faculty faculty: resultSet){
+            return faculty;
         }
         return null;
     }

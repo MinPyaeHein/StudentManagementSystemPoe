@@ -58,7 +58,14 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
         }
         return null;
     }
-
+    public Teacher findTeacherByName(String name) {
+        String query = "SELECT * FROM teachers WHERE name =?";
+        List<Teacher> resultSet=executeQuerry(query, name);
+        for(Teacher teacher: resultSet){
+            return teacher;
+        }
+        return null;
+    }
     public List<Teacher> findTeacherByKeyword(String keyword) {
         String query = "SELECT t.* FROM teachers t, degree d, departments de WHERE " +
                 "t.degree_id = d.id AND t.department_id = de.id AND (" +

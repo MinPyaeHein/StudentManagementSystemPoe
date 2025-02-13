@@ -5,15 +5,21 @@ import Service.impl.DegreeServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
 import Utils.AlertUtil;
+import Utils.ImgUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import Exception.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class TeacherController {
@@ -59,6 +65,12 @@ public class TeacherController {
     private TextField addressField;
     @FXML
     private TextField phoneField;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private Button selectImageButton;
+    @FXML
+    private File selectedImageFile;
 
 
 
@@ -138,14 +150,27 @@ public class TeacherController {
             Degree degree = degreeService.findDegreeByName(degreeName);
             Toggle selectedToggle = genderGroup.getSelectedToggle();
             Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
-            this.teacherService.saveTeacher(new Teacher(name, email, address, phone, degree, department, gender));
-        }catch (InvalidDataFormatException e) {
+            Teacher teacher = new Teacher(name, email, address, phone, degree, department, gender);
+
+            this.teacherService.saveTeacher(teacher);
+
+            Teacher getTeacherByEmail = this.teacherService.getTeacherByEmail(email);
+
+            if (getTeacherByEmail != null && getTeacherByEmail.getId() != 0) {
+                ImgUtil.saveImageWithId(getTeacherByEmail.getId(), selectedImageFile, "teachers_images/");
+            } else {
+                AlertUtil.alert("Teacher could not be saved, image not saved.", "ERROR");
+            }
+        } catch (InvalidDataFormatException e) {
+            AlertUtil.alert(e.getMessage(), "ERROR");
+        } catch (IOException e) {
             AlertUtil.alert(e.getMessage(), "ERROR");
         }
 
         this.loadDummyData();
         clearFields();
     }
+
 
 
     @FXML
@@ -157,7 +182,13 @@ public class TeacherController {
     private void deleteTeacher() {
         Teacher selectedTeacher = teacherTable.getSelectionModel().getSelectedItem();
         if (selectedTeacher != null) {
-            this.teacherService.delete(selectedTeacher.getId());
+
+            try {
+                ImgUtil.deleteImageWithId(selectedTeacher.getId(),selectedImageFile,"teachers_images/");
+                this.teacherService.delete(selectedTeacher.getId());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             loadDummyData();
             clearFields();
         }
@@ -186,6 +217,13 @@ public class TeacherController {
                Gender gender = Gender.valueOf(genderStr);
                selectedTeacher.setGender(gender);
                this.teacherService.update(selectedTeacher);
+               Teacher teacher = this.teacherService.getTeacherByEmail(selectedTeacher.getEmail());
+            try {
+                ImgUtil.saveImageWithId(teacher.getId(),selectedImageFile,"teachers_images/");
+            } catch (IOException e) {
+                AlertUtil.alert("Failed to save image: ", "ERROR");
+            }
+
                teacherTable.refresh();
                loadDummyData();
                clearFields();
@@ -213,8 +251,24 @@ public class TeacherController {
                     genderGroup.selectToggle(femaleField);
                 }
             }
+            ImgUtil.displayProfileImage(teacher.getId(),"/teachers_images/",imageView);
         }
     }
+
+    @FXML
+    private void openImageFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg");
+        fileChooser.getExtensionFilters().add(extFilter);
+        selectedImageFile = fileChooser.showOpenDialog(selectImageButton.getScene().getWindow());
+        if (selectedImageFile != null) {
+            Image image = new Image(selectedImageFile.toURI().toString());
+            imageView.setImage(image);
+        }
+    }
+
+
+
     @FXML
     private void handleSearchAction() {
         List<Teacher> resultTeacher=this.teacherService.searchTeacherByKeyword(searchField.getText());
@@ -231,5 +285,6 @@ public class TeacherController {
         degreeChoiceField.getSelectionModel().selectFirst();
         choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
+        imageView.setImage(null);
     }
 }

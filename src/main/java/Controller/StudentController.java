@@ -6,6 +6,7 @@ import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
+import Utils.ImgUtil;
 import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 public class StudentController {
@@ -142,9 +144,18 @@ public class StudentController {
             Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
             String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
             Faculty faculty = facultyService.findFacultyByName(facultyName);
-            this.studentService.saveStudent(new Student(name, email,address,phone,faculty,gender));
-            Student student=this.studentService.getStudentByEmail(email);
-            saveImageWithStudentId(student.getId());
+            Student student = new Student(name, email,address,phone,faculty,gender);
+            this.studentService.saveStudent(student);
+            Student getStudentByEmail=this.studentService.getStudentByEmail(email);
+            if(student !=null && getStudentByEmail !=null && getStudentByEmail.getId() !=0) {
+                if (selectedImageFile != null) {
+                    ImgUtil.saveImageWithId(getStudentByEmail.getId(), selectedImageFile, "student_images/");
+                }else{
+                    AlertUtil.alert("Image can not be null", "ERROR");
+                }
+            }else{
+                AlertUtil.alert("Image can not be saved", "ERROR");
+            }
         }catch (InvalidDataFormatException e) {
             AlertUtil.alert(e.getMessage(), "ERROR");
         } catch (IOException e) {
@@ -158,8 +169,13 @@ public class StudentController {
     private void deleteStudent() {
         Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
         if (selectedStudent != null) {
-           this.studentService.delete(selectedStudent.getId());
-           loadDummyData();
+            try {
+                ImgUtil.deleteImageWithId(selectedStudent.getId(),selectedImageFile,"student_images/");
+                this.studentService.delete(selectedStudent.getId());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            loadDummyData();
            clearFields();
         }
     }
@@ -190,6 +206,13 @@ public class StudentController {
             Gender gender = Gender.valueOf(genderStr);
             selectedStudent.setGender(gender);
             this.studentService.update(selectedStudent);
+            Student getStudentByEmail = this.studentService.getStudentByEmail(selectedStudent.getEmail());
+            try {
+                ImgUtil.saveImageWithId(getStudentByEmail.getId(),selectedImageFile,"student_images/");
+            } catch (IOException e) {
+                AlertUtil.alert( e.getMessage(), "ERROR");
+            }
+
             studentTable.refresh();
             loadDummyData();
             clearFields();
@@ -212,7 +235,7 @@ public class StudentController {
                     genderGroup.selectToggle(femaleField);
                 }
             }
-            displayProfileImage(student.getId());
+            ImgUtil.displayProfileImage(student.getId(),"/student_images/",imageView);
             String chosed = String.valueOf(student.getFaculty().getName());
             choiceBoxField.setValue(chosed);
         }
@@ -229,20 +252,7 @@ public class StudentController {
         }
     }
 
-    public void saveImageWithStudentId(int studentId) throws IOException {
-        if (selectedImageFile != null) {
-            try {
-                Path targetDirectory = Path.of(System.getProperty("user.dir"));
-                System.out.println("Target directory: " + targetDirectory.toString());
-                Path targetFile = targetDirectory.resolve("student_images/" + studentId + ".jpg");
-                Files.createDirectories(targetFile.getParent());
-                Files.copy(selectedImageFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Image saved at: " + targetFile.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     @FXML
     private void handleSearchAction() {
@@ -259,17 +269,10 @@ public class StudentController {
         addressField.clear();
         choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
+        imageView.setImage(null);
 
     }
 
-    private void displayProfileImage(int studentId){
-        try {
-            String imagePath = System.getProperty("user.dir") + "/student_images/" + studentId + ".jpg";
-            Image image = new Image("file:" + imagePath);
-            imageView.setImage(image);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
 }

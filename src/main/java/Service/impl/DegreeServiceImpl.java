@@ -67,13 +67,13 @@ public class DegreeServiceImpl implements DegreeService {
 
     @Override
     public List<Degree> searchDegreeByKeyword(String keyword) {
-        return List.of();
+        return this.degreeDao.findDegreeByKeyword(keyword);
     }
 
     private void validateExistDepartment(Degree degree) {
         Degree duplicateDegree= this.degreeDao.findDegreeByName(degree.getDegree());
         if (duplicateDegree != null) {
-            throw new InvalidDataFormatException("Duplicate dep found!!! " + degree.getDegree());
+            throw new InvalidDataFormatException("Duplicate degree found!!! " + degree.getDegree());
         }
     }
 }

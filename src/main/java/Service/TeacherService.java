@@ -1,5 +1,6 @@
 package Service;
 
+
 import Model.Teacher;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface TeacherService {
     public void saveTeacher(Teacher teacher);
     public void delete(int id);
     public List<Teacher> searchTeacherByKeyword(String keyword);
+    public Teacher getTeacherByEmail(String email);
 }

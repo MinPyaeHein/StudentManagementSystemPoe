@@ -47,5 +47,10 @@ public class MainController {
     public void showDegreeManagement() {
         loadPage("degree-management.fxml");
     }
+    @FXML
+    public void showCourseManagement() {
+        loadPage("course-management.fxml");
+    }
+
 }
 

@@ -51,7 +51,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = new Student(id);
         System.out.println("Student OBJECT:" + student);
         student = this.studentDao.selectById( student);
-        if(student!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getName())){
+        if(student!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getEmail()+"\n"+student.getName())){
             this.studentDao.delete(student);
         }
     }
