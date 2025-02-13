@@ -86,10 +86,12 @@ public class CouresController {
         courseCodeColumn.setCellValueFactory(new PropertyValueFactory<>("course_code"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         creditsColumn.setCellValueFactory(new PropertyValueFactory<>("credits"));
+
         departmentColumn.setCellValueFactory(cellData -> {
             Department department = cellData.getValue().getDepartment();
             return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
         });
+
         departmentChoiceBox.getItems().add("--Please select one Department--");
         departmentChoiceBox.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
         departmentChoiceBox.getSelectionModel().selectFirst();
@@ -97,6 +99,7 @@ public class CouresController {
             Teacher teacher = cellData.getValue().getTeacher();
             return new SimpleStringProperty(teacher != null ? teacher.getName(): "No Teacher Name");
         });
+
         teacherChoiceBox.getItems().add("--Please select one teacher--");
         teacherChoiceBox.getItems().addAll(teacherService.getAllTeacher().stream().map(Teacher::getName).toList());
         teacherChoiceBox.getSelectionModel().selectFirst();
@@ -122,9 +125,6 @@ public class CouresController {
                 return new SimpleStringProperty(updatedAt.format(formatter));
             }
         });
-
-
-
 
         courseTable.setItems(courseList);
         loadDummyData();
