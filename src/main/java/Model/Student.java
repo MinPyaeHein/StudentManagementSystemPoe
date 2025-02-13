@@ -31,7 +31,8 @@ import annotation.*;
         @NotNull(message="Gender cannot be null!!")
         @Column(name = "gender")
         private Gender gender;
-
+        public Student() {
+        }
         public Student(int id) {
             this.id=id;
         }

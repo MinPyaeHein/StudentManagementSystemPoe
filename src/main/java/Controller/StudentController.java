@@ -1,5 +1,6 @@
 package Controller;
 
+import Dto.StudentDto;
 import Model.Gender;
 import Model.Student;
 import Service.FacultyService;
@@ -135,32 +136,14 @@ public class StudentController {
 
     @FXML
     private void addStudent() {
-        String name = nameField.getText();
-        String email = emailField.getText();
-        String address =addressField.getText();
-        String phone = phoneField.getText();
-        try {
-            Toggle selectedToggle = genderGroup.getSelectedToggle();
-            Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
-            String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-            Faculty faculty = facultyService.findFacultyByName(facultyName);
-            Student student = new Student(name, email,address,phone,faculty,gender);
-            this.studentService.saveStudent(student);
-            Student getStudentByEmail=this.studentService.getStudentByEmail(email);
-            if(student !=null && getStudentByEmail !=null && getStudentByEmail.getId() !=0) {
-                if (selectedImageFile != null) {
-                    ImgUtil.saveImageWithId(getStudentByEmail.getId(), selectedImageFile, "student_images/");
-                }else{
-                    AlertUtil.alert("Image can not be null", "ERROR");
-                }
-            }else{
-                AlertUtil.alert("Image can not be saved", "ERROR");
-            }
-        }catch (InvalidDataFormatException e) {
-            AlertUtil.alert(e.getMessage(), "ERROR");
-        } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(), "ERROR");
-        }
+        StudentDto studentDto = new StudentDto();
+        studentDto.setName(nameField.getText());
+        studentDto.setEmail(emailField.getText());
+        studentDto.setAddress(addressField.getText());
+        studentDto.setPhone(phoneField.getText());
+        studentDto.setGender(maleField.isSelected() ? "male" : "female");
+        studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
+        this.studentService.saveStudent(studentDto);
         this.loadDummyData();
         clearFields();
     }

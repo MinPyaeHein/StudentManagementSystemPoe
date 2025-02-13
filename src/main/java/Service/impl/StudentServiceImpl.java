@@ -2,12 +2,16 @@ package Service.impl;
 
 
 import Dao.impl.StudentDaoImpl;
+import Dto.StudentDto;
+import Mapper.StudentMapper;
 import Model.Student;
 import Service.StudentService;
 import Utils.AlertUtil;
+import Utils.ImgUtil;
 import Utils.ValidateUtail;
 import Exception.InvalidDataFormatException;
 
+import java.io.IOException;
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
@@ -36,14 +40,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void saveStudent(Student student) {
+    public void saveStudent(StudentDto studentDto) {
+        Student student=StudentMapper.toEntity(studentDto);
         try{
             ValidateUtail.validate(student);
             validateExistStudent(student);
+            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),"student_images/");
             this.studentDao.insert(student);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(InvalidDataFormatException exception){
             AlertUtil.alert(exception.getMessage(),"ERROR");
+        } catch (IOException e) {
+            AlertUtil.alert(e.getMessage(),"ERROR");
         }
     }
     @Override
