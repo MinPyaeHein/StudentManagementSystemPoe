@@ -1,12 +1,13 @@
 package Service.impl;
 
 import Dao.impl.CoursesDaoImpl;
+import Dto.CourseDto;
+import Mapper.CourseMapper;
 import Model.Course;
 import Service.CourseService;
 import Utils.AlertUtil;
 import Utils.ValidateUtail;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import Exception.*;
 
@@ -39,10 +40,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void saveCourse(Course course) {
+    public void saveCourse(CourseDto courseDto) {
+        Course course= CourseMapper.toEntity(courseDto);
         try {
             ValidateUtail.validate(course);
             validateExistCourse(course);
+            if(course.getCapacity() > 100){
+                throw new InvalidDataFormatException("The maximum capacity is 100");
+            }
             this.coursesDao.insert(course);
             AlertUtil.alert("Successfully saved!!","INFORMATION");
         }catch (InvalidDataFormatException e){
@@ -73,10 +78,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private void validateExistCourse(Course course){
-
-            Course duplicateCourse = this.coursesDao.findCourseByCode(course.getCourse_code());
-            if (duplicateCourse != null) {
-                AlertUtil.alert("Duplicate course code found!! ", "ERROR");
+            Course duplicateCourseCode = this.coursesDao.findCourseByCode(course.getCourse_code());
+            Course duplicateCourseName = this.coursesDao.findCourseByName(course.getCourse_name());
+            if (duplicateCourseCode != null || duplicateCourseName !=null) {
+                throw new InvalidDataFormatException("Duplicate course name or code found!!");
             }
 
 

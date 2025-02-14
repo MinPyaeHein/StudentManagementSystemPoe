@@ -19,7 +19,7 @@ public class ValidateUtail {
                 field.setAccessible(true);
                 try {
                     Object value=field.get(obj);
-                    if(value==null || value.toString().isEmpty()){
+                    if(value==null || value.toString().isEmpty()||value instanceof Integer && ((Integer) value) == 0){
                         NotNull annotation = field.getAnnotation(NotNull.class);
                         errorMessage+=annotation.message()+"\n";
                     }
@@ -65,5 +65,7 @@ public class ValidateUtail {
     private static boolean phoneValidator(String phone){
         return phone.matches("^09-\\d{9}$");
     }
+
+
 
 }

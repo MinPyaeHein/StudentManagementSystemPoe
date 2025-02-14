@@ -1,5 +1,6 @@
 package Controller;
 
+import Dto.CourseDto;
 import Model.*;
 
 import Service.impl.CourseServiceImpl;
@@ -38,8 +39,6 @@ public class CouresController {
     @FXML
     private TableColumn<Course, String> teacherColumn;
     @FXML
-    private TableColumn<Course,String> scheduleColumn;
-    @FXML
     private TableColumn<Course,Integer> capacityColumn;
     @FXML
     private TableColumn<Course,String> createdTimeColumn;
@@ -64,8 +63,7 @@ public class CouresController {
     private TextField searchField;
     @FXML
     private TextField capacityFied;
-    @FXML
-    private TextField scheduleField;
+
 
 
     private ObservableList<Course> courseList = FXCollections.observableArrayList();
@@ -104,7 +102,6 @@ public class CouresController {
         teacherChoiceBox.getItems().addAll(teacherService.getAllTeacher().stream().map(Teacher::getName).toList());
         teacherChoiceBox.getSelectionModel().selectFirst();
 
-        scheduleColumn.setCellValueFactory(new PropertyValueFactory<>("schedule"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
 
         createdTimeColumn.setCellValueFactory(cellData -> {
@@ -125,6 +122,16 @@ public class CouresController {
                 return new SimpleStringProperty(updatedAt.format(formatter));
             }
         });
+        creditField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                creditField.setText(oldValue);
+            }
+        });
+        capacityFied.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                capacityFied.setText(oldValue);
+            }
+        });
 
         courseTable.setItems(courseList);
         loadDummyData();
@@ -137,24 +144,18 @@ public class CouresController {
 
     @FXML
     private void addCourse(){
-        try {
-            String courseName = courseNameField.getText();
-            String courseCode = courseCodeField.getText();
-            String description = descriptionField.getText();
-            int credit = Integer.parseInt(creditField.getText());
-            String departmentName = this.departmentChoiceBox.getSelectionModel().getSelectedItem();
-            Department department = departmentService.findDepartmentByName(departmentName);
-            String teacherName = this.teacherChoiceBox.getSelectionModel().getSelectedItem();
-            Teacher teacher = teacherService.findTeacherByName(teacherName);
-            int capacity = Integer.parseInt(capacityFied.getText());
-            String schedule = scheduleField.getText();
-            LocalDateTime createdTime = LocalDateTime.now();
-            this.courseService.saveCourse(new Course(courseName, courseCode, description, credit, department, teacher, schedule, capacity, createdTime));
+        CourseDto courseDto=new CourseDto();
+        courseDto.setCourse_name(courseNameField.getText());
+        courseDto.setCourse_code(courseCodeField.getText());
+        courseDto.setDescription(descriptionField.getText());
+        courseDto.setCredits(creditField.getText());
+        courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
+        courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
+        courseDto.setCapacity(capacityFied.getText());
+        courseDto.setCreated_at(LocalDateTime.now());
+        this.courseService.saveCourse(courseDto);
             loadDummyData();
             clearFields();
-        }catch (NumberFormatException e){
-            AlertUtil.alert(e.getMessage(),"ERROR");
-        }
     }
     @FXML
     private void deleteCourse(){
@@ -190,7 +191,6 @@ public class CouresController {
             String teacherName = this.teacherChoiceBox.getSelectionModel().getSelectedItem();
             Teacher teacher = teacherService.findTeacherByName(teacherName);
             selectedCourse.setTeacher(teacher);
-            selectedCourse.setSchedule(scheduleField.getText());
             selectedCourse.setCapacity(Integer.parseInt(capacityFied.getText()));
             LocalDateTime updatedTime = LocalDateTime.now();
             selectedCourse.setUpdated_at(updatedTime);
@@ -200,6 +200,7 @@ public class CouresController {
         loadDummyData();
         clearFields();
     }
+
     @FXML
     private void handleMouseAction(MouseEvent event) {
         Course course=courseTable.getSelectionModel().getSelectedItem();
@@ -213,7 +214,6 @@ public class CouresController {
             departmentChoiceBox.setValue(department);
             String teacher = String.valueOf(course.getTeacher().getName());
             teacherChoiceBox.setValue(teacher);
-            scheduleField.setText(course.getSchedule());
             capacityFied.setText(String.valueOf(course.getCapacity()));
 
         }
@@ -221,9 +221,9 @@ public class CouresController {
 
     @FXML
     private void handleSearchAction() {
-        List<Course> resultStudent=this.courseService.searchCourseByKeyword(searchField.getText());
+        List<Course> resultCourse=this.courseService.searchCourseByKeyword(searchField.getText());
         courseList.clear();
-        courseList.addAll(resultStudent);
+        courseList.addAll(resultCourse);
     }
 
     private void clearFields() {
@@ -234,7 +234,6 @@ public class CouresController {
         creditField.clear();
         departmentChoiceBox.getSelectionModel().selectFirst();
         teacherChoiceBox.getSelectionModel().selectFirst();
-        scheduleField.clear();
         capacityFied.clear();
 
 

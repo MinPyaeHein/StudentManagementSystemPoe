@@ -168,6 +168,8 @@ CREATE TABLE enrollments (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Record update timestamp
 );
 
+
+
 -- Adding foreign key constraints
 ALTER TABLE enrollments
 ADD CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE;

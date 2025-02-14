@@ -1,5 +1,6 @@
 package Controller;
 
+import Dto.TeacherDto;
 import Model.*;
 import Service.impl.DegreeServiceImpl;
 import Service.impl.DepartmentServiceImpl;
@@ -139,34 +140,15 @@ public class TeacherController {
 
     @FXML
     private void addTeacher() {
-        String name = nameField.getText();
-        String email = emailField.getText();
-        String address = addressField.getText();
-        String phone = phoneField.getText();
-        try {
-            String degreeName = this.degreeChoiceField.getSelectionModel().getSelectedItem();
-            String departmentName = this.choiceBoxField.getSelectionModel().getSelectedItem();
-            Department department = departmentService.findDepartmentByName(departmentName);
-            Degree degree = degreeService.findDegreeByName(degreeName);
-            Toggle selectedToggle = genderGroup.getSelectedToggle();
-            Gender gender = (selectedToggle != null) ? Gender.valueOf(((RadioButton) selectedToggle).getText().toLowerCase()) : null;
-            Teacher teacher = new Teacher(name, email, address, phone, degree, department, gender);
-
-            this.teacherService.saveTeacher(teacher);
-
-            Teacher getTeacherByEmail = this.teacherService.getTeacherByEmail(email);
-
-            if (getTeacherByEmail != null && getTeacherByEmail.getId() != 0) {
-                ImgUtil.saveImageWithId(getTeacherByEmail.getId(), selectedImageFile, "teachers_images/");
-            } else {
-                AlertUtil.alert("Teacher could not be saved, image not saved.", "ERROR");
-            }
-        } catch (InvalidDataFormatException e) {
-            AlertUtil.alert(e.getMessage(), "ERROR");
-        } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(), "ERROR");
-        }
-
+        TeacherDto teacherDto=new TeacherDto();
+        teacherDto.setName(nameField.getText());
+        teacherDto.setEmail(emailField.getText());
+        teacherDto.setAddress(addressField.getText());
+        teacherDto.setPhone(phoneField.getText());
+        teacherDto.setDegree(degreeChoiceField.getSelectionModel().getSelectedItem());
+        teacherDto.setDepartment(choiceBoxField.getSelectionModel().getSelectedItem());
+        teacherDto.setGender(maleField.isSelected() ? "male" : "female");
+        this.teacherService.saveTeacher(teacherDto);
         this.loadDummyData();
         clearFields();
     }

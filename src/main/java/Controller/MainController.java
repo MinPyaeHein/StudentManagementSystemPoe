@@ -38,6 +38,8 @@ public class MainController {
         loadPage("faculty-management.fxml");
     }
 
+
+
     @FXML
     public void showDepartmentManagement() {
         loadPage("department-management.fxml");
@@ -50,6 +52,11 @@ public class MainController {
     @FXML
     public void showCourseManagement() {
         loadPage("course-management.fxml");
+    }
+
+    @FXML
+    public void showEnrollmentManagement() {
+        loadPage("enrollments.fxml");
     }
 
 }

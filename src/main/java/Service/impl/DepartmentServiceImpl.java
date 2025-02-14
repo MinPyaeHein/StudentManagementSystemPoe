@@ -1,6 +1,8 @@
 package Service.impl;
 
 import Dao.impl.DepartmentDaoImpl;
+import Dto.DepartmentDto;
+import Mapper.DepartmentMapper;
 import Model.Department;
 import Service.DepartmentService;
 import Utils.AlertUtil;
@@ -33,14 +35,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         return this.departmentDao.selectById(new Department(departmentId));
     }
 
-    public void saveDepartment(Department department) {
+    public void saveDepartment(DepartmentDto departmentDto) {
+        Department department= DepartmentMapper.toEntity(departmentDto);
         try{
             ValidateUtail.validate(department);
             validateExistDepartment(department);
             this.departmentDao.insert(department);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(InvalidDataFormatException exception){
-            exception.printStackTrace();
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }

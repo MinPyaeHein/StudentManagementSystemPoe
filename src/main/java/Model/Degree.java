@@ -15,10 +15,15 @@ public class Degree {
     @Column(name="degree")
     private String degree;
 
+    public Degree(){
+
+    }
+
 
     public Degree(int id){
         this.id = id;
     }
+
 
     public Degree(int id,String degree){
         this.id = id;
@@ -30,6 +35,10 @@ public class Degree {
 
     public int getId(){
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getDegree() {

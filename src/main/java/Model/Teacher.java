@@ -40,7 +40,9 @@ public class Teacher {
 
 
 
+    public Teacher(){
 
+    }
     public Teacher(int id){
         this.id = id;
     }

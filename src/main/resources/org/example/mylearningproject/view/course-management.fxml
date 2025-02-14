@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="856.0" prefWidth="1582.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CouresController">
+<AnchorPane prefHeight="856.0" prefWidth="1582.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CouresController">
     <children>
         <VBox layoutX="48.0" layoutY="34.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
             <Label text="ID" />
@@ -34,15 +34,13 @@
             </Label>
          <TextArea fx:id="descriptionField" minHeight="60.0" prefHeight="66.0" prefWidth="242.0" />
             <Label text="Credits:" />
-         <TextField fx:id="creditField" />
+         <TextField fx:id="creditField" promptText="Number only" />
             <Label text="Department:" />
             <ChoiceBox fx:id="departmentChoiceBox" prefHeight="26.0" prefWidth="246.0" />
             <Label text="Teacehr:" />
          <ChoiceBox fx:id="teacherChoiceBox" prefHeight="26.0" prefWidth="246.0" />
          <Label text="Capacity" />
-         <TextField fx:id="capacityFied" />
-            <Label text="Schedule: " />
-            <TextField fx:id="scheduleField" />
+         <TextField fx:id="capacityFied" promptText="Number only" />
             <HBox spacing="10.0">
                 <Button onAction="#addCourse" text="Add" />
                 <Button onAction="#updateCourse" text="Update" />
@@ -55,7 +53,7 @@
                 </font>
             </Label>
         </VBox>
-        <TableView fx:id="courseTable" layoutX="334.0" layoutY="114.0" onMouseClicked="#handleMouseAction" prefHeight="498.0" prefWidth="1214.0">
+        <TableView fx:id="courseTable" layoutX="334.0" layoutY="114.0" onMouseClicked="#handleMouseAction" prefHeight="498.0" prefWidth="1114.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="70.4000244140625" text="ID" />
                 <TableColumn fx:id="courseNameColumn" prefWidth="123.20001220703125" text="Course Name" />
@@ -65,7 +63,6 @@
                 <TableColumn fx:id="departmentColumn" prefWidth="120.79998779296875" text="Department" />
                 <TableColumn fx:id="teacherColumn" prefWidth="98.4000244140625" text="Teacher" />
             <TableColumn fx:id="capacityColumn" prefWidth="80.0001220703125" text="Capacity" />
-                <TableColumn fx:id="scheduleColumn" prefWidth="101.5999755859375" text="Schedule" />
             <TableColumn fx:id="createdTimeColumn" prefWidth="153.5999755859375" text="Created at" />
             <TableColumn fx:id="updatedTimeColumn" prefWidth="147.2000488281251" text="Updated at" />
             </columns>

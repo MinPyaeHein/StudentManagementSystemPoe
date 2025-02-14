@@ -1,6 +1,8 @@
 package Service.impl;
 
 import Dao.impl.FacultyDaoImpl;
+import Dto.FacultyDto;
+import Mapper.FacultyMapper;
 import Model.Faculty;
 import Service.FacultyService;
 import Utils.AlertUtil;
@@ -15,8 +17,10 @@ public class FacultyServiceImpl  implements FacultyService {
     public FacultyServiceImpl() {
         this.facultyDao= new FacultyDaoImpl();
     }
+
     @Override
-    public void saveFaculty(Faculty faculty) {
+    public void saveFaculty(FacultyDto facultyDto) {
+        Faculty faculty= FacultyMapper.toEntity(facultyDto);
         try{
             ValidateUtail.validate(faculty);
             validateExistFaculty(faculty);

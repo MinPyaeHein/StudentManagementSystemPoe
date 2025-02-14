@@ -44,7 +44,6 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
                     rs.getInt("credits"),
                     department,
                     teacher,
-                    rs.getString("schedule"),
                     rs.getInt("capacity"),
                     created_at,
                     updated_at
@@ -65,6 +64,14 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
             }
             return null;
     }
+    public Course findCourseByName(String name) {
+        String query = "SELECT * FROM courses WHERE course_name =?";
+        List<Course> resultSet=executeQuerry(query, name);
+        for(Course course: resultSet){
+            return course;
+        }
+        return null;
+    }
 
     public List<Course> findCourseByKeyword(String keyword) {
         String query = "SELECT c.id, c.course_name, c.course_code, c.description, c.credits, " +
@@ -78,7 +85,6 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
                 "LOWER(c.description) LIKE LOWER(?) OR " +
                 "LOWER(d.department) LIKE LOWER(?) OR " +
                 "LOWER(t.name) LIKE LOWER(?) OR " +
-                "LOWER(c.schedule) LIKE LOWER(?) OR " +
                 "CAST(c.capacity AS TEXT) LIKE ? OR " +
                 "CAST(c.created_at AS TEXT) LIKE ? OR " +
                 "CAST(c.updated_at AS TEXT) LIKE ? OR " +

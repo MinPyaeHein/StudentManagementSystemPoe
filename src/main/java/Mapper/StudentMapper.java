@@ -7,7 +7,7 @@ import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
 
 public class StudentMapper {
-    private static FacultyService facultyService=new FacultyServiceImpl();
+    private static FacultyServiceImpl facultyService=new FacultyServiceImpl();
     public static Student toEntity(StudentDto studentDto){
         if(studentDto==null){
             return null;

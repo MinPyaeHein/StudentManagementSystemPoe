@@ -26,9 +26,7 @@ public class Course {
     @NotNull(message = "teacher cannot be null")
     @ManyToOne(name="teacher_id")
     private Teacher teacher;
-    @NotNull(message = "schedule cannot be null")
-    @Column(name = "schedule")
-    private String schedule;
+
     @NotNull(message = "capacity cannot be null")
     @Column(name = "capacity")
     private int capacity;
@@ -39,11 +37,15 @@ public class Course {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
+    public Course(){
+
+    }
+
     public Course(int id){
         this.id = id;
     }
 
-    public Course(int id, String course_name, String course_code, String description, int credits, Department department, Teacher teacher, String schedule, int capacity, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Course(int id, String course_name, String course_code, String description, int credits, Department department, Teacher teacher,int capacity, LocalDateTime created_at, LocalDateTime updated_at) {
         this.id = id;
         this.course_name = course_name;
         this.course_code = course_code;
@@ -51,33 +53,30 @@ public class Course {
         this.credits = credits;
         this.department = department;
         this.teacher = teacher;
-        this.schedule = schedule;
         this.capacity = capacity;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
 
-    public Course(String course_name, String course_code, String description, int credits, Department department, Teacher teacher, String schedule, int capacity, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Course(String course_name, String course_code, String description, int credits, Department department, Teacher teacher, int capacity, LocalDateTime created_at, LocalDateTime updated_at) {
         this.course_name = course_name;
         this.course_code = course_code;
         this.description = description;
         this.credits = credits;
         this.department = department;
         this.teacher = teacher;
-        this.schedule = schedule;
         this.capacity = capacity;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
 
-    public Course(String course_name, String course_code, String description, int credits, Department department, Teacher teacher, String schedule, int capacity, LocalDateTime created_at) {
+    public Course(String course_name, String course_code, String description, int credits, Department department, Teacher teacher,int capacity, LocalDateTime created_at) {
         this.course_name = course_name;
         this.course_code = course_code;
         this.description = description;
         this.credits = credits;
         this.department = department;
         this.teacher = teacher;
-        this.schedule = schedule;
         this.capacity = capacity;
         this.created_at = created_at;
 
@@ -114,13 +113,6 @@ public class Course {
         this.capacity = capacity;
     }
 
-    public String getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
-    }
 
     public Teacher getTeacher() {
         return teacher;

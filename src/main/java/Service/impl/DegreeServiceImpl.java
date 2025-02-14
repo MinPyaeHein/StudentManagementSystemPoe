@@ -1,6 +1,9 @@
 package Service.impl;
 
 import Dao.impl.DegreeDaoImpl;
+import Dto.DegreeDto;
+import Mapper.DegreeMapper;
+import Mapper.DepartmentMapper;
 import Model.Degree;
 import Service.DegreeService;
 import Utils.AlertUtil;
@@ -39,14 +42,14 @@ public class DegreeServiceImpl implements DegreeService {
     }
 
     @Override
-    public void saveDegree(Degree degree) {
+    public void saveDegree(DegreeDto degreeDto) {
+        Degree degree= DegreeMapper.toEntity(degreeDto);
         try{
             ValidateUtail.validate(degree);
             validateExistDepartment(degree);
             this.degreeDao.insert(degree);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(InvalidDataFormatException exception){
-            exception.printStackTrace();
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }

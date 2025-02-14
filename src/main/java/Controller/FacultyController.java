@@ -1,5 +1,6 @@
 package Controller;
 
+import Dto.FacultyDto;
 import Model.Faculty;
 import Service.impl.FacultyServiceImpl;
 import Utils.AlertUtil;
@@ -65,11 +66,12 @@ public class FacultyController {
 
     @FXML
     private void addFaculty() {
-        String name = nameField.getText();
-        String email = emailField.getText();
-        String websiteLink = websiteField.getText();
-        String phone = phoneField.getText();
-        this.facultyService.saveFaculty(new Faculty(name, email,websiteLink,phone));
+        FacultyDto facultyDto=new FacultyDto();
+        facultyDto.setName(nameField.getText());
+        facultyDto.setEmail(emailField.getText());
+        facultyDto.setWebsite_link(websiteField.getText());
+        facultyDto.setPhone(phoneField.getText());
+        this.facultyService.saveFaculty(facultyDto);
         this.loadDummyData();
         clearFields();
     }

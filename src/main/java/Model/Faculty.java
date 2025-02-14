@@ -23,6 +23,9 @@ public class Faculty {
     @Column(name="phone")
     private String phone;
 
+    public Faculty(){
+
+    }
     public Faculty( String name, String email, String website_link, String phone) {
         this.name = name;
         this.email = email;

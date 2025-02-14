@@ -1,13 +1,17 @@
 package Service.impl;
 
 import Dao.impl.TeacherDaoImpl;
+import Dto.TeacherDto;
+import Mapper.TeacherMapper;
 import Model.Faculty;
 import Model.Teacher;
 import Exception .*;
 import Service.TeacherService;
 import Utils.AlertUtil;
+import Utils.ImgUtil;
 import Utils.ValidateUtail;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TeacherServiceImpl implements TeacherService {
@@ -36,16 +40,20 @@ public class TeacherServiceImpl implements TeacherService {
         return this.teacherDao.selectById(new Teacher(teacherId));
     }
     @Override
-    public void saveTeacher(Teacher teacher){
+    public void saveTeacher(TeacherDto teacherDto){
+        Teacher teacher = TeacherMapper.toEntity(teacherDto);
         try{
             ValidateUtail.validate(teacher);
             checkDuplicateTeacher(teacher);
+            ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), "teachers_images/");
             this.teacherDao.insert(teacher);
             AlertUtil.alert("Successfully Saved!!","INFORMATION");
         }catch(UserAlreadyExist exception){
             AlertUtil.alert(exception.getMessage() + teacher.getEmail(),"ERROR");
         }catch(InvalidDataFormatException exception){
             AlertUtil.alert(exception.getMessage(),"ERROR");
+        }catch (IOException e) {
+            AlertUtil.alert(e.getMessage(),"ERROR");
         }
     }
     @Override
