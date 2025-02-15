@@ -11,6 +11,7 @@ public class StudentDto {
     private String phone;
     private String faculty;
     private File imageFile;
+    private String password;
 
     public String getId() {
         return id;
@@ -74,5 +75,13 @@ public class StudentDto {
 
     public void setImageFile(File imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

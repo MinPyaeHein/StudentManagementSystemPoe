@@ -3,12 +3,12 @@ package Service.impl;
 import Dao.impl.TeacherDaoImpl;
 import Dto.TeacherDto;
 import Mapper.TeacherMapper;
-import Model.Faculty;
 import Model.Teacher;
 import Exception .*;
 import Service.TeacherService;
 import Utils.AlertUtil;
 import Utils.ImgUtil;
+import Utils.UtilConstants;
 import Utils.ValidateUtail;
 
 import java.io.IOException;
@@ -27,8 +27,8 @@ public class TeacherServiceImpl implements TeacherService {
         try{
             ValidateUtail.validate(teacher);
             teacherDao.update(teacher,"id");
-            ImgUtil.saveImageWithId(teacher.getId(),teacherDto.getImageFile(),"teachers_images/");
-            AlertUtil.alert("Successfully updated","INFORMATION");
+            ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), UtilConstants.TEACHER_IMAGE_PATH);
+            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
             AlertUtil.alert(exception.getMessage(),"ERROR");
         } catch (IOException e) {
@@ -49,15 +49,15 @@ public class TeacherServiceImpl implements TeacherService {
         try{
             ValidateUtail.validate(teacher);
             checkDuplicateTeacher(teacher);
-            ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), "teachers_images/");
+            ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), UtilConstants.TEACHER_IMAGE_PATH);
             this.teacherDao.insert(teacher);
-            AlertUtil.alert("Successfully Saved!!","INFORMATION");
+            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(UserAlreadyExist exception){
-            AlertUtil.alert(exception.getMessage() + teacher.getEmail(),"ERROR");
+            AlertUtil.alert(exception.getMessage() + teacher.getEmail(), UtilConstants.ERROR_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),"ERROR");
+            AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
     @Override
@@ -66,10 +66,10 @@ public class TeacherServiceImpl implements TeacherService {
         teacher =  this.teacherDao.selectById(teacher);
         try {
             if(teacher != null &&
-                    AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+teacher.getEmail())){
+                    AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+ "\n"+teacher.getEmail())){
                 this.teacherDao.delete(teacher);
             }
-            ImgUtil.deleteImageWithId(teacher.getId(),teacherDto.getImageFile(),"teachers_images/");
+            ImgUtil.deleteImageWithId(teacher.getId(),teacherDto.getImageFile(),UtilConstants.TEACHER_IMAGE_PATH);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -78,9 +78,10 @@ public class TeacherServiceImpl implements TeacherService {
     private void checkDuplicateTeacher(Teacher teacher){
         Teacher selectedTeacher=this.teacherDao.findTeacherByEmail(teacher.getEmail());
         if(selectedTeacher!=null){
-            throw new UserAlreadyExist("Duplicate teacher found!!! " + teacher.getEmail());
+            throw new UserAlreadyExist(UtilConstants.DUPLICATE_RECORD_ERROR + teacher.getEmail());
         }
     }
+
     @Override
     public List<Teacher> searchTeacherByKeyword(String keyword) {
         return teacherDao.findTeacherByKeyword(keyword);

@@ -4,6 +4,8 @@ module org.example.mylearningproject {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires java.desktop;
+    requires jdk.jshell;
+    requires transitive org.postgresql.jdbc;
 
     opens org.example.mylearningproject to javafx.fxml;
     opens org.example.mylearningproject.view to javafx.fxml;

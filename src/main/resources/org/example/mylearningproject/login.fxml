@@ -3,13 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="276.0" prefWidth="339.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+<AnchorPane prefHeight="361.0" prefWidth="339.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
     <children>
         <VBox layoutX="65.0" layoutY="100.0" prefHeight="206.0" prefWidth="226.0" spacing="10.0">
             <Label text="Student Name">
@@ -22,10 +23,16 @@
                     <Font size="15.0" />
                 </font></Label>
             <TextField fx:id="studentIdField" />
+         <Label text="Password">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Label>
+         <PasswordField fx:id="passwordField" />
          <HBox prefHeight="27.0" prefWidth="226.0" spacing="20.0">
             <children>
-               <Button mnemonicParsing="false" text="Submit" />
-               <Button mnemonicParsing="false" text="cancel" textAlignment="CENTER" />
+               <Button fx:id="submitButton" onAction="#submit" mnemonicParsing="false" text="Submit" />
+               <Button fx:id="cancelButton" onAction="#cancel" mnemonicParsing="false" text="cancel" textAlignment="CENTER" />
             </children>
             <VBox.margin>
                <Insets />

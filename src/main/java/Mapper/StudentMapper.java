@@ -22,6 +22,7 @@ public class StudentMapper {
         student.setPhone(studentDto.getPhone());
         student.setFaculty(facultyService.findFacultyByName(studentDto.getFaculty()));
         student.setGender(Gender.valueOf(studentDto.getGender()));
+        student.setPassword(studentDto.getPassword());
 
         return student;
     }

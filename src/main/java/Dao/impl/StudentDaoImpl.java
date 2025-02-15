@@ -28,7 +28,8 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
                     rs.getString("address"),
                     rs.getString("phone"),
                     faculty,
-                    rs.getString("gender").equals("male") ? Gender.male : Gender.female
+                    rs.getString("gender").equals("male") ? Gender.male : Gender.female,
+                    rs.getString("password")
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,18 +44,27 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
         }
         return null;
     }
+    public Student findStudentById(int id){
+        String query = "SELECT * FROM students WHERE id =?";
+        List<Student> resultSet=executeQuerry(query, id);
+        for(Student student: resultSet){
+            return student;
+        }
+        return null;
+    }
+
     @Override
     public void insert(Student student){
-        String query = "INSERT INTO students (name, email, address, phone, gender, faculty_id) " +
-                "VALUES (?, ?, ?, ?, ?::gender_enum, ?)";
-        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId());
+        String query = "INSERT INTO students (name, email, address, phone, gender, faculty_id,password) " +
+                "VALUES (?, ?, ?, ?, ?::gender_enum, ?,?)";
+        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId(),student.getPassword());
     }
     @Override
     public void update(Student student, String... conductions) {
         String query = "UPDATE students SET " +
-                "name =?, email =?, address =?, phone =?, gender =?::gender_enum, faculty_id =?" +
+                "name =?, email =?, address =?, phone =?, gender =?::gender_enum, faculty_id =?, password =?" +
                 " WHERE id =?";
-        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId(), student.getId());
+        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId(),student.getPassword(), student.getId());
     }
 
     public List<Student> findStudentByKeyword(String keyword) {

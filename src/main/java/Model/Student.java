@@ -31,6 +31,10 @@ import annotation.*;
         @NotNull(message="Gender cannot be null!!")
         @Column(name = "gender")
         private Gender gender;
+
+        @NotNull(message = "Password cannot be null!")
+        @Column(name = "password")
+        private String password;
         public Student() {
         }
         public Student(int id) {
@@ -42,30 +46,18 @@ import annotation.*;
             this.name = name;
             this.email = email;
         }
-        public Student(int id, String name, String email,String address,String phone) {
-            this.id = id;
-            this.name = name;
-            this.email = email;
-            this.address = address;
-            this.phone = phone;
-        }
 
-        public Student( String name, String email,String address,String phone) {
-            this.name = name;
-            this.email = email;
-            this.address = address;
-            this.phone = phone;
-        }
-    public Student( String name, String email,String address,String phone,Faculty faculty,Gender gender) {
+    public Student( String name, String email,String address,String phone,Faculty faculty,Gender gender,String password) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.faculty = faculty;
         this.gender = gender;
+        this.password =password;
     }
 
-    public Student(int id, String name, String email, String address, String phone, Faculty faculty,Gender gender) {
+    public Student(int id, String name, String email, String address, String phone, Faculty faculty,Gender gender,String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -73,6 +65,16 @@ import annotation.*;
         this.phone = phone;
         this.faculty = faculty;
         this.gender = gender;
+        this.password = password;
+    }
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getId() {

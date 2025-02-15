@@ -6,6 +6,7 @@ import Mapper.FacultyMapper;
 import Model.Faculty;
 import Service.FacultyService;
 import Utils.AlertUtil;
+import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.InvalidDataFormatException;
 
@@ -25,9 +26,9 @@ public class FacultyServiceImpl  implements FacultyService {
             ValidateUtail.validate(faculty);
             validateExistFaculty(faculty);
             this.facultyDao.insert(faculty);
-            AlertUtil.alert("Successfully Saved!!","INFORMATION");
+            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
 
@@ -36,10 +37,10 @@ public class FacultyServiceImpl  implements FacultyService {
         Faculty faculty= FacultyMapper.toEntity(facultyDto);
         try {
             ValidateUtail.validate(faculty);
-            facultyDao.update(faculty, "id");
-            AlertUtil.alert("Successfully updated","INFORMATION");
+            facultyDao.update(faculty, UtilConstants.ID_FIELD);
+            AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
 
@@ -48,7 +49,7 @@ public class FacultyServiceImpl  implements FacultyService {
         Faculty faculty = FacultyMapper.idToEntity(facultyDto);
         faculty = this.facultyDao.selectById(faculty);
         if(faculty != null &&
-                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete faculty?\n"+faculty.getEmail())){
+                AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+faculty.getEmail())){
                this.facultyDao.delete(faculty);
         }
     }
@@ -66,7 +67,7 @@ public class FacultyServiceImpl  implements FacultyService {
     private void validateExistFaculty(Faculty faculty) {
         Faculty duplicateFaculty = this.facultyDao.findFacultyByEmail(faculty.getEmail());
         if (duplicateFaculty != null) {
-            throw new InvalidDataFormatException("Duplicate faculty found!!! " + faculty.getEmail());
+            throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR + faculty.getEmail());
         }
     }
     @Override

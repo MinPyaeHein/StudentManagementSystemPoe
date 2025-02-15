@@ -1,7 +1,10 @@
 package Controller;
+import Utils.UtilConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
+import org.postgresql.core.Utils;
+
 import java.io.IOException;
 
 public class MainController {
@@ -20,12 +23,11 @@ public class MainController {
 
     @FXML
     private void showStudentManagement() {
-        loadPage("student-management.fxml");
+        loadPage(UtilConstants.STUDENT_VIEW);
     }
 
     @FXML
-    private void showTeacherManagement() {
-        loadPage("teacher-management.fxml");
+    private void showTeacherManagement() {loadPage(UtilConstants.TEACHER_VIEW);
     }
 
     @FXML
@@ -35,29 +37,31 @@ public class MainController {
 
     @FXML
     public void showFacultyManagement() {
-        loadPage("faculty-management.fxml");
+        loadPage(UtilConstants.FACULTY_VIEW);
     }
 
 
 
     @FXML
     public void showDepartmentManagement() {
-        loadPage("department-management.fxml");
+        loadPage(UtilConstants.DEPARTMENT_VIEW);
     }
 
     @FXML
     public void showDegreeManagement() {
-        loadPage("degree-management.fxml");
+        loadPage(UtilConstants.DEGREE_VIEW);
     }
     @FXML
     public void showCourseManagement() {
-        loadPage("course-management.fxml");
+        loadPage(UtilConstants.COURSE_VIEW);
     }
 
     @FXML
     public void showEnrollmentManagement() {
-        loadPage("enrollments.fxml");
+        loadPage(UtilConstants.ENROLLMENT_VIEW);
     }
+
+
 
 }
 

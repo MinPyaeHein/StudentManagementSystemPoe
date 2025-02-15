@@ -6,6 +6,7 @@ import Mapper.DepartmentMapper;
 import Model.Department;
 import Service.DepartmentService;
 import Utils.AlertUtil;
+import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.*;
 
@@ -22,10 +23,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department=DepartmentMapper.toEntity(departmentDto);
         try {
             ValidateUtail.validate(department);
-            departmentDao.update(department, "id");
-            AlertUtil.alert("Successfully updated","INFORMATION");
+            departmentDao.update(department, UtilConstants.ID_FIELD);
+            AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
 
@@ -44,9 +45,9 @@ public class DepartmentServiceImpl implements DepartmentService {
             ValidateUtail.validate(department);
             validateExistDepartment(department);
             this.departmentDao.insert(department);
-            AlertUtil.alert("Successfully Saved!!","INFORMATION");
+            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
     @Override
@@ -58,16 +59,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void delete(DepartmentDto departmentDto) {
         Department department = DepartmentMapper.idToEntity(departmentDto);
         department = this.departmentDao.selectById(department);
-        if(department!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete department?\n"+department.getDepartment())){
+        if(department!=null&& AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+department.getDepartment())){
             this.departmentDao.delete(department);
         }
     }
 
     private void validateExistDepartment(Department department) {
-        System.out.println("Arrived to validate duplicate:" + department);
         Department duplicateDepartment = this.departmentDao.findDepartmentByName(department.getDepartment());
         if (duplicateDepartment != null) {
-            throw new InvalidDataFormatException("Duplicate dep found!!! " + department.getDepartment());
+            throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR + department.getDepartment());
         }
     }
     public List<Department> searchDepartmentByKeyword(String keyword) {

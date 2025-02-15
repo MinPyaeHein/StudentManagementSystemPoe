@@ -43,8 +43,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(int studentId) {
-        return this.studentDao.selectById(new Student(studentId));
+        Student student = this.studentDao.selectById(new Student(studentId));
+        return student;
     }
+
 
     @Override
     public void saveStudent(StudentDto studentDto) {
@@ -71,7 +73,7 @@ public class StudentServiceImpl implements StudentService {
             }
             ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
         }
 
     }

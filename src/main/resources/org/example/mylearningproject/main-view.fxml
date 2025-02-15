@@ -17,9 +17,6 @@
                     <MenuItem text="Courses" onAction="#showCourseManagement"/>
                     <MenuItem text="Enrollment" onAction="#showEnrollmentManagement"/>
 
-
-
-
                 </Menu>
             </menus>
         </MenuBar>

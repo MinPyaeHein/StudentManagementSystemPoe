@@ -7,6 +7,7 @@ import Mapper.DepartmentMapper;
 import Model.Degree;
 import Service.DegreeService;
 import Utils.AlertUtil;
+import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.*;
 import java.util.List;
@@ -24,9 +25,9 @@ public class DegreeServiceImpl implements DegreeService {
         try {
             ValidateUtail.validate(degree);
             degreeDao.update(degree, "id");
-            AlertUtil.alert("Successfully updated","INFORMATION");
+            AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
 
@@ -48,9 +49,9 @@ public class DegreeServiceImpl implements DegreeService {
             ValidateUtail.validate(degree);
             validateExistDepartment(degree);
             this.degreeDao.insert(degree);
-            AlertUtil.alert("Successfully Saved!!","INFORMATION");
+            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
 
@@ -63,7 +64,7 @@ public class DegreeServiceImpl implements DegreeService {
     public void delete(DegreeDto degreeDto) {
         Degree degree = DegreeMapper.idToEntity(degreeDto);
         degree = this.degreeDao.selectById(degree);
-        if(degree!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete this degree?\n"+degree.getDegree())){
+        if(degree!=null&& AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+degree.getDegree())){
             this.degreeDao.delete(degree);
         }
     }

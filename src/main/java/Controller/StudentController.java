@@ -43,6 +43,8 @@ public class StudentController {
     @FXML
     private TableColumn<Student, String> genderColumn;
 
+    @FXML
+    private TableColumn<Student, String> passwordColumn;
 
     @FXML
     private ChoiceBox<String> choiceBoxField;
@@ -73,6 +75,9 @@ public class StudentController {
 
     @FXML
     private Button selectImageButton;
+    @FXML
+    private TextField passwordField;
+
 
 
 
@@ -115,7 +120,7 @@ public class StudentController {
             }
             return new SimpleStringProperty(genderStr);
          });
-
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
         choiceBoxField.getItems().add("----Plese Select One Faculty ----");
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
         choiceBoxField.getSelectionModel().selectFirst();
@@ -139,6 +144,7 @@ public class StudentController {
         studentDto.setGender(maleField.isSelected() ? "male" : "female");
         studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
         studentDto.setImageFile(ImgUtil.selectedImageFile);
+        studentDto.setPassword(passwordField.getText());
 
         this.studentService.saveStudent(studentDto);
         this.loadDummyData();
@@ -172,6 +178,7 @@ public class StudentController {
             studentDto.setFaculty(this.choiceBoxField.getSelectionModel().getSelectedItem());
             studentDto.setGender(maleField.isSelected() ? "male" : "female");
             studentDto.setImageFile(ImgUtil.selectedImageFile);
+            studentDto.setPassword(passwordField.getText());
             this.studentService.update(studentDto);
             studentTable.refresh();
             loadDummyData();
@@ -197,6 +204,7 @@ public class StudentController {
             }
             ImgUtil.displayProfileImage(student.getId(),"/student_images/",imageView);
             String chosed = String.valueOf(student.getFaculty().getName());
+            passwordField.setText(student.getPassword());
             choiceBoxField.setValue(chosed);
         }
     }
@@ -221,6 +229,7 @@ public class StudentController {
         choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
         imageView.setImage(null);
+        passwordField.clear();
     }
 
 
