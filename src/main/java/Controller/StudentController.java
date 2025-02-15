@@ -30,6 +30,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
+import static Utils.AlertUtil.getSelectedItem;
+
 public class StudentController {
 
     @FXML
@@ -135,7 +137,8 @@ public class StudentController {
     }
 
     @FXML
-    private void addStudent() {
+    private void addStudent() throws IOException {
+        AlertUtil.getSelectedItem(studentTable, "student");
         StudentDto studentDto = new StudentDto();
         studentDto.setName(nameField.getText());
         studentDto.setEmail(emailField.getText());
@@ -143,6 +146,9 @@ public class StudentController {
         studentDto.setPhone(phoneField.getText());
         studentDto.setGender(maleField.isSelected() ? "male" : "female");
         studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
+        studentDto.setImageFile(selectedImageFile);
+
+
         this.studentService.saveStudent(studentDto);
         this.loadDummyData();
         clearFields();
@@ -150,18 +156,14 @@ public class StudentController {
 
     @FXML
     private void deleteStudent() {
-        Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
-        if (selectedStudent != null) {
-            try {
-                ImgUtil.deleteImageWithId(selectedStudent.getId(),selectedImageFile,"student_images/");
-                this.studentService.delete(selectedStudent.getId());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            loadDummyData();
-           clearFields();
-        }
+        AlertUtil.getSelectedItem(studentTable, "student");
+        StudentDto studentDto=new StudentDto();
+        studentDto.setId(idField.getText());
+        this.studentService.delete(studentDto);
+        loadDummyData();
+        clearFields();
     }
+
     @FXML
     private void clearForm() {
             clearFields();
@@ -169,38 +171,20 @@ public class StudentController {
 
     @FXML
     private void updateStudent() {
-        Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
-        System.out.println(selectedStudent);
-        if(selectedStudent == null){
-            AlertUtil.alert("Please select a Student from the table to update.", "ERROR");
-            clearFields();
-            return;
-        }
-        if (selectedStudent != null) {
-            selectedStudent.setId(Integer.parseInt(idField.getText()));
-            selectedStudent.setName(nameField.getText());
-            selectedStudent.setEmail(emailField.getText());
-            selectedStudent.setAddress(addressField.getText());
-            selectedStudent.setPhone(phoneField.getText());
-            String facultyName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-            Faculty faculty = facultyService.findFacultyByName(facultyName);
-            selectedStudent.setFaculty(faculty);
-            String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
-            Gender gender = Gender.valueOf(genderStr);
-            selectedStudent.setGender(gender);
-            this.studentService.update(selectedStudent);
-            Student getStudentByEmail = this.studentService.getStudentByEmail(selectedStudent.getEmail());
-            try {
-                ImgUtil.saveImageWithId(getStudentByEmail.getId(),selectedImageFile,"student_images/");
-            } catch (IOException e) {
-                AlertUtil.alert( e.getMessage(), "ERROR");
-            }
-
+        StudentDto studentDto =new StudentDto();
+            studentDto.setId(idField.getText());
+            studentDto.setName(nameField.getText());
+            studentDto.setEmail(emailField.getText());
+            studentDto.setAddress(addressField.getText());
+            studentDto.setPhone(phoneField.getText());
+            studentDto.setFaculty(this.choiceBoxField.getSelectionModel().getSelectedItem());
+            studentDto.setGender(maleField.isSelected() ? "male" : "female");
+            this.studentService.update(studentDto);
             studentTable.refresh();
             loadDummyData();
             clearFields();
         }
-    }
+
     @FXML
     private void handleMouseAction(MouseEvent event) {
         Student student = studentTable.getSelectionModel().getSelectedItem();
@@ -234,8 +218,6 @@ public class StudentController {
             imageView.setImage(image);
         }
     }
-
-
 
     @FXML
     private void handleSearchAction() {

@@ -2,6 +2,8 @@ package Utils;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableView;
+
 import java.util.Optional;
 
 
@@ -26,6 +28,17 @@ public class AlertUtil {
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
     }
+
+    public static <T> T getSelectedItem(TableView<T> tableView, String itemType) {
+        T selectedItem = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            AlertUtil.alert("Please select a " + itemType + " from table", "ERROR");
+            return null;
+        }
+      return selectedItem;
+    }
+
 
 
 }

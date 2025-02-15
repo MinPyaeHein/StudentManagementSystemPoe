@@ -7,11 +7,11 @@ import java.util.List;
 
 
 public interface DegreeService {
-    public void update(Degree degree);
+    public void update(DegreeDto degreeDto);
     public List<Degree> getAllDegree();
     public Degree getDegreeById(int degreeId);
     public void saveDegree(DegreeDto degreeDto);
     public Degree findDegreeByName(String name);
-    public void delete(int id);
+    public void delete(DegreeDto degreeDto);
     public List<Degree> searchDegreeByKeyword(String keyword);
 }

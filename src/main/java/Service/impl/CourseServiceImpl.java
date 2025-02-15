@@ -19,7 +19,8 @@ public class CourseServiceImpl implements CourseService {
         coursesDao = new CoursesDaoImpl();
     }
     @Override
-    public void update(Course course) {
+    public void update(CourseDto courseDto) {
+        Course course = CourseMapper.toEntity(courseDto);
         try {
             ValidateUtail.validate(course);
             coursesDao.update(course, "id");
@@ -58,8 +59,8 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    public void delete(int id) {
-        Course course=new Course(id);
+    public void delete(CourseDto courseDto) {
+        Course course= CourseMapper.idToEntity(courseDto);
         course = this.coursesDao.selectById(course);
         if(course!=null && AlertUtil.confirmationDialog("Delete Confirmation","Are you sure you want to delete this course?\n"+course.getCourse_name())){
             this.coursesDao.delete(course);

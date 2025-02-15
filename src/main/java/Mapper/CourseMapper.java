@@ -24,8 +24,14 @@ public class CourseMapper {
         course.setDepartment(departmentService.findDepartmentByName(courseDto.getDepartment()));
         course.setTeacher(teacherService.findTeacherByName(courseDto.getTeacher()));
         course.setCreated_at(courseDto.getCreated_at());
-
         return course;
 
+    }
+    public static Course idToEntity(CourseDto courseDto){
+        Course course=new Course();
+        if(courseDto.getId()!=null){
+            course.setId(Integer.parseInt(courseDto.getId()));
+        }
+        return course;
     }
 }

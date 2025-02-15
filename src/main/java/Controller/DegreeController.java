@@ -60,29 +60,25 @@ public class DegreeController {
 
     @FXML
     private void deleteDegree() {
-        Degree selectedDegree = degreeTable.getSelectionModel().getSelectedItem();
-        if (selectedDegree != null) {
-            this.degreeService.delete(selectedDegree.getId());
+        DegreeDto degreeDto=new DegreeDto();
+        degreeDto.setId(idField.getText());
+            this.degreeService.delete(degreeDto);
             loadDummyData();
             clearFields();
         }
-    }
+
 
     @FXML
     private void updateDegree() {
-        Degree selectedDegree = degreeTable.getSelectionModel().getSelectedItem();
-        if(selectedDegree == null){
-            AlertUtil.alert("Please select a Degree from the table to update.", "ERROR");
-            clearFields();
-            return;
+    DegreeDto degreeDto=new DegreeDto();
+    degreeDto.setId(idField.getText());
+    degreeDto.setDegree(degreeField.getText());
+    this.degreeService.update(degreeDto);
+    degreeTable.refresh();
+    this.loadDummyData();
+    clearFields();
         }
-        if (selectedDegree != null) {
-            selectedDegree.setDegree(degreeField.getText());
-            this.degreeService.update(selectedDegree);
-            degreeTable.refresh();
-            clearFields();
-        }
-    }
+
 
     @FXML
     private void handleMouseAction(MouseEvent event) {

@@ -17,4 +17,12 @@ public class DegreeMapper {
         degree.setDegree(degreeDto.getDegree());
         return degree;
     }
+
+    public static Degree idToEntity(DegreeDto degreeDto){
+        Degree degree=new Degree();
+        if(degreeDto.getId()!=null){
+            degree.setId(Integer.parseInt(degreeDto.getId()));
+        }
+        return degree;
+    }
 }

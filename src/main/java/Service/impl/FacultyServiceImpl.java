@@ -32,7 +32,8 @@ public class FacultyServiceImpl  implements FacultyService {
     }
 
     @Override
-    public void update(Faculty faculty) {
+    public void update(FacultyDto facultyDto) {
+        Faculty faculty= FacultyMapper.toEntity(facultyDto);
         try {
             ValidateUtail.validate(faculty);
             facultyDao.update(faculty, "id");
@@ -43,12 +44,12 @@ public class FacultyServiceImpl  implements FacultyService {
     }
 
     @Override
-    public void delete(int id){
-        Faculty faculty = new Faculty(id);
+    public void delete(FacultyDto facultyDto){
+        Faculty faculty = FacultyMapper.idToEntity(facultyDto);
         faculty = this.facultyDao.selectById(faculty);
         if(faculty != null &&
                 AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete faculty?\n"+faculty.getEmail())){
-            this.facultyDao.delete(faculty);
+               this.facultyDao.delete(faculty);
         }
     }
 

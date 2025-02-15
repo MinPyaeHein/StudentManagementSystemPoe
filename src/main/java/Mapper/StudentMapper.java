@@ -3,8 +3,8 @@ package Mapper;
 import Dto.StudentDto;
 import Model.Gender;
 import Model.Student;
-import Service.FacultyService;
 import Service.impl.FacultyServiceImpl;
+import Exception.InvalidDataFormatException;
 
 public class StudentMapper {
     private static FacultyServiceImpl facultyService=new FacultyServiceImpl();
@@ -22,6 +22,14 @@ public class StudentMapper {
         student.setPhone(studentDto.getPhone());
         student.setFaculty(facultyService.findFacultyByName(studentDto.getFaculty()));
         student.setGender(Gender.valueOf(studentDto.getGender()));
+
+        return student;
+    }
+    public static Student idToEntity(StudentDto studentDto){
+        Student student=new Student();
+        if(studentDto.getId()!=null){
+            student.setId(Integer.parseInt(studentDto.getId()));
+        }
         return student;
     }
 }

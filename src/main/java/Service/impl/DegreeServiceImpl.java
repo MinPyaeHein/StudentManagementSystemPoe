@@ -19,9 +19,9 @@ public class DegreeServiceImpl implements DegreeService {
     }
 
     @Override
-    public void update(Degree degree) {
+    public void update(DegreeDto degreeDto) {
+        Degree degree = DegreeMapper.toEntity(degreeDto);
         try {
-
             ValidateUtail.validate(degree);
             degreeDao.update(degree, "id");
             AlertUtil.alert("Successfully updated","INFORMATION");
@@ -60,8 +60,8 @@ public class DegreeServiceImpl implements DegreeService {
     }
 
     @Override
-    public void delete(int id) {
-        Degree degree = new Degree(id);
+    public void delete(DegreeDto degreeDto) {
+        Degree degree = DegreeMapper.idToEntity(degreeDto);
         degree = this.degreeDao.selectById(degree);
         if(degree!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete this degree?\n"+degree.getDegree())){
             this.degreeDao.delete(degree);

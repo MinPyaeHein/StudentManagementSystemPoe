@@ -3,6 +3,7 @@ package Mapper;
 import Dto.TeacherDto;
 import Model.Gender;
 import Model.Teacher;
+import Service.TeacherService;
 import Service.impl.DegreeServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 
@@ -28,6 +29,13 @@ public class TeacherMapper {
         teacher.setDepartment(departmentService.findDepartmentByName(teacherDto.getDepartment()));
         teacher.setGender(Gender.valueOf(teacherDto.getGender()));
 
+        return teacher;
+    }
+    public static Teacher idToEntity(TeacherDto teacherDto){
+        Teacher teacher = new Teacher();
+        if (teacherDto.getId() != null) {
+            teacher.setId(Integer.parseInt(teacherDto.getId()));
+        }
         return teacher;
     }
     }

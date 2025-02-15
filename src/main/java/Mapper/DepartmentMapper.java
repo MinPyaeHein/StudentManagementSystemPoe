@@ -17,4 +17,13 @@ public class DepartmentMapper {
         department.setDepartment(departmentDto.getDepartment());
         return department;
     }
+
+    public static Department idToEntity(DepartmentDto departmentDto){
+        Department department=new Department();
+        if(departmentDto.getId()!=null){
+            department.setId(Integer.parseInt(departmentDto.getId()));
+
+        }
+        return department;
+    }
 }

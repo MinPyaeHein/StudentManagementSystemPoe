@@ -60,29 +60,25 @@ public class DepartmentController {
 
     @FXML
     private void deleteDepartment() {
-        Department selectedDepartment = departmentTable.getSelectionModel().getSelectedItem();
-        if (selectedDepartment != null) {
-            this.departmentService.delete(selectedDepartment.getId());
-            loadDummyData();
+        DepartmentDto departmentDto=new DepartmentDto();
+        departmentDto.setId(idField.getText());
+            this.departmentService.delete(departmentDto);
+            this.loadDummyData();
             clearFields();
-        }
+
     }
 
     @FXML
     private void updateDepartment() {
-        Department selectedDepartment = departmentTable.getSelectionModel().getSelectedItem();
-        if(selectedDepartment == null){
-            AlertUtil.alert("Please select a Department from the table to update.", "ERROR");
-            clearFields();
-            return;
-        }
-        if (selectedDepartment != null) {
-            selectedDepartment.setDepartment(departmentField.getText());
-            this.departmentService.update(selectedDepartment);
+    DepartmentDto departmentDto=new DepartmentDto();
+    departmentDto.setId(idField.getText());
+    departmentDto.setDepartment(departmentField.getText());
+            this.departmentService.update(departmentDto);
             departmentTable.refresh();
+            this.loadDummyData();
             clearFields();
-        }
     }
+
 
     @FXML
     private void handleMouseAction(MouseEvent event) {

@@ -17,9 +17,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.departmentDao = new DepartmentDaoImpl();
     }
 
-    public void update(Department department) {
+    @Override
+    public void update(DepartmentDto departmentDto) {
+        Department department=DepartmentMapper.toEntity(departmentDto);
         try {
-
             ValidateUtail.validate(department);
             departmentDao.update(department, "id");
             AlertUtil.alert("Successfully updated","INFORMATION");
@@ -28,13 +29,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
+    @Override
     public List<Department> getAllDepartment(){
         return departmentDao.selectAll();
     }
+    @Override
     public Department getDepartmentById(int departmentId) {
         return this.departmentDao.selectById(new Department(departmentId));
     }
-
+    @Override
     public void saveDepartment(DepartmentDto departmentDto) {
         Department department= DepartmentMapper.toEntity(departmentDto);
         try{
@@ -46,12 +49,14 @@ public class DepartmentServiceImpl implements DepartmentService {
             AlertUtil.alert(exception.getMessage(),"ERROR");
         }
     }
+    @Override
     public Department findDepartmentByName(String name) {
         return departmentDao.findDepartmentByName(name);
     }
 
-    public void delete(int id) {
-        Department department = new Department(id);
+    @Override
+    public void delete(DepartmentDto departmentDto) {
+        Department department = DepartmentMapper.idToEntity(departmentDto);
         department = this.departmentDao.selectById(department);
         if(department!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete department?\n"+department.getDepartment())){
             this.departmentDao.delete(department);

@@ -8,7 +8,6 @@ import annotation.Table;
 
 @Table(name="degree")
 public class Degree {
-    @NotNull(message = "Id can't be Null!!")
     @Id(name = "id")
     private int id;
     @NotNull(message = "Degree can't be Null!!")

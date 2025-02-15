@@ -22,13 +22,17 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void update(Teacher teacher){
+    public void update(TeacherDto teacherDto){
+        Teacher teacher = TeacherMapper.toEntity(teacherDto);
         try{
             ValidateUtail.validate(teacher);
             teacherDao.update(teacher,"id");
+            ImgUtil.saveImageWithId(teacher.getId(),teacherDto.getImageFile(),"teachers_images/");
             AlertUtil.alert("Successfully updated","INFORMATION");
         }catch(InvalidDataFormatException exception){
             AlertUtil.alert(exception.getMessage(),"ERROR");
+        } catch (IOException e) {
+            AlertUtil.alert(e.getMessage(),"ERROR");
         }
     }
     @Override
@@ -57,13 +61,19 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
     @Override
-    public void delete(int id){
-        Teacher teacher = new Teacher(id);
-        teacher = this.teacherDao.selectById(teacher);
-        if(teacher != null &&
-                AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+teacher.getEmail())){
-            this.teacherDao.delete(teacher);
+    public void delete(TeacherDto teacherDto){
+        Teacher teacher = TeacherMapper.idToEntity(teacherDto);
+        teacher =  this.teacherDao.selectById(teacher);
+        try {
+            if(teacher != null &&
+                    AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete teacher?\n"+teacher.getEmail())){
+                this.teacherDao.delete(teacher);
+            }
+            ImgUtil.deleteImageWithId(teacher.getId(),teacherDto.getImageFile(),"teachers_images/");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
     }
     private void checkDuplicateTeacher(Teacher teacher){
         Teacher selectedTeacher=this.teacherDao.findTeacherByEmail(teacher.getEmail());

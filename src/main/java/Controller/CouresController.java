@@ -159,10 +159,9 @@ public class CouresController {
     }
     @FXML
     private void deleteCourse(){
-        Course selectedCourse=courseTable.getSelectionModel().getSelectedItem();
-        if (selectedCourse != null) {
-            this.courseService.delete(selectedCourse.getId());
-        }
+        CourseDto courseDto=new CourseDto();
+        courseDto.setId(idField.getText());
+            this.courseService.delete(courseDto);
         loadDummyData();
         clearFields();
     }
@@ -173,29 +172,19 @@ public class CouresController {
 
     @FXML
     private void updateCourse(){
-        Course selectedCourse = courseTable.getSelectionModel().getSelectedItem();
-        if(selectedCourse == null){
-            AlertUtil.alert("Please select a course from the table to update.", "ERROR");
-            clearFields();
-            return;
-        }
-        if(selectedCourse!=null){
-            selectedCourse.setId(Integer.parseInt(idField.getText()));
-            selectedCourse.setCourse_name(courseNameField.getText());
-            selectedCourse.setCourse_code(courseCodeField.getText());
-            selectedCourse.setDescription(descriptionField.getText());
-            selectedCourse.setCredits(Integer.parseInt(creditField.getText()));
-            String departmentName = this.departmentChoiceBox.getSelectionModel().getSelectedItem();
-            Department department = departmentService.findDepartmentByName(departmentName);
-            selectedCourse.setDepartment(department);
-            String teacherName = this.teacherChoiceBox.getSelectionModel().getSelectedItem();
-            Teacher teacher = teacherService.findTeacherByName(teacherName);
-            selectedCourse.setTeacher(teacher);
-            selectedCourse.setCapacity(Integer.parseInt(capacityFied.getText()));
-            LocalDateTime updatedTime = LocalDateTime.now();
-            selectedCourse.setUpdated_at(updatedTime);
-            this.courseService.update(selectedCourse);
-        }
+        CourseDto courseDto=new CourseDto();
+        courseDto.setId(idField.getText());
+        courseDto.setCourse_name(courseNameField.getText());
+        courseDto.setCourse_code(courseCodeField.getText());
+        courseDto.setDescription(descriptionField.getText());
+        courseDto.setCredits(creditField.getText());
+        courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
+        courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
+        courseDto.setCapacity(capacityFied.getText());
+        LocalDateTime updatedTime = LocalDateTime.now();
+        courseDto.setUpdated_at(updatedTime);
+        this.courseService.update(courseDto);
+
         courseTable.refresh();
         loadDummyData();
         clearFields();

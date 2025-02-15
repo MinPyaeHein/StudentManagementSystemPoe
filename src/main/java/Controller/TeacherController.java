@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static Utils.AlertUtil.getSelectedItem;
+
 public class TeacherController {
 
     @FXML
@@ -162,56 +164,33 @@ public class TeacherController {
 
     @FXML
     private void deleteTeacher() {
-        Teacher selectedTeacher = teacherTable.getSelectionModel().getSelectedItem();
-        if (selectedTeacher != null) {
-
-            try {
-                ImgUtil.deleteImageWithId(selectedTeacher.getId(),selectedImageFile,"teachers_images/");
-                this.teacherService.delete(selectedTeacher.getId());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        AlertUtil.getSelectedItem(teacherTable, "teacher");
+        TeacherDto teacherDto=new TeacherDto();
+        teacherDto.setId(idField.getText());
+         this.teacherService.delete(teacherDto);
             loadDummyData();
             clearFields();
-        }
     }
 
     @FXML
     private void updateTeacher() {
-        Teacher selectedTeacher = teacherTable.getSelectionModel().getSelectedItem();
-        if(selectedTeacher == null){
-            AlertUtil.alert("Please select a teacher from the table to update.", "ERROR");
-            clearFields();
-            return;
-        }
-        if (selectedTeacher != null) {
-               selectedTeacher.setName(nameField.getText());
-               selectedTeacher.setEmail(emailField.getText());
-               selectedTeacher.setAddress(addressField.getText());
-               selectedTeacher.setPhone(phoneField.getText());
-               String degreeName = this.degreeChoiceField.getSelectionModel().getSelectedItem();
-               Degree degree = degreeService.findDegreeByName(degreeName);
-               selectedTeacher.setDegree(degree);
-               String departmentName=this.choiceBoxField.getSelectionModel().getSelectedItem();
-               Department department = departmentService.findDepartmentByName(departmentName);
-               selectedTeacher.setDepartment(department);
-               String genderStr=((RadioButton) genderGroup.getSelectedToggle()).getText().toLowerCase();
-               Gender gender = Gender.valueOf(genderStr);
-               selectedTeacher.setGender(gender);
-               this.teacherService.update(selectedTeacher);
-               Teacher teacher = this.teacherService.getTeacherByEmail(selectedTeacher.getEmail());
-            try {
-                ImgUtil.saveImageWithId(teacher.getId(),selectedImageFile,"teachers_images/");
-            } catch (IOException e) {
-                AlertUtil.alert("Failed to save image: ", "ERROR");
-            }
+        AlertUtil.getSelectedItem(teacherTable, "teacher");
 
-               teacherTable.refresh();
-               loadDummyData();
-               clearFields();
-        }
-
+        TeacherDto teacherDto=new TeacherDto();
+        teacherDto.setId(idField.getText());
+        teacherDto.setName(nameField.getText());
+        teacherDto.setEmail(emailField.getText());
+        teacherDto.setAddress(addressField.getText());
+        teacherDto.setPhone(phoneField.getText());
+        teacherDto.setDegree(this.degreeChoiceField.getSelectionModel().getSelectedItem());
+        teacherDto.setDepartment(this.choiceBoxField.getSelectionModel().getSelectedItem());
+        teacherDto.setGender(maleField.isSelected() ? "male" : "female");
+        this.teacherService.update(teacherDto);
+        teacherTable.refresh();
+        loadDummyData();
+        clearFields();
     }
+
 
     @FXML
     private void handleMouseAction(MouseEvent event) {

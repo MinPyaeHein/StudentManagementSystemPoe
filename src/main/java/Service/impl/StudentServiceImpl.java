@@ -21,19 +21,25 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void update(Student student) {
+    public void update(StudentDto studentDto) {
+        Student student= StudentMapper.toEntity(studentDto);
      try {
          ValidateUtail.validate(student);
+         ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),"student_images/");
          studentDao.update(student, "id");
          AlertUtil.alert("Successfully updated","INFORMATION");
      }catch(InvalidDataFormatException exception){
          AlertUtil.alert(exception.getMessage(),"ERROR");
+     } catch (IOException e) {
+         AlertUtil.alert(e.getMessage(),"ERROR");
      }
     }
+
     @Override
     public List<Student> getAllStudent(){
         return studentDao.selectAll();
     }
+
     @Override
     public Student getStudentById(int studentId) {
         return this.studentDao.selectById(new Student(studentId));
@@ -55,13 +61,18 @@ public class StudentServiceImpl implements StudentService {
         }
     }
     @Override
-    public void delete(int id) {
-        Student student = new Student(id);
-        System.out.println("Student OBJECT:" + student);
+    public void delete(StudentDto studentDto) {
+        Student student = StudentMapper.idToEntity(studentDto);
         student = this.studentDao.selectById( student);
-        if(student!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getEmail()+"\n"+student.getName())){
-            this.studentDao.delete(student);
+        try {
+            if(student!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getEmail()+"\n"+student.getName())){
+                this.studentDao.delete(student);
+            }
+            ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),"student_images/");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     private void validateExistStudent(Student student) {

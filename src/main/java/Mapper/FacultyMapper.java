@@ -20,4 +20,12 @@ public class FacultyMapper {
         faculty.setPhone(facultyDto.getPhone());
         return faculty;
     }
+
+    public static Faculty idToEntity(FacultyDto facultyDto){
+        Faculty faculty=new Faculty();
+        if(facultyDto.getId()!=null){
+            faculty.setId(Integer.parseInt(facultyDto.getId()));
+        }
+        return faculty;
+    }
 }

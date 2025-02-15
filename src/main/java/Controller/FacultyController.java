@@ -82,31 +82,26 @@ public class FacultyController {
 
     @FXML
     private void deleteFaculty() {
-        Faculty selectedTeacher = facultyTable.getSelectionModel().getSelectedItem();
-        if (selectedTeacher != null) {
-            this.facultyService.delete(selectedTeacher.getId());
-            loadDummyData();
-            clearFields();
-        }
+        FacultyDto facultyDto=new FacultyDto();
+        facultyDto.setId(idField.getText());
+        this.facultyService.delete(facultyDto);
+        loadDummyData();
+        clearFields();
     }
 
     @FXML
     private void updateFaculty() {
-        Faculty selectedFaculty = facultyTable.getSelectionModel().getSelectedItem();
-        if(selectedFaculty == null){
-            AlertUtil.alert("Please select a faculty from the table to update.", "ERROR");
-            clearFields();
-            return;
-        }
-        if (selectedFaculty != null) {
-            selectedFaculty.setName(nameField.getText());
-            selectedFaculty.setEmail(emailField.getText());
-            selectedFaculty.setWebsite_link(websiteField.getText());
-            selectedFaculty.setPhone(phoneField.getText());
-            this.facultyService.update(selectedFaculty);
-            facultyTable.refresh();
-            clearFields();
-        }
+        FacultyDto facultyDto=new FacultyDto();
+        facultyDto.setId(idField.getText());
+        facultyDto.setName(nameField.getText());
+        facultyDto.setEmail(emailField.getText());
+        facultyDto.setWebsite_link(websiteField.getText());
+        facultyDto.setPhone(phoneField.getText());
+        this.facultyService.update(facultyDto);
+        facultyTable.refresh();
+        loadDummyData();
+        clearFields();
+
     }
 
     @FXML

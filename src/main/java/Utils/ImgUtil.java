@@ -21,20 +21,34 @@ public class ImgUtil {
             e.printStackTrace();
         }
     }
-    public static void saveImageWithId(int id, File selectedImageFile,String folderName) throws IOException {
+    public static String saveImageWithId(int id, File selectedImageFile, String folderName) throws IOException {
         if (selectedImageFile != null) {
             try {
-                Path targetDirectory = Path.of(System.getProperty("user.dir"));
-                System.out.println("Target directory: " + targetDirectory.toString());
-                Path targetFile = targetDirectory.resolve(folderName+ id + ".jpg");
-                Files.createDirectories(targetFile.getParent());
+                // Get the project root directory
+                Path targetDirectory = Path.of(System.getProperty("user.dir"), folderName);
+
+                // Ensure the directory exists
+                Files.createDirectories(targetDirectory);
+
+                // Create the target file path with ID as filename
+                String newFileName = id + ".jpg"; // Image saved as "ID.jpg"
+                Path targetFile = targetDirectory.resolve(newFileName);
+
+                // Copy and replace the existing file
                 Files.copy(selectedImageFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+
                 System.out.println("Image saved at: " + targetFile.toString());
+
+                // Return only the file name (not the full path)
+                return newFileName;
             } catch (IOException e) {
                 e.printStackTrace();
+                throw e;
             }
         }
+        return null; // If no image was selected
     }
+
     public static void deleteImageWithId(Object id, File selectedImageFile, String folderName) throws IOException {
         if (selectedImageFile != null) {
             try {
