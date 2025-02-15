@@ -13,21 +13,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import Model.Faculty;
-import Exception.*;
-import javafx.stage.FileChooser;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 import static Utils.AlertUtil.getSelectedItem;
@@ -81,8 +73,8 @@ public class StudentController {
 
     @FXML
     private Button selectImageButton;
-    @FXML
-    private File selectedImageFile;
+
+
 
     private ObservableList<Student> studentList = FXCollections.observableArrayList();
 
@@ -146,8 +138,7 @@ public class StudentController {
         studentDto.setPhone(phoneField.getText());
         studentDto.setGender(maleField.isSelected() ? "male" : "female");
         studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
-        studentDto.setImageFile(selectedImageFile);
-
+        studentDto.setImageFile(ImgUtil.selectedImageFile);
 
         this.studentService.saveStudent(studentDto);
         this.loadDummyData();
@@ -159,6 +150,7 @@ public class StudentController {
         AlertUtil.getSelectedItem(studentTable, "student");
         StudentDto studentDto=new StudentDto();
         studentDto.setId(idField.getText());
+        studentDto.setImageFile(ImgUtil.selectedImageFile);
         this.studentService.delete(studentDto);
         loadDummyData();
         clearFields();
@@ -179,6 +171,7 @@ public class StudentController {
             studentDto.setPhone(phoneField.getText());
             studentDto.setFaculty(this.choiceBoxField.getSelectionModel().getSelectedItem());
             studentDto.setGender(maleField.isSelected() ? "male" : "female");
+            studentDto.setImageFile(ImgUtil.selectedImageFile);
             this.studentService.update(studentDto);
             studentTable.refresh();
             loadDummyData();
@@ -209,14 +202,7 @@ public class StudentController {
     }
     @FXML
     private void openImageFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg");
-        fileChooser.getExtensionFilters().add(extFilter);
-        selectedImageFile = fileChooser.showOpenDialog(selectImageButton.getScene().getWindow());
-        if (selectedImageFile != null) {
-            Image image = new Image(selectedImageFile.toURI().toString());
-            imageView.setImage(image);
-        }
+       ImgUtil.openFileChooser(selectImageButton,imageView);
     }
 
     @FXML
@@ -235,7 +221,6 @@ public class StudentController {
         choiceBoxField.getSelectionModel().selectFirst();
         genderGroup.selectToggle(null);
         imageView.setImage(null);
-
     }
 
 

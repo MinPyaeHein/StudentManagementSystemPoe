@@ -72,8 +72,6 @@ public class TeacherController {
     private ImageView imageView;
     @FXML
     private Button selectImageButton;
-    @FXML
-    private File selectedImageFile;
 
 
 
@@ -150,7 +148,9 @@ public class TeacherController {
         teacherDto.setDegree(degreeChoiceField.getSelectionModel().getSelectedItem());
         teacherDto.setDepartment(choiceBoxField.getSelectionModel().getSelectedItem());
         teacherDto.setGender(maleField.isSelected() ? "male" : "female");
+        teacherDto.setImageFile(ImgUtil.selectedImageFile);
         this.teacherService.saveTeacher(teacherDto);
+
         this.loadDummyData();
         clearFields();
     }
@@ -167,6 +167,7 @@ public class TeacherController {
         AlertUtil.getSelectedItem(teacherTable, "teacher");
         TeacherDto teacherDto=new TeacherDto();
         teacherDto.setId(idField.getText());
+        teacherDto.setImageFile(ImgUtil.selectedImageFile);
          this.teacherService.delete(teacherDto);
             loadDummyData();
             clearFields();
@@ -185,6 +186,7 @@ public class TeacherController {
         teacherDto.setDegree(this.degreeChoiceField.getSelectionModel().getSelectedItem());
         teacherDto.setDepartment(this.choiceBoxField.getSelectionModel().getSelectedItem());
         teacherDto.setGender(maleField.isSelected() ? "male" : "female");
+        teacherDto.setImageFile(ImgUtil.selectedImageFile);
         this.teacherService.update(teacherDto);
         teacherTable.refresh();
         loadDummyData();
@@ -218,14 +220,7 @@ public class TeacherController {
 
     @FXML
     private void openImageFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg");
-        fileChooser.getExtensionFilters().add(extFilter);
-        selectedImageFile = fileChooser.showOpenDialog(selectImageButton.getScene().getWindow());
-        if (selectedImageFile != null) {
-            Image image = new Image(selectedImageFile.toURI().toString());
-            imageView.setImage(image);
-        }
+        ImgUtil.openFileChooser(selectImageButton,imageView);
     }
 
 

@@ -8,6 +8,7 @@ import Model.Student;
 import Service.StudentService;
 import Utils.AlertUtil;
 import Utils.ImgUtil;
+import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.InvalidDataFormatException;
 
@@ -25,13 +26,13 @@ public class StudentServiceImpl implements StudentService {
         Student student= StudentMapper.toEntity(studentDto);
      try {
          ValidateUtail.validate(student);
-         ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),"student_images/");
-         studentDao.update(student, "id");
-         AlertUtil.alert("Successfully updated","INFORMATION");
+         ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
+         studentDao.update(student, UtilConstants.ID_FIELD);
+         AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
      }catch(InvalidDataFormatException exception){
-         AlertUtil.alert(exception.getMessage(),"ERROR");
+         AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
      } catch (IOException e) {
-         AlertUtil.alert(e.getMessage(),"ERROR");
+         AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
      }
     }
 
@@ -51,13 +52,13 @@ public class StudentServiceImpl implements StudentService {
         try{
             ValidateUtail.validate(student);
             validateExistStudent(student);
-            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),"student_images/");
+            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
             this.studentDao.insert(student);
-            AlertUtil.alert("Successfully Saved!!","INFORMATION");
+            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
+            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
         } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),"ERROR");
+            AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
     @Override
@@ -65,10 +66,10 @@ public class StudentServiceImpl implements StudentService {
         Student student = StudentMapper.idToEntity(studentDto);
         student = this.studentDao.selectById( student);
         try {
-            if(student!=null&& AlertUtil.confirmationDialog("Delete Confirmation","Are you sure  to Delete student?\n"+student.getEmail()+"\n"+student.getName())){
+            if(student!=null&& AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+student.getEmail()+"\n"+student.getName())){
                 this.studentDao.delete(student);
             }
-            ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),"student_images/");
+            ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -76,10 +77,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private void validateExistStudent(Student student) {
-        System.out.println("Arrived to validate duplicate:" + student);
         Student duplicateStudent = this.studentDao.findStudentByEmail(student.getEmail());
         if (duplicateStudent != null) {
-            throw new InvalidDataFormatException("Duplicate student found!!! " + student.getEmail());
+            throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR + student.getEmail());
         }
     }
     @Override

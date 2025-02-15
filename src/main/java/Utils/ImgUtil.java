@@ -1,8 +1,10 @@
 package Utils;
 
 import Model.Student;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class ImgUtil {
-
+    public static File selectedImageFile;
     public static void displayProfileImage(int id, String folderName, ImageView imageView){
         try {
             String imagePath = System.getProperty("user.dir") +  folderName + id + ".jpg";
@@ -22,6 +24,7 @@ public class ImgUtil {
         }
     }
     public static String saveImageWithId(int id, File selectedImageFile, String folderName) throws IOException {
+        System.out.println("Arrive Save student with Id");
         if (selectedImageFile != null) {
             try {
                 // Get the project root directory
@@ -72,8 +75,14 @@ public class ImgUtil {
         }
     }
 
-
-
-
-
+    public static void openFileChooser(Button selectImageButton, ImageView imageView) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg");
+        fileChooser.getExtensionFilters().add(extFilter);
+        selectedImageFile = fileChooser.showOpenDialog(selectImageButton.getScene().getWindow());
+        if (selectedImageFile != null) {
+            Image image = new Image(selectedImageFile.toURI().toString());
+            imageView.setImage(image);
+        }
+    }
 }
