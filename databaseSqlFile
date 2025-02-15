@@ -176,3 +176,7 @@ ADD CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES students(id) ON DE
 
 ALTER TABLE enrollments
 ADD CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE;
+
+--add password column
+ALTER TABLE public.students
+ADD COLUMN password character varying(255) COLLATE pg_catalog."default";
