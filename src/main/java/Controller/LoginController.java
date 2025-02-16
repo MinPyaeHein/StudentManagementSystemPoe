@@ -1,9 +1,11 @@
 package Controller;
 
-import Model.Login;
+import Dto.LoginDto;
 import Model.Student;
 import Service.impl.LoginService;
 import Service.impl.StudentServiceImpl;
+import Utils.AlertUtil;
+import Utils.UtilConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,10 +19,7 @@ import java.io.IOException;
 
 public class LoginController {
     @FXML
-    private TextField studentNameField;
-
-    @FXML
-    private TextField studentIdField;
+    private TextField gmailField;
 
     @FXML
     private PasswordField passwordField;
@@ -46,32 +45,26 @@ public class LoginController {
     public void initialize() {
         studentService=new StudentServiceImpl();
         loginService=new LoginService();
-        studentIdField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                studentIdField.setText(oldValue);
-            }
-        });
     }
 
     @FXML
     private void submit() {
-        String studentName = studentNameField.getText();
-        String studentId = studentIdField.getText();
-        String password = passwordField.getText();
-        Login login = new  Login(studentName,studentId,password);
-        Student student= loginService.submit(login);
-
-        if(student!=null){
+        String gmail = gmailField.getText().trim();
+        String password = passwordField.getText().trim();
+        LoginDto login = new LoginDto(gmail,password);
+        try{
+            loginService.login(login);
             displayView();
+        } catch (RuntimeException exception) {
+            AlertUtil.alert(exception.getMessage(), UtilConstants.ERROR_ALERT);
+            cancel();
         }
-        cancel();
     }
 
 
     @FXML
     private void cancel() {
-        studentNameField.clear();
-        studentIdField.clear();
+        gmailField.clear();
         passwordField.clear();
     }
 
@@ -81,8 +74,8 @@ public class LoginController {
             Parent root = fxmlLoader.load();
             Scene mainScene = new Scene(root);
             stage.setScene(mainScene);
-            stage.setFullScreen(false);
-            stage.setMaximized(true);
+            stage.setHeight(1000);
+            stage.setWidth(1500);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

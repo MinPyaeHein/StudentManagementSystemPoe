@@ -44,6 +44,14 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
         }
         return null;
     }
+    public Student findStudentByEmailAndPassword(String email, String password){
+        String query = "SELECT * FROM students WHERE email =? and password =?";
+        List<Student> resultSet=executeQuerry(query, email,password);
+        for(Student student: resultSet){
+            return student;
+        }
+        return null;
+    }
     public Student findStudentById(int id){
         String query = "SELECT * FROM students WHERE id =?";
         List<Student> resultSet=executeQuerry(query, id);
