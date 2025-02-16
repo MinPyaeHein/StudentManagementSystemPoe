@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollments> {
     private CoursesDaoImpl coursesDao;
@@ -19,7 +20,7 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollments> {
 
     @Override
     public Enrollments convertToObject(ResultSet rs) {
-        try{
+        try {
             Course course = this.coursesDao.selectById(new Course(rs.getInt("id")));
             Timestamp createdTimestamp = rs.getTimestamp("created_at");
             LocalDateTime created_at = (createdTimestamp != null) ? createdTimestamp.toLocalDateTime() : null;
@@ -44,4 +45,6 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollments> {
             throw new RuntimeException(e);
         }
     }
+
+
 }

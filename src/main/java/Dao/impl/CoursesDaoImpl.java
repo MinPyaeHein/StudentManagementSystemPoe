@@ -75,7 +75,7 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
 
     public List<Course> findCourseByKeyword(String keyword) {
         String query = "SELECT c.id, c.course_name, c.course_code, c.description, c.credits, " +
-                "c.department_id, c.teacher_id, c.schedule, c.capacity, c.created_at, c.updated_at " +
+                "c.department_id, c.teacher_id, c.capacity, c.created_at, c.updated_at " +
                 "FROM courses c, departments d, teachers t " +
                 "WHERE c.department_id = d.id AND c.teacher_id = t.id " +
                 "AND (" +
@@ -93,9 +93,9 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
 
         String searchPattern = "%" + keyword.toLowerCase() + "%";
         return executeQuerry(query, searchPattern, searchPattern, searchPattern, searchPattern,
-                searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
-    }
+                searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
 
+    }
 
 
 }

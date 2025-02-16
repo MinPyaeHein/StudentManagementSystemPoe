@@ -60,7 +60,6 @@ public class LoginController {
         String password = passwordField.getText();
         Login login = new  Login(studentName,studentId,password);
         Student student= loginService.submit(login);
-
         if(student!=null){
             displayView();
         }

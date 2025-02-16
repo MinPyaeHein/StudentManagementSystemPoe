@@ -2,7 +2,9 @@ package Controller;
 
 import Model.Course;
 import Service.impl.CourseServiceImpl;
+import Service.impl.EnrollmentServiceImpl;
 import Utils.AlertUtil;
+import Utils.UtilConstants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,7 +40,7 @@ public class EnrollmentController {
     @FXML
     private TableColumn<Course, String> actionColumn;
 
-    private int credit = 0;
+    private static int credit = 0;
 
 
     private CourseServiceImpl courseService;
@@ -60,27 +62,39 @@ public class EnrollmentController {
 
     @FXML
     private void handleSearchAction() {
-        List<Course> resultStudent= courseService.searchCourseByKeyword(searchField.getText());
+        List<Course> courses= courseService.searchCourseByKeyword(searchField.getText());
         courseList.clear();
-        courseList.addAll(resultStudent);
+        courseList.addAll(courses);
     }
 
     @FXML
-    private void handleTableClick(MouseEvent event) {
+    private void handleCourseTableClick(MouseEvent event) {
         Course selectedCourse = courseTable.getSelectionModel().getSelectedItem();
         if (selectedCourse != null) {
+             credit += selectedCourse.getCredits();
+            if (credit > 20) {
+                AlertUtil.alert(UtilConstants.CREDITS_MAXIMUM, UtilConstants.ERROR_ALERT);
+                return;
+            }
+           creditsTextfield.setText(String.valueOf(credit));
             selectedTable.getItems().add(selectedCourse);
             courseTable.getItems().remove(selectedCourse);
-             credit += selectedCourse.getCredits();
-             if(credit < 20){
-                 creditsTextfield.setText(String.valueOf(credit));
-            }else{
-                 AlertUtil.alert("credit can not be more than 20","Error");
-             }
-
-
         }
     }
+    @FXML
+    private void handleResultTableClick(MouseEvent event){
+        Course selectedCourse = selectedTable.getSelectionModel().getSelectedItem();
+        if(selectedCourse !=null){
+            courseTable.getItems().add(selectedCourse);
+            selectedTable.getItems().remove(selectedCourse);
+            credit -= selectedCourse.getCredits();
+            creditsTextfield.setText(String.valueOf(credit));
+        }
+
+    }
+
+
+
 
 
 

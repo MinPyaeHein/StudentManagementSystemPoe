@@ -10,14 +10,14 @@
 
 <AnchorPane prefHeight="496.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EnrollmentController">
    <children>
-      <TableView fx:id="courseTable" layoutX="68.0" layoutY="162.0" onMouseClicked="#handleTableClick" prefHeight="302.0" prefWidth="365.0">
+      <TableView fx:id="courseTable" layoutX="68.0" layoutY="162.0" onMouseClicked="#handleCourseTableClick" prefHeight="302.0" prefWidth="365.0">
         <columns>
           <TableColumn fx:id="courseCodeColumn" prefWidth="87.0" text="Course Code" />
           <TableColumn fx:id="courseNameColumn" prefWidth="168.0" text="Course Name" />
             <TableColumn fx:id="creditsColumn" prefWidth="109.60003051757815" text="Credit" />
         </columns>
       </TableView>
-      <TableView fx:id="selectedTable" layoutX="466.0" layoutY="162.0" prefHeight="200.0" prefWidth="365.0">
+      <TableView fx:id="selectedTable" layoutX="466.0" layoutY="162.0" onMouseClicked="#handleResultTableClick" prefHeight="200.0" prefWidth="365.0">
         <columns>
           <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="101.0" text="Course Code " />
           <TableColumn fx:id="selectedCourseNameColumn" prefWidth="178.0" text="Course Name" />

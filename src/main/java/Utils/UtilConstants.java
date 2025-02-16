@@ -22,6 +22,7 @@ public class UtilConstants {
     public static final String ID_FIELD = "id";
     //capacity maxium number
     public static final String CAPACITY_FIELD="The maximum capacity is 100";
+    public static final String CREDITS_MAXIMUM = "credit can not be more than 20";
 
     //constant for Views
     public static final String STUDENT_VIEW = "student-management.fxml";
