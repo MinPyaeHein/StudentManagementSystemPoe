@@ -121,7 +121,7 @@ import annotation.*;
         }
         @Override
             public String toString() {
-                return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address +  ", phone number=" + phone + "]";
+                return "Student [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address +  ", phone number=" + phone + "Password=" + password +"]";
             }
 
 

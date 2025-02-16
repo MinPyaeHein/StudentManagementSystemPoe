@@ -1,7 +1,6 @@
 package Dao.impl;
 import Dao.GeneralDao;
-import Utils.AlertUtil;
-import Utils.DaoUtail;
+import Utils.DaoUtil;
 import annotation.Column;
 import annotation.Id;
 import annotation.Table;
@@ -54,7 +53,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
         String query=null;
         try {
             String idColumn=getColumnName(obj,"Id");
-            Object object= DaoUtail.getFieldValueFromObj(obj,true,idColumn).get(0);
+            Object object= DaoUtil.getFieldValueFromObj(obj,true,idColumn).get(0);
             query  = "SELECT  * From " + this.tableName + " where "+idColumn+" = ?";
             list = executeQuerry(query, object);
         } catch (IllegalAccessException e) {
@@ -111,14 +110,14 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             int count = 1;
             if(!type.equals("delete")){
-                List<Object> values= DaoUtail.getFieldValueFromObj(obj,false ,conductions);
+                List<Object> values= DaoUtil.getFieldValueFromObj(obj,false ,conductions);
                 for (Object value : values) {
                     preparedStatement.setObject(count, value);
                     count++;
                 }
             }
             if(type.equals("update")||type.equals("delete")){
-                List<Object> values= DaoUtail.getFieldValueFromObj(obj,true,conductions);
+                List<Object> values= DaoUtil.getFieldValueFromObj(obj,true,conductions);
                 for(Object value:values){
                     preparedStatement.setObject(count, value);
                     count++;
@@ -166,7 +165,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
 
         String query = "INSERT INTO " + this.tableName + " (";
         String idColumn=getColumnName(obj,"Id");
-        List<String> fieldsName = DaoUtail.getFieldNameFromObj(obj,false ,idColumn);
+        List<String> fieldsName = DaoUtil.getFieldNameFromObj(obj,false ,idColumn);
         for (String fieldName: fieldsName) {
             query += fieldName + ", ";
         }
@@ -183,7 +182,7 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
     private String generateUpdateQuery(Object obj,String... conductions){
 
         String sql = "UPDATE " + this.tableName + " SET " ;
-        List<String> updateFields = DaoUtail.getFieldNameFromObj(obj,false,conductions);
+        List<String> updateFields = DaoUtil.getFieldNameFromObj(obj,false,conductions);
         for(String fieldName: updateFields) {
             sql += fieldName + " = ?, ";
         }

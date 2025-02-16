@@ -7,6 +7,7 @@ import Service.impl.CourseServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
 import Utils.AlertUtil;
+import Utils.DateTimeUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -106,31 +107,17 @@ public class CouresController {
 
         createdTimeColumn.setCellValueFactory(cellData -> {
             LocalDateTime createdAt = cellData.getValue().getCreated_at();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-            if (createdAt != null) {
-                return new SimpleStringProperty(createdAt.format(formatter));
-            } else {
-                return new SimpleStringProperty("Invalid Date");
-            }
+            return new SimpleStringProperty(DateTimeUtil.DateFormatter(createdAt));
+
         });
         updatedTimeColumn.setCellValueFactory(cellData -> {
             LocalDateTime updatedAt = cellData.getValue().getUpdated_at();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-            if (updatedAt == null) {
-                return new SimpleStringProperty("Not updated yet");
-            } else {
-                return new SimpleStringProperty(updatedAt.format(formatter));
+            try{
+                return new SimpleStringProperty(DateTimeUtil.DateFormatter(updatedAt));
+            } catch (RuntimeException e) {
+                return new SimpleStringProperty("Invalidate Date Time Format");
             }
-        });
-        creditField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                creditField.setText(oldValue);
-            }
-        });
-        capacityFied.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                capacityFied.setText(oldValue);
-            }
+
         });
 
         courseTable.setItems(courseList);

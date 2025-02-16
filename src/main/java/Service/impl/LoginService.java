@@ -1,12 +1,11 @@
 package Service.impl;
 
 import Dao.impl.StudentDaoImpl;
-import Model.Login;
+import Dto.LoginDto;
 import Model.Student;
-import Utils.AlertUtil;
-import Utils.UtilConstants;
+import Utils.DaoUtil;
 import Utils.ValidateUtail;
-import Exception.InvalidDataFormatException;
+import Exception.*;
 
 public class LoginService {
     private StudentDaoImpl studentDao;
@@ -16,34 +15,18 @@ public class LoginService {
     }
 
 
-    public Student submit(Login login) {
-        try {
-            ValidateUtail.validate(login);
-            int studentId = Integer.parseInt(login.getStudentId());
-
-            Student student = getValidInputField(studentId, login.getPassword());
-            return student;
-        } catch (InvalidDataFormatException exception) {
-            AlertUtil.alert(exception.getMessage(), UtilConstants.ERROR_ALERT);
-            return null;
-        }
+    public void login(LoginDto loginDto) {
+            ValidateUtail.validate(loginDto);
+            authenticateUser(loginDto);
     }
 
-    private Student getValidInputField(int studentId, String password) {
-        Student student = studentDao.findStudentById(studentId);
-
-        if (student == null || studentId != student.getId()) {
-            AlertUtil.alert(UtilConstants.STUDENT_ID_CANNOT_FOUND, UtilConstants.ERROR_ALERT);
-            return null;
+    private void authenticateUser(LoginDto loginDto) {
+        Student student = studentDao.findStudentByEmailAndPassword(loginDto.getGmail(), loginDto.getPassword());
+        if (student == null ) {
+            throw new UserNotFountException("Please enter correct email and password !!");
+        }else{
+            DaoUtil.authStudent=student;
         }
-
-        if (!password.equals(student.getPassword())) {
-            AlertUtil.alert(UtilConstants.INCORRECT_PASSWORD, UtilConstants.ERROR_ALERT);
-            return null;
-        }
-
-        return student;
     }
-
 }
 

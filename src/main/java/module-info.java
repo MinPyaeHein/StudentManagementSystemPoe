@@ -14,5 +14,7 @@ module org.example.mylearningproject {
     exports Model;
     exports Controller;
     opens Controller to javafx.fxml;
+    exports Dto;
+    opens Dto to javafx.base;
 
 }

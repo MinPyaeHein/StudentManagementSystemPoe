@@ -2,6 +2,7 @@ package Utils;
 
 
 
+import Model.Student;
 import annotation.Column;
 import annotation.Id;
 import annotation.ManyToOne;
@@ -10,8 +11,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DaoUtail {
-
+public class DaoUtil {
+    public static Student authStudent=null;
     public static List<String> getFieldNameFromObj(Object obj,Boolean need,String... fields){
         List<String> fieldsName = new ArrayList<String>();
         for (Field field: obj.getClass().getDeclaredFields()){
