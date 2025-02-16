@@ -231,7 +231,4 @@ public class StudentController {
         imageView.setImage(null);
         passwordField.clear();
     }
-
-
-
 }
