@@ -15,6 +15,7 @@ public class HelloApplication extends Application {
         Parent root = fxmlLoader.load();
         Scene loginScene = new Scene(root, 400, 400);
         stage.setScene(loginScene);
+        stage.centerOnScreen();
         stage.setTitle("Student Management - Login");
         LoginController loginController = fxmlLoader.getController();
         loginController.setStage(stage);

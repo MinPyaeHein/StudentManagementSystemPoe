@@ -115,7 +115,7 @@ public class CouresController {
             try{
                 return new SimpleStringProperty(DateTimeUtil.DateFormatter(updatedAt));
             } catch (RuntimeException e) {
-                return new SimpleStringProperty("Invalidate Date Time Format");
+                return new SimpleStringProperty("Not updated yet");
             }
 
         });

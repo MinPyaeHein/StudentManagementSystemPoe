@@ -74,8 +74,10 @@ public class LoginController {
             Parent root = fxmlLoader.load();
             Scene mainScene = new Scene(root);
             stage.setScene(mainScene);
-            stage.setHeight(1000);
+            stage.setHeight(800);
             stage.setWidth(1500);
+            stage.centerOnScreen();
+
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -10,13 +10,13 @@ public class DateTimeUtil {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
     public static String DateFormatter(LocalDateTime createdAt) {
-      try{
-          return createdAt.format(formatter);
-      }catch (RuntimeException e){
-          throw new DateTimeParseException("Invalid date format", createdAt.toString(), 0, e);
-      }
-
-
+        if (createdAt == null) {
+            return "N/A";
+        }
+        try {
+            return createdAt.format(formatter);
+        } catch (RuntimeException e) {
+            throw new DateTimeParseException("Invalid date format", createdAt.toString(), 0, e);
+        }
     }
-
 }

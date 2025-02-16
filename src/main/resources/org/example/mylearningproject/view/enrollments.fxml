@@ -6,42 +6,69 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="496.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EnrollmentController">
    <children>
-      <TableView fx:id="courseTable" layoutX="68.0" layoutY="162.0" onMouseClicked="#handleCourseTableClick" prefHeight="302.0" prefWidth="365.0">
-        <columns>
-          <TableColumn fx:id="courseCodeColumn" prefWidth="87.0" text="Course Code" />
-          <TableColumn fx:id="courseNameColumn" prefWidth="168.0" text="Course Name" />
-            <TableColumn fx:id="creditsColumn" prefWidth="109.60003051757815" text="Credit" />
-        </columns>
-      </TableView>
-      <TableView fx:id="selectedTable" layoutX="466.0" layoutY="162.0" onMouseClicked="#handleResultTableClick" prefHeight="200.0" prefWidth="365.0">
-        <columns>
-          <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="101.0" text="Course Code " />
-          <TableColumn fx:id="selectedCourseNameColumn" prefWidth="178.0" text="Course Name" />
-            <TableColumn fx:id="actionColumn" prefWidth="106.0" text="Action" />
-        </columns>
-      </TableView>
-      <TextField fx:id="searchField" layoutX="272.0" layoutY="130.0" onKeyPressed="#handleSearchAction" />
-      <Label layoutX="221.0" layoutY="135.0" text="Search:" />
-      <Label layoutX="466.0" layoutY="126.0" text="Current Credit ">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="690.0" layoutY="126.0" text="Maxinum Credit  20">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Button fx:id="enrollmentbutton" layoutX="466.0" layoutY="394.0" mnemonicParsing="false" text="Enrollment" />
-      <Label layoutX="352.0" layoutY="75.0" text="Course Enrollment ">
+      <StackPane layoutX="7.0" layoutY="91.0" prefHeight="405.0" prefWidth="846.0">
+         <children>
+            <Pane prefHeight="402.0" prefWidth="846.0">
+               <children>
+                  <Pane layoutX="466.0" layoutY="89.0" prefHeight="265.0" prefWidth="366.0">
+                     <children>
+                        <HBox layoutX="1.0" layoutY="1.0" prefHeight="26.0" prefWidth="210.0" spacing="15.0">
+                           <children>
+                              <Label prefHeight="22.0" prefWidth="107.0" text="Current Credit ">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="creditsTextfield" disable="true" prefHeight="26.0" prefWidth="86.0" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="selectedTable" layoutX="1.0" layoutY="26.0" onMouseClicked="#handleResultTableClick" prefHeight="200.0" prefWidth="365.0">
+                          <columns>
+                            <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="101.0" text="Course Code " />
+                            <TableColumn fx:id="selectedCourseNameColumn" prefWidth="178.0" text="Course Name" />
+                              <TableColumn fx:id="actionColumn" prefWidth="106.0" text="Action" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="236.0" layoutY="4.0" text="Maxinum Credit  20">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="enrollmentbutton" layoutX="7.0" layoutY="239.0" mnemonicParsing="false" text="Enrollment" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="57.0" layoutY="24.0" prefHeight="354.0" prefWidth="366.0">
+                     <children>
+                        <TableView fx:id="courseTable" layoutX="1.0" layoutY="50.0" onMouseClicked="#handleCourseTableClick" prefHeight="302.0" prefWidth="365.0">
+                          <columns>
+                            <TableColumn fx:id="courseCodeColumn" prefWidth="87.0" text="Course Code" />
+                            <TableColumn fx:id="courseNameColumn" prefWidth="168.0" text="Course Name" />
+                              <TableColumn fx:id="creditsColumn" prefWidth="109.60003051757815" text="Credit" />
+                          </columns>
+                        </TableView>
+                        <HBox layoutX="156.0" layoutY="14.0" prefHeight="30.0" prefWidth="210.0" spacing="20.0">
+                           <children>
+                              <Label text="Search:" />
+                              <TextField fx:id="searchField" onKeyPressed="#handleSearchAction" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+      <Label layoutY="45.0" prefHeight="30.0" prefWidth="846.0" style="-fx-alignment: center;" text="Course Enrollment ">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="creditsTextfield" disable="true" layoutX="564.0" layoutY="123.0" prefHeight="26.0" prefWidth="38.0" />
    </children>
 </AnchorPane>

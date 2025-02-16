@@ -19,7 +19,6 @@
 
 <AnchorPane prefHeight="856.0" prefWidth="1261.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
     <children>
-        <ScrollPane layoutX="39.0" layoutY="88.0" prefHeight="566.0" prefWidth="256.0">
         <VBox layoutX="36.0" layoutY="88.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
               <StackPane prefHeight="182.0" prefWidth="242.0" style="-fx-background-color: gray;">
                <children>
@@ -70,7 +69,6 @@
                 </font>
             </Label>
         </VBox>
-        </ScrollPane>
 
         <TableView fx:id="teacherTable" layoutX="332.0" layoutY="127.0" onMouseClicked="#handleMouseAction" prefHeight="390.0" prefWidth="914.0">
             <columns>
