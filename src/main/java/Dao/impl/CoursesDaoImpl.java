@@ -73,6 +73,8 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
         return null;
     }
 
+
+
     public List<Course> findCourseByKeyword(String keyword) {
         String query = "SELECT c.id, c.course_name, c.course_code, c.description, c.credits, " +
                 "c.department_id, c.teacher_id, c.capacity, c.created_at, c.updated_at " +

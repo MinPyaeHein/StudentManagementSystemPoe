@@ -1,6 +1,7 @@
 package Mapper;
 
 import Dto.StudentDto;
+import Model.Faculty;
 import Model.Gender;
 import Model.Student;
 import Service.impl.FacultyServiceImpl;
@@ -20,7 +21,8 @@ public class StudentMapper {
         student.setEmail(studentDto.getEmail());
         student.setAddress(studentDto.getAddress());
         student.setPhone(studentDto.getPhone());
-        student.setFaculty(facultyService.findFacultyByName(studentDto.getFaculty()));
+        Faculty faculty = facultyService.findFacultyByName(studentDto.getFaculty());
+        student.setFaculty(faculty);
         student.setGender(Gender.valueOf(studentDto.getGender()));
         student.setPassword(studentDto.getPassword());
 

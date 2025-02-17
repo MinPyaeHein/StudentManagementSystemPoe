@@ -4,6 +4,8 @@ import Dao.impl.CoursesDaoImpl;
 import Dto.CourseDto;
 import Mapper.CourseMapper;
 import Model.Course;
+import Model.Department;
+import Model.Teacher;
 import Service.CourseService;
 import Utils.AlertUtil;
 import Utils.UtilConstants;
@@ -85,7 +87,10 @@ public class CourseServiceImpl implements CourseService {
             if (duplicateCourseCode != null || duplicateCourseName !=null) {
                 throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR+course.getCourse_name()+"\n"+course.getCourse_code());
             }
-
-
         }
+    public Course findCourseByName(String name) {
+        return coursesDao.findCourseByName(name);
+    }
+
+
 }

@@ -1,9 +1,11 @@
 package Controller;
 
+import Dto.EnrollmentDto;
 import Model.Course;
 import Service.impl.CourseServiceImpl;
 import Service.impl.EnrollmentServiceImpl;
 import Utils.AlertUtil;
+import Utils.DaoUtil;
 import Utils.UtilConstants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnrollmentController {
@@ -45,10 +48,12 @@ public class EnrollmentController {
 
     private CourseServiceImpl courseService;
     ObservableList<Course> courseList;
+    private EnrollmentServiceImpl enrollmentService;
 
     @FXML
     public void initialize(){
         courseService=new CourseServiceImpl();
+        enrollmentService=new EnrollmentServiceImpl();
         courseNameColumn.setCellValueFactory(new PropertyValueFactory<>("course_name"));
         courseCodeColumn.setCellValueFactory(new PropertyValueFactory<>("course_code"));
         creditsColumn.setCellValueFactory(new PropertyValueFactory<>("credits"));
@@ -56,8 +61,6 @@ public class EnrollmentController {
         courseTable.setItems(courseList);
         selectedCourseNameColumn.setCellValueFactory(new PropertyValueFactory<>("course_name"));
         selectedCourseCodeColumn.setCellValueFactory(new PropertyValueFactory<>("course_code"));
-
-
     }
 
     @FXML
@@ -79,6 +82,7 @@ public class EnrollmentController {
            creditsTextfield.setText(String.valueOf(credit));
             selectedTable.getItems().add(selectedCourse);
             courseTable.getItems().remove(selectedCourse);
+
         }
     }
     @FXML
@@ -89,7 +93,21 @@ public class EnrollmentController {
             selectedTable.getItems().remove(selectedCourse);
             credit -= selectedCourse.getCredits();
             creditsTextfield.setText(String.valueOf(credit));
+
         }
 
     }
+
+    @FXML
+    public void enrollmentBtn(){
+        EnrollmentDto enrollmentDto=new EnrollmentDto();
+        int student_id = DaoUtil.authStudent.getId();
+        enrollmentDto.setStudent_id(String.valueOf(student_id));
+        for (Course course : selectedTable.getItems()) {
+            enrollmentDto.setCourse((course.getCourse_name()));
+            this.enrollmentService.saveEnrollment(enrollmentDto);
+        }
+        selectedTable.getItems().clear();
+    }
+
 }

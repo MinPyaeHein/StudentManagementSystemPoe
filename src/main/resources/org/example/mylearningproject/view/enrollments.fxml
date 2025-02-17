@@ -41,7 +41,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="enrollmentbutton" layoutX="7.0" layoutY="239.0" mnemonicParsing="false" text="Enrollment" />
+                        <Button fx:id="enrollmentbutton"  onAction="#enrollmentBtn" layoutX="7.0" layoutY="239.0" mnemonicParsing="false" text="Enrollment" />
                      </children>
                   </Pane>
                   <Pane layoutX="57.0" layoutY="24.0" prefHeight="354.0" prefWidth="366.0">

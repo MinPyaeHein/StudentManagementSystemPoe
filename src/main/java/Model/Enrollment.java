@@ -1,22 +1,19 @@
 package Model;
 
-import annotation.Column;
-import annotation.Id;
-import annotation.NotNull;
-import annotation.Table;
+import annotation.*;
 
 import java.time.LocalDateTime;
 
 @Table(name = "enrollments")
-public class Enrollments {
+public class Enrollment {
     @Id(name = "id")
     private int id;
     @NotNull(message = "Student id can't be null")
     @Column(name = "student_id")
-    private String student_id;
+    private int student_id;
     @NotNull(message = "Course id cannot be null")
-    @Column(name = "course_id")
-    private Course course_id;
+    @ManyToOne(name = "course_id")
+    private Course course;
     @Column(name = "enrollment_date")
     private LocalDateTime enrollment_date;
     @Column(name = "grade")
@@ -26,23 +23,23 @@ public class Enrollments {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
-    public Enrollments(){
+    public Enrollment(){
 
     }
 
-    public Enrollments(int id, String student_id, Course course_id, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
         this.id = id;
         this.student_id = student_id;
-        this.course_id = course_id;
+        this.course = course;
         this.enrollment_date = enrollment_date;
         this.grade = grade;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
 
-    public Enrollments(String student_id, Course course_id, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Enrollment(int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
         this.student_id = student_id;
-        this.course_id = course_id;
+        this.course = course;
         this.enrollment_date = enrollment_date;
         this.grade = grade;
         this.created_at = created_at;
@@ -57,20 +54,20 @@ public class Enrollments {
         this.id = id;
     }
 
-    public String getStudent_id() {
+    public int getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(String student_id) {
+    public void setStudent_id(int student_id) {
         this.student_id = student_id;
     }
 
-    public Course getCourse_id() {
-        return course_id;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourse_id(Course course_id) {
-        this.course_id = course_id;
+    public void setCourse_id(Course course) {
+        this.course = course;
     }
 
     public LocalDateTime getEnrollment_date() {
@@ -103,5 +100,18 @@ public class Enrollments {
 
     public void setUpdated_at(LocalDateTime updated_at) {
         this.updated_at = updated_at;
+    }
+
+    @Override
+    public String toString() {
+        return "Enrollments{" +
+                "id=" + id +
+                ", student_id=" + student_id +
+                ", course=" + course +
+                ", enrollment_date=" + enrollment_date +
+                ", grade='" + grade + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
     }
 }

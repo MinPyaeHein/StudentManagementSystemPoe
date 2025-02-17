@@ -171,4 +171,19 @@ public class Course {
     }
 
 
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", course_name='" + course_name + '\'' +
+                ", course_code='" + course_code + '\'' +
+                ", description='" + description + '\'' +
+                ", credits=" + credits +
+                ", department=" + department +
+                ", teacher=" + teacher +
+                ", capacity=" + capacity +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
+    }
 }
