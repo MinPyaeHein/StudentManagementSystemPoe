@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DepartmentController">
+<AnchorPane prefHeight="700.0" prefWidth="1500.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DepartmentController">
     <children>
         <VBox layoutX="378.0" layoutY="81.0" prefHeight="206.0" prefWidth="226.0" spacing="10.0">
             <Label text="ID:">
@@ -41,7 +41,7 @@
                 <Font size="26.0" />
             </font>
         </Label>
-        <Label layoutX="559.0" layoutY="70.0" prefWidth="57.0" text="Search:" />
+        <Label layoutX="816.0" layoutY="81.0" prefWidth="57.0" text="Search:" />
         <TextField fx:id="searchField" layoutX="886.0" layoutY="77.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

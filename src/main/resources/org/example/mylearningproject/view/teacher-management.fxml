@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="856.0" prefWidth="1261.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
+<AnchorPane prefHeight="700.0" prefWidth="1500.0"  stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TeacherController">
     <children>
         <VBox layoutX="107.0" layoutY="65.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
               <StackPane prefHeight="182.0" prefWidth="242.0" style="-fx-background-color: gray;">

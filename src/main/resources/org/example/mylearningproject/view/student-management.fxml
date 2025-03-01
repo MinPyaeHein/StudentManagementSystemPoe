@@ -16,9 +16,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="822.0" prefWidth="1321.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
+<?import java.net.URL?>
+<AnchorPane prefHeight="700.0" prefWidth="1500.0"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controller.StudentController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
     <children>
-        
+
         <VBox layoutX="93.0" layoutY="85.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0" AnchorPane.bottomAnchor="286.80000000000007" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="985.8000000000001" AnchorPane.topAnchor="85.0">
             <StackPane prefHeight="182.0" prefWidth="242.0" style="-fx-background-color: gray;">
                 <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true" />

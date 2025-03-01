@@ -63,13 +63,13 @@ public class LoginController {
     }
 
     public void displayView(){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/mylearningproject/view/main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/mylearningproject/main-view.fxml"));
         try{
             Parent root = fxmlLoader.load();
             Scene mainScene = new Scene(root);
             stage.setScene(mainScene);
-            stage.setHeight(800);
-            stage.setWidth(1550);
+            stage.setHeight(700);
+            stage.setWidth(1500);
             stage.centerOnScreen();
 
             stage.show();
