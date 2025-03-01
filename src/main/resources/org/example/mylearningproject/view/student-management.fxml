@@ -19,7 +19,7 @@
 <AnchorPane prefHeight="822.0" prefWidth="1321.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.StudentController">
     <children>
         
-        <VBox layoutX="38.0" layoutY="66.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
+        <VBox layoutX="93.0" layoutY="85.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0" AnchorPane.bottomAnchor="286.80000000000007" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="985.8000000000001" AnchorPane.topAnchor="85.0">
             <StackPane prefHeight="182.0" prefWidth="242.0" style="-fx-background-color: gray;">
                 <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
@@ -58,7 +58,7 @@
          </Label>
          <ChoiceBox fx:id="choiceBoxField" prefHeight="26.0" prefWidth="243.0" />
         </VBox>
-        <TableView fx:id="studentTable" layoutX="687.0" layoutY="195.0" onMouseClicked="#handleMouseAction" prefHeight="502.0" prefWidth="605.0">
+        <TableView fx:id="studentTable" layoutX="634.0" layoutY="128.0" onMouseClicked="#handleMouseAction" prefHeight="502.0" prefWidth="605.0" AnchorPane.bottomAnchor="191.60000000000002" AnchorPane.leftAnchor="633.8000000000001" AnchorPane.rightAnchor="81.39999999999998" AnchorPane.topAnchor="127.60000000000002">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
@@ -70,42 +70,46 @@
             <TableColumn fx:id="passwordColumn" minWidth="0.0" prefWidth="129.60002441406255" text="Password" />
             </columns>
         </TableView>
-      <Label layoutX="499.0" layoutY="27.0" text="Student Management ">
+      <Label alignment="CENTER" layoutX="-1.0" layoutY="27.0" prefHeight="38.0" prefWidth="1321.0" text="Student Management ">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="901.0" layoutY="71.0" prefWidth="57.0" text="Search:" />
-      <TextField fx:id="searchField" layoutX="966.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
-         <HBox layoutX="292.0" layoutY="529.0" spacing="10.0">
-             <Button onAction="#addStudent" text="Add" />
-             <Button onAction="#updateStudent" text="Update" />
-             <Button onAction="#deleteStudent" text="Delete" />
-             <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
-         </HBox>
-         <Label layoutX="326.0" layoutY="254.0" text="Email:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-         <TextField fx:id="emailField" layoutX="326.0" layoutY="286.0" />
-         <Label layoutX="326.0" layoutY="322.0" text="Address:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-         <TextField fx:id="addressField" layoutX="326.0" layoutY="354.0" />
-         <Label layoutX="326.0" layoutY="390.0" text="Phone Number:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-         <TextField fx:id="phoneField" layoutX="326.0" layoutY="422.0" promptText="09-xxxxxxxxx" />
-      <Label layoutX="326.0" layoutY="458.0" text="Password">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="passwordField" layoutX="326.0" layoutY="490.0" />
+      <Label layoutX="1025.0" layoutY="100.0" prefWidth="57.0" text="Search:" />
+      <TextField fx:id="searchField" layoutX="1090.0" layoutY="95.0" onKeyTyped="#handleSearchAction" />
+      <VBox layoutX="352.0" layoutY="238.0" prefHeight="247.0" prefWidth="235.0" spacing="10.0">
+         <children>
+               <Label text="Email:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+               <TextField fx:id="emailField" />
+               <Label text="Address:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+               <TextField fx:id="addressField" />
+               <Label text="Phone Number:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+               <TextField fx:id="phoneField" promptText="09-xxxxxxxxx" />
+            <Label text="Password">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="passwordField" />
+               <HBox spacing="10.0">
+                   <Button onAction="#addStudent" text="Add" />
+                   <Button onAction="#updateStudent" text="Update" />
+                   <Button onAction="#deleteStudent" text="Delete" />
+                   <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
+               </HBox>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>

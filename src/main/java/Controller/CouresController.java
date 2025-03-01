@@ -8,6 +8,7 @@ import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
 import Utils.AlertUtil;
 import Utils.DateTimeUtil;
+import Utils.UtilConstants;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -91,7 +92,7 @@ public class CouresController {
             return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
         });
 
-        departmentChoiceBox.getItems().add("--Please select one Department--");
+        departmentChoiceBox.getItems().add(UtilConstants.SELECT_ITEM);
         departmentChoiceBox.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
         departmentChoiceBox.getSelectionModel().selectFirst();
         teacherColumn.setCellValueFactory(cellData -> {
@@ -99,7 +100,7 @@ public class CouresController {
             return new SimpleStringProperty(teacher != null ? teacher.getName(): "No Teacher Name");
         });
 
-        teacherChoiceBox.getItems().add("--Please select one teacher--");
+        teacherChoiceBox.getItems().add(UtilConstants.SELECT_ITEM);
         teacherChoiceBox.getItems().addAll(teacherService.getAllTeacher().stream().map(Teacher::getName).toList());
         teacherChoiceBox.getSelectionModel().selectFirst();
 

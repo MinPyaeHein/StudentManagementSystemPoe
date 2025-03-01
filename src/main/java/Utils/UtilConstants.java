@@ -6,6 +6,8 @@ public class UtilConstants {
     public static final String STUDENT_IMAGE_PATH = "student_images/";
     //Constant for teacher path
     public  static final  String TEACHER_IMAGE_PATH = "teachers_images/";
+    public  static final  String TEACHER_IMAGE_FOLDER_PATH = "/teachers_images/";
+    public  static final  String STUDENT_IMAGE_FOLDER_PATH = "/student_images/";
 
     //Constant for Alerts
     public static final String UPDATE_SUCCESS_MESSAGE = "Successfully updated";
@@ -17,6 +19,10 @@ public class UtilConstants {
     public static final String DUPLICATE_RECORD_ERROR = "Duplicate Record found!!! ";
     public static final String STUDENT_ID_CANNOT_FOUND = "Student not found. Try again";
     public static final String INCORRECT_PASSWORD = "Incorrect password. Try again.";
+    public static final String NO_SELECTED_ENROLLMENT_ERROR = "No enrollments Selected";
+
+    public static final String SELECT_ITEM = "--Please Select one item--";
+
 
     //Constant for Fields
     public static final String ID_FIELD = "id";

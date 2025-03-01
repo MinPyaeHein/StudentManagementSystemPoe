@@ -98,16 +98,22 @@ public class EnrollmentController {
 
     }
 
-    @FXML
-    public void enrollmentBtn(){
-        EnrollmentDto enrollmentDto=new EnrollmentDto();
-        int student_id = DaoUtil.authStudent.getId();
+@FXML
+public void enrollmentBtn() {
+    List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
+    int student_id = DaoUtil.authStudent.getId();
+
+    for (Course course : selectedTable.getItems()) {
+        EnrollmentDto enrollmentDto = new EnrollmentDto();
         enrollmentDto.setStudent_id(String.valueOf(student_id));
-        for (Course course : selectedTable.getItems()) {
-            enrollmentDto.setCourse((course.getCourse_name()));
-            this.enrollmentService.saveEnrollment(enrollmentDto);
-        }
-        selectedTable.getItems().clear();
+        enrollmentDto.setCourse(course.getCourse_name());
+        enrollmentDtos.add(enrollmentDto);
     }
+    this.enrollmentService.saveEnrollment(enrollmentDtos);
+    selectedTable.getItems().clear();
+    creditsTextfield.clear();
+}
+
+
 
 }

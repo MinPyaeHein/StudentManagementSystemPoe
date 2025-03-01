@@ -10,33 +10,38 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="517.0" prefWidth="1205.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FacultyController">
+<AnchorPane prefHeight="536.0" prefWidth="1209.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FacultyController">
     <children>
-        <VBox layoutX="81.0" layoutY="76.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
+        <VBox layoutX="156.0" layoutY="85.0" prefHeight="277.0" prefWidth="242.0" spacing="10.0">
             <Label text="ID:">
                 <font>
                     <Font size="15.0" />
-                </font></Label>
+                </font>
+         </Label>
             <TextField fx:id="idField" />
             <Label text="Name:">
                 <font>
                     <Font size="15.0" />
-                </font></Label>
+                </font>
+         </Label>
             <TextField fx:id="nameField" />
             <Label text="Email:">
                 <font>
                     <Font size="15.0" />
-                </font></Label>
+                </font>
+         </Label>
             <TextField fx:id="emailField" />
             <Label text="Website Link">
                 <font>
                     <Font size="15.0" />
-                </font></Label>
+                </font>
+         </Label>
             <TextField fx:id="websiteField" />
             <Label text="Phone Number:">
                 <font>
                     <Font size="15.0" />
-                </font></Label>
+                </font>
+         </Label>
             <TextField fx:id="phoneField" promptText="09-xxxxxxxxx" />
             <HBox spacing="10.0">
                 <Button onAction="#addFaculty" text="Add" />
@@ -45,21 +50,21 @@
                 <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="facultyTable" layoutX="413.0" layoutY="99.0" onMouseClicked="#handleMouseAction" prefHeight="346.0" prefWidth="636.0">
+        <TableView fx:id="facultyTable" layoutX="449.0" layoutY="95.0" onMouseClicked="#handleMouseAction" prefHeight="346.0" prefWidth="636.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="100.0" text="ID" />
-                <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
-                <TableColumn fx:id="emailColumn" prefWidth="115.0" text="Email" />
-                <TableColumn fx:id="websiteLinkColumn" prefWidth="154.4000244140625" text="Website Link" />
+                <TableColumn fx:id="nameColumn" prefWidth="81.60003662109375" text="Name" />
+                <TableColumn fx:id="emailColumn" prefWidth="126.4000244140625" text="Email" />
+                <TableColumn fx:id="websiteLinkColumn" prefWidth="177.5999755859375" text="Website Link" />
                 <TableColumn fx:id="phoneColumn" prefWidth="149.59991455078125" text="Phone Number" />
             </columns>
         </TableView>
-        <Label layoutX="497.0" layoutY="14.0" text="Faculty Management ">
+        <Label alignment="CENTER" layoutX="3.0" layoutY="14.0" prefHeight="38.0" prefWidth="1205.0" text="Faculty Management ">
             <font>
                 <Font size="26.0" />
             </font>
         </Label>
-        <Label layoutX="945.0" layoutY="71.0" prefWidth="57.0" text="Search:" />
-        <TextField fx:id="searchField" layoutX="1010.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
+        <Label layoutX="870.0" layoutY="68.0" prefWidth="57.0" text="Search:" />
+        <TextField fx:id="searchField" layoutX="935.0" layoutY="63.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

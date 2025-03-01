@@ -8,6 +8,7 @@ import Service.impl.FacultyServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
 import Utils.ImgUtil;
+import Utils.UtilConstants;
 import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -121,7 +122,7 @@ public class StudentController {
             return new SimpleStringProperty(genderStr);
          });
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-        choiceBoxField.getItems().add("----Plese Select One Faculty ----");
+        choiceBoxField.getItems().add(UtilConstants.SELECT_ITEM);
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
         choiceBoxField.getSelectionModel().selectFirst();
         studentTable.setItems(studentList);
@@ -135,29 +136,31 @@ public class StudentController {
 
     @FXML
     private void addStudent() throws IOException {
-        AlertUtil.getSelectedItem(studentTable, "student");
-        StudentDto studentDto = new StudentDto();
-        studentDto.setName(nameField.getText());
-        studentDto.setEmail(emailField.getText());
-        studentDto.setAddress(addressField.getText());
-        studentDto.setPhone(phoneField.getText());
-        studentDto.setGender(maleField.isSelected() ? "male" : "female");
-        studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
-        studentDto.setImageFile(ImgUtil.selectedImageFile);
-        studentDto.setPassword(passwordField.getText());
+       if(AlertUtil.getSelectedItem(studentTable, "student") !=null) {
+           StudentDto studentDto = new StudentDto();
+           studentDto.setName(nameField.getText());
+           studentDto.setEmail(emailField.getText());
+           studentDto.setAddress(addressField.getText());
+           studentDto.setPhone(phoneField.getText());
+           studentDto.setGender(maleField.isSelected() ? "male" : "female");
+           studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
+           studentDto.setImageFile(ImgUtil.selectedImageFile);
+           studentDto.setPassword(passwordField.getText());
 
-        this.studentService.saveStudent(studentDto);
+           this.studentService.saveStudent(studentDto);
+       }
         this.loadDummyData();
         clearFields();
     }
 
     @FXML
     private void deleteStudent() {
-        AlertUtil.getSelectedItem(studentTable, "student");
-        StudentDto studentDto=new StudentDto();
-        studentDto.setId(idField.getText());
-        studentDto.setImageFile(ImgUtil.selectedImageFile);
-        this.studentService.delete(studentDto);
+        if(AlertUtil.getSelectedItem(studentTable, "student") !=null) {
+            StudentDto studentDto = new StudentDto();
+            studentDto.setId(idField.getText());
+            studentDto.setImageFile(ImgUtil.selectedImageFile);
+            this.studentService.delete(studentDto);
+        }
         loadDummyData();
         clearFields();
     }
@@ -202,7 +205,7 @@ public class StudentController {
                     genderGroup.selectToggle(femaleField);
                 }
             }
-            ImgUtil.displayProfileImage(student.getId(),"/student_images/",imageView);
+            ImgUtil.displayProfileImage(student.getId(),UtilConstants.STUDENT_IMAGE_FOLDER_PATH,imageView);
             String chosed = String.valueOf(student.getFaculty().getName());
             passwordField.setText(student.getPassword());
             choiceBoxField.setValue(chosed);

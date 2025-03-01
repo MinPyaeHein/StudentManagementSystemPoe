@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="496.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EnrollmentController">
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EnrollmentController">
    <children>
-      <StackPane layoutX="7.0" layoutY="91.0" prefHeight="405.0" prefWidth="846.0">
+      <StackPane layoutX="370.0" layoutY="94.0" prefHeight="405.0" prefWidth="846.0">
          <children>
             <Pane prefHeight="402.0" prefWidth="846.0">
                <children>
@@ -31,9 +31,8 @@
                         </HBox>
                         <TableView fx:id="selectedTable" layoutX="1.0" layoutY="26.0" onMouseClicked="#handleResultTableClick" prefHeight="200.0" prefWidth="365.0">
                           <columns>
-                            <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="101.0" text="Course Code " />
-                            <TableColumn fx:id="selectedCourseNameColumn" prefWidth="178.0" text="Course Name" />
-                              <TableColumn fx:id="actionColumn" prefWidth="106.0" text="Action" />
+                            <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="175.199951171875" text="Course Code " />
+                            <TableColumn fx:id="selectedCourseNameColumn" prefWidth="189.60003662109375" text="Course Name" />
                           </columns>
                         </TableView>
                         <Label layoutX="236.0" layoutY="4.0" text="Maxinum Credit  20">
@@ -41,7 +40,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="enrollmentbutton"  onAction="#enrollmentBtn" layoutX="7.0" layoutY="239.0" mnemonicParsing="false" text="Enrollment" />
+                        <Button fx:id="enrollmentbutton" layoutX="7.0" layoutY="239.0" mnemonicParsing="false" onAction="#enrollmentBtn" text="Enrollment" />
                      </children>
                   </Pane>
                   <Pane layoutX="57.0" layoutY="24.0" prefHeight="354.0" prefWidth="366.0">
@@ -65,7 +64,7 @@
             </Pane>
          </children>
       </StackPane>
-      <Label layoutY="45.0" prefHeight="30.0" prefWidth="846.0" style="-fx-alignment: center;" text="Course Enrollment ">
+      <Label layoutY="45.0" prefHeight="30.0" prefWidth="1550.0" style="-fx-alignment: center;" text="Course Enrollment ">
          <font>
             <Font size="20.0" />
          </font>

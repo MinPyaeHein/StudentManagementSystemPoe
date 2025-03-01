@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="471.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DegreeController">
+<AnchorPane prefHeight="800.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DegreeController">
     <children>
-        <VBox layoutX="109.0" layoutY="70.0" prefHeight="206.0" prefWidth="226.0" spacing="10.0">
+        <VBox layoutX="446.0" layoutY="56.0" prefHeight="206.0" prefWidth="226.0" spacing="10.0">
             <Label text="ID:">
                 <font>
                     <Font size="15.0" />
@@ -30,18 +30,18 @@
                 <Button mnemonicParsing="false" onAction="#clearForm" text="Clear" />
             </HBox>
         </VBox>
-        <TableView fx:id="degreeTable" layoutX="386.0" layoutY="100.0" onMouseClicked="#handleMouseAction" prefHeight="346.0" prefWidth="379.0">
+        <TableView fx:id="degreeTable" layoutX="723.0" layoutY="86.0" onMouseClicked="#handleMouseAction" prefHeight="346.0" prefWidth="379.0">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="112.0" text="ID" />
                 <TableColumn fx:id="degreeColumn" prefWidth="266.40001220703124" text="Degree" />
             </columns>
         </TableView>
-        <Label layoutX="253.0" layoutY="28.0" text="Degree Management ">
+        <Label layoutX="590.0" layoutY="14.0" text="Degree Management ">
             <font>
                 <Font size="26.0" />
             </font>
         </Label>
-        <Label layoutX="559.0" layoutY="70.0" prefWidth="57.0" text="Search:" />
-        <TextField fx:id="searchField" layoutX="617.0" layoutY="66.0" onKeyTyped="#handleSearchAction" />
+        <Label layoutX="896.0" layoutY="56.0" prefWidth="57.0" text="Search:" />
+        <TextField fx:id="searchField" layoutX="954.0" layoutY="52.0" onKeyTyped="#handleSearchAction" />
     </children>
 </AnchorPane>

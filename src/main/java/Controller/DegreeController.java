@@ -43,7 +43,6 @@ public class DegreeController {
         loadDummyData();
     }
 
-
     private void loadDummyData() {
         degreeList.clear();
         degreeList.addAll(degreeService.getAllDegree());

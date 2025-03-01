@@ -7,6 +7,7 @@ import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
 import Utils.AlertUtil;
 import Utils.ImgUtil;
+import Utils.UtilConstants;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -105,14 +106,14 @@ public class TeacherController {
             return new SimpleStringProperty(degree != null ? degree.getDegree() : "No Degree");
         });
 
-        degreeChoiceField.getItems().add("--Please select one Degree--");
+        degreeChoiceField.getItems().add(UtilConstants.SELECT_ITEM);
         degreeChoiceField.getItems().addAll(degreeService.getAllDegree().stream().map(Degree::getDegree).toList());
-        degreeChoiceField.getSelectionModel().selectFirst();  // Select first item
+        degreeChoiceField.getSelectionModel().selectFirst();
 
 
-        choiceBoxField.getItems().add("--Please select one Department--");
+        choiceBoxField.getItems().add(UtilConstants.SELECT_ITEM);
         choiceBoxField.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
-        choiceBoxField.getSelectionModel().selectFirst();  // Select first item
+        choiceBoxField.getSelectionModel().selectFirst();
 
 
         genderColumn.setCellValueFactory(cellData ->{
@@ -214,7 +215,7 @@ public class TeacherController {
                     genderGroup.selectToggle(femaleField);
                 }
             }
-            ImgUtil.displayProfileImage(teacher.getId(),"/teachers_images/",imageView);
+            ImgUtil.displayProfileImage(teacher.getId(),UtilConstants.TEACHER_IMAGE_FOLDER_PATH,imageView);
         }
     }
 
