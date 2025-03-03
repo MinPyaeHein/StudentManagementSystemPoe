@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Enrollment;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,7 @@ public class ApplicationStarter extends Application {
         stage.setTitle("Student Management - Login");
         LoginController loginController = fxmlLoader.getController();
         loginController.setStage(stage);
+
 
         stage.setResizable(false);
         stage.show();

@@ -14,9 +14,12 @@ import Exception.InvalidDataFormatException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentServiceImpl implements StudentService {
     private StudentDaoImpl studentDao;
+    public static int studentId;
+    public static String studentName;
     public StudentServiceImpl() {
         this.studentDao = new StudentDaoImpl();
     }
@@ -42,11 +45,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudentById(int studentId) {
-        Student student = this.studentDao.selectById(new Student(studentId));
-        return student;
+    public Student getStudentById(int id) {
+        try {
+            Student studentRow = studentDao.selectById(new Student(id));
+            if (studentRow != null) {
+                studentId = studentRow.getId();
+                studentName = studentRow.getName();
+                return studentRow;
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            AlertUtil.alert("Student id does not Exist", UtilConstants.ERROR_ALERT);
+        }
+        return null;
     }
-
 
     @Override
     public void saveStudent(StudentDto studentDto) {
@@ -63,6 +74,7 @@ public class StudentServiceImpl implements StudentService {
             AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
         }
     }
+
     @Override
     public void delete(StudentDto studentDto) {
         Student student = StudentMapper.idToEntity(studentDto);
@@ -84,10 +96,12 @@ public class StudentServiceImpl implements StudentService {
             throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR + student.getEmail());
         }
     }
+
     @Override
     public Student getStudentByEmail(String email) {
         return this.studentDao.findStudentByEmail(email);
     }
+
     @Override
     public List<Student> searchStudentByKeyword(String keyword) {
         return studentDao.findStudentByKeyword(keyword);

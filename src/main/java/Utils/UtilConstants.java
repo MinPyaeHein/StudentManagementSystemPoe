@@ -39,5 +39,6 @@ public class UtilConstants {
     public static final String COURSE_VIEW = "course-management.fxml";
     public static final String LOGIN_VIEW = "login.fxml";
     public static final String ENROLLMENT_VIEW = "enrollments.fxml";
+    public static final String ENROLLMENT_LOGIN_VIEW = "enrollments-login.fxml";
 
 }

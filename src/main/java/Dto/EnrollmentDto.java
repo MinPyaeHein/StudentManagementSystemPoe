@@ -1,11 +1,11 @@
 package Dto;
 
-import java.util.List;
 
 public class EnrollmentDto {
     private String id;
     private String student_id;
     private String course;
+    private String status;
 
     public String getStudent_id() {
         return student_id;
@@ -30,5 +30,13 @@ public class EnrollmentDto {
 
     public void setCourse(String course) {
         this.course = course;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

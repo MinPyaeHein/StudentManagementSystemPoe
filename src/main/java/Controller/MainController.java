@@ -57,8 +57,8 @@ public class MainController {
     }
 
     @FXML
-    public void showEnrollmentManagement() {
-        loadPage(UtilConstants.ENROLLMENT_VIEW);
+    public void showEnrollmentLoginManagement() {
+        loadPage(UtilConstants.ENROLLMENT_LOGIN_VIEW);
     }
 
 
