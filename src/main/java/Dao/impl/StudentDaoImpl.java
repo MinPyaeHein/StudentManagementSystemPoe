@@ -65,7 +65,8 @@ public class StudentDaoImpl extends GeneralDaoImpl<Student> {
     public void insert(Student student){
         String query = "INSERT INTO students (name, email, address, phone, gender, faculty_id,password) " +
                 "VALUES (?, ?, ?, ?, ?::gender_enum, ?,?)";
-        executeUpdate(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId(),student.getPassword());
+      int studentId =   executeInsertAndRetrieveId(query, student.getName(), student.getEmail(), student.getAddress(), student.getPhone(), student.getGender().name(), student.getFaculty().getId(),student.getPassword());
+      student.setId(studentId);
     }
     @Override
     public void update(Student student, String... conductions) {

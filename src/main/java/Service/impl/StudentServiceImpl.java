@@ -65,8 +65,8 @@ public class StudentServiceImpl implements StudentService {
         try{
             ValidateUtail.validate(student);
             validateExistStudent(student);
-            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
             this.studentDao.insert(student);
+            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
             AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(InvalidDataFormatException exception){
             AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);

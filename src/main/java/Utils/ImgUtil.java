@@ -24,7 +24,8 @@ public class ImgUtil {
         }
     }
     public static String saveImageWithId(int id, File selectedImageFile, String folderName) throws IOException {
-        System.out.println("Arrive Save student with Id");
+        System.out.println("Arrive Save student with Id" + id);
+
         if (selectedImageFile != null) {
             try {
                 // Get the project root directory

@@ -49,8 +49,8 @@ public class TeacherServiceImpl implements TeacherService {
         try{
             ValidateUtail.validate(teacher);
             checkDuplicateTeacher(teacher);
-            ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), UtilConstants.TEACHER_IMAGE_PATH);
             this.teacherDao.insert(teacher);
+            ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), UtilConstants.TEACHER_IMAGE_PATH);
             AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
         }catch(UserAlreadyExist exception){
             AlertUtil.alert(exception.getMessage() + teacher.getEmail(), UtilConstants.ERROR_ALERT);

@@ -39,7 +39,8 @@ public class TeacherDaoImpl extends GeneralDaoImpl<Teacher> {
     public void insert(Teacher teacher){
         String query = "INSERT INTO teachers (name, email, address, phone,degree_id,department_id, gender) " +
                 "VALUES (?, ?, ?, ?, ?, ? , ?::gender_enum)";
-        executeUpdate(query, teacher.getName(), teacher.getEmail(), teacher.getAddress(), teacher.getPhone(),teacher.getDegree().getId(),teacher.getDepartment().getId(), teacher.getGender().name());
+       int teacherId =  executeInsertAndRetrieveId(query, teacher.getName(), teacher.getEmail(), teacher.getAddress(), teacher.getPhone(),teacher.getDegree().getId(),teacher.getDepartment().getId(), teacher.getGender().name());
+        teacher.setId(teacherId);
     }
 
     public void update(Teacher teacher, String... conductions) {
