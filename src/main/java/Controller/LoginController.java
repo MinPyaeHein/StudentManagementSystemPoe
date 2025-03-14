@@ -1,11 +1,11 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.LoginDto;
 import Model.Student;
 import Service.impl.LoginService;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
-import Utils.UtilConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -50,7 +50,7 @@ public class LoginController {
             loginService.login(login);
             displayView();
         } catch (RuntimeException exception) {
-            AlertUtil.alert(exception.getMessage(), UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(), Constants.Alerts.ERROR);
             cancel();
         }
     }

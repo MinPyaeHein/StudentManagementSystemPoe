@@ -1,6 +1,7 @@
 package Service.impl;
 
 
+import Constant.Constants;
 import Dao.impl.StudentDaoImpl;
 import Dto.StudentDto;
 import Mapper.StudentMapper;
@@ -8,7 +9,6 @@ import Model.Student;
 import Service.StudentService;
 import Utils.AlertUtil;
 import Utils.ImgUtil;
-import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.InvalidDataFormatException;
 
@@ -26,13 +26,13 @@ public class StudentServiceImpl implements StudentService {
         Student student= StudentMapper.toEntity(studentDto);
      try {
          ValidateUtail.validate(student);
-         ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
-         studentDao.update(student, UtilConstants.ID_FIELD);
-         AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+         ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(), Constants.ImagePaths.STUDENT_FOLDER);
+         studentDao.update(student, Constants.FieldConstraints.ID);
+         AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
      }catch(InvalidDataFormatException exception){
-         AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+         AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
      } catch (IOException e) {
-         AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
+         AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
      }
     }
 
@@ -54,13 +54,13 @@ public class StudentServiceImpl implements StudentService {
         try{
             ValidateUtail.validate(student);
             validateExistStudent(student);
-            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
+            ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),Constants.ImagePaths.STUDENT_FOLDER);
             this.studentDao.insert(student);
-            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
         } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
         }
     }
     @Override
@@ -68,12 +68,12 @@ public class StudentServiceImpl implements StudentService {
         Student student = StudentMapper.idToEntity(studentDto);
         student = this.studentDao.selectById( student);
         try {
-            if(student!=null&& AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+student.getEmail()+"\n"+student.getName())){
+            if(student!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+student.getEmail()+"\n"+student.getName())){
                 this.studentDao.delete(student);
             }
-            ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),UtilConstants.STUDENT_IMAGE_PATH);
+            ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),Constants.ImagePaths.STUDENT_FOLDER);
         } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
         }
 
     }
@@ -81,7 +81,7 @@ public class StudentServiceImpl implements StudentService {
     private void validateExistStudent(Student student) {
         Student duplicateStudent = this.studentDao.findStudentByEmail(student.getEmail());
         if (duplicateStudent != null) {
-            throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR + student.getEmail());
+            throw new InvalidDataFormatException(Constants.Alerts.DUPLICATE_RECORD + student.getEmail());
         }
     }
     @Override

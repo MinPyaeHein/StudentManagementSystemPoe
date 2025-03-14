@@ -1,13 +1,12 @@
 package Service.impl;
 
+import Constant.Constants;
 import Dao.impl.DegreeDaoImpl;
 import Dto.DegreeDto;
 import Mapper.DegreeMapper;
-import Mapper.DepartmentMapper;
 import Model.Degree;
 import Service.DegreeService;
 import Utils.AlertUtil;
-import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.*;
 import java.util.List;
@@ -25,9 +24,9 @@ public class DegreeServiceImpl implements DegreeService {
         try {
             ValidateUtail.validate(degree);
             degreeDao.update(degree, "id");
-            AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
         }
     }
 
@@ -49,9 +48,9 @@ public class DegreeServiceImpl implements DegreeService {
             ValidateUtail.validate(degree);
             validateExistDepartment(degree);
             this.degreeDao.insert(degree);
-            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
         }
     }
 
@@ -64,7 +63,7 @@ public class DegreeServiceImpl implements DegreeService {
     public void delete(DegreeDto degreeDto) {
         Degree degree = DegreeMapper.idToEntity(degreeDto);
         degree = this.degreeDao.selectById(degree);
-        if(degree!=null&& AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+degree.getDegree())){
+        if(degree!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+degree.getDegree())){
             this.degreeDao.delete(degree);
         }
     }

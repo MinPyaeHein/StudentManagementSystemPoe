@@ -1,13 +1,11 @@
 package Service.impl;
 
+import Constant.Constants;
 import Dao.impl.EnrollmentDaoImpl;
 import Dto.EnrollmentDto;
 import Mapper.EnrollmentMapper;
 import Model.Enrollment;
 import Utils.AlertUtil;
-import Utils.UtilConstants;
-import Exception.InvalidDataFormatException;
-
 import java.util.List;
 
 public class EnrollmentServiceImpl {
@@ -20,9 +18,9 @@ public class EnrollmentServiceImpl {
                 Enrollment enrollments = EnrollmentMapper.toEntity(enrollmentDto);
                 this.enrollmentDao.insert(enrollments);
             }
-            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE, UtilConstants.INFO_ALERT);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         } else {
-            AlertUtil.alert(UtilConstants.NO_SELECTED_ENROLLMENT_ERROR, UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(Constants.Alerts.NO_SELECTED_ENROLLMENT, Constants.Alerts.ERROR);
         }
     }
 }

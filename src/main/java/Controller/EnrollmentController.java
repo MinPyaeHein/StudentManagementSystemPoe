@@ -1,12 +1,12 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.EnrollmentDto;
 import Model.Course;
 import Service.impl.CourseServiceImpl;
 import Service.impl.EnrollmentServiceImpl;
 import Utils.AlertUtil;
 import Utils.DaoUtil;
-import Utils.UtilConstants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,7 +76,7 @@ public class EnrollmentController {
         if (selectedCourse != null) {
              credit += selectedCourse.getCredits();
             if (credit > 20) {
-                AlertUtil.alert(UtilConstants.CREDITS_MAXIMUM, UtilConstants.ERROR_ALERT);
+                AlertUtil.alert(Constants.FieldConstraints.MAX_CREDITS, Constants.Alerts.ERROR);
                 return;
             }
            creditsTextfield.setText(String.valueOf(credit));

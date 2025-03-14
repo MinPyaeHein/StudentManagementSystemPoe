@@ -1,14 +1,13 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.CourseDto;
 import Model.*;
 
 import Service.impl.CourseServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
-import Utils.AlertUtil;
 import Utils.DateTimeUtil;
-import Utils.UtilConstants;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class CouresController {
@@ -92,7 +89,7 @@ public class CouresController {
             return new SimpleStringProperty(department != null ? department.getDepartment() : "No Department");
         });
 
-        departmentChoiceBox.getItems().add(UtilConstants.SELECT_ITEM);
+        departmentChoiceBox.getItems().add(Constants.Selections.SELECT_ITEM);
         departmentChoiceBox.getItems().addAll(departmentService.getAllDepartment().stream().map(Department::getDepartment).toList());
         departmentChoiceBox.getSelectionModel().selectFirst();
         teacherColumn.setCellValueFactory(cellData -> {
@@ -100,7 +97,7 @@ public class CouresController {
             return new SimpleStringProperty(teacher != null ? teacher.getName(): "No Teacher Name");
         });
 
-        teacherChoiceBox.getItems().add(UtilConstants.SELECT_ITEM);
+        teacherChoiceBox.getItems().add(Constants.Selections.SELECT_ITEM);
         teacherChoiceBox.getItems().addAll(teacherService.getAllTeacher().stream().map(Teacher::getName).toList());
         teacherChoiceBox.getSelectionModel().selectFirst();
 

@@ -1,5 +1,6 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.StudentDto;
 import Model.Gender;
 import Model.Student;
@@ -8,7 +9,6 @@ import Service.impl.FacultyServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
 import Utils.ImgUtil;
-import Utils.UtilConstants;
 import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,8 +22,6 @@ import javafx.scene.input.MouseEvent;
 import Model.Faculty;
 import java.io.IOException;
 import java.util.List;
-
-import static Utils.AlertUtil.getSelectedItem;
 
 public class StudentController {
 
@@ -122,7 +120,7 @@ public class StudentController {
             return new SimpleStringProperty(genderStr);
          });
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-        choiceBoxField.getItems().add(UtilConstants.SELECT_ITEM);
+        choiceBoxField.getItems().add(Constants.Selections.SELECT_ITEM);
         choiceBoxField.getItems().addAll(facultyService.getAllFaculty().stream().map(Faculty::getName).toList());
         choiceBoxField.getSelectionModel().selectFirst();
         studentTable.setItems(studentList);
@@ -205,7 +203,7 @@ public class StudentController {
                     genderGroup.selectToggle(femaleField);
                 }
             }
-            ImgUtil.displayProfileImage(student.getId(),UtilConstants.STUDENT_IMAGE_FOLDER_PATH,imageView);
+            ImgUtil.displayProfileImage(student.getId(), Constants.ImagePaths.STUDENT_FOLDER,imageView);
             String chosed = String.valueOf(student.getFaculty().getName());
             passwordField.setText(student.getPassword());
             choiceBoxField.setValue(chosed);

@@ -1,12 +1,12 @@
 package Service.impl;
 
+import Constant.Constants;
 import Dao.impl.DepartmentDaoImpl;
 import Dto.DepartmentDto;
 import Mapper.DepartmentMapper;
 import Model.Department;
 import Service.DepartmentService;
 import Utils.AlertUtil;
-import Utils.UtilConstants;
 import Utils.ValidateUtail;
 import Exception.*;
 
@@ -23,10 +23,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department=DepartmentMapper.toEntity(departmentDto);
         try {
             ValidateUtail.validate(department);
-            departmentDao.update(department, UtilConstants.ID_FIELD);
-            AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            departmentDao.update(department, Constants.FieldConstraints.ID);
+            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
         }
     }
 
@@ -45,9 +45,9 @@ public class DepartmentServiceImpl implements DepartmentService {
             ValidateUtail.validate(department);
             validateExistDepartment(department);
             this.departmentDao.insert(department);
-            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
         }
     }
     @Override
@@ -59,7 +59,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void delete(DepartmentDto departmentDto) {
         Department department = DepartmentMapper.idToEntity(departmentDto);
         department = this.departmentDao.selectById(department);
-        if(department!=null&& AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+department.getDepartment())){
+        if(department!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+department.getDepartment())){
             this.departmentDao.delete(department);
         }
     }
@@ -67,7 +67,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private void validateExistDepartment(Department department) {
         Department duplicateDepartment = this.departmentDao.findDepartmentByName(department.getDepartment());
         if (duplicateDepartment != null) {
-            throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR + department.getDepartment());
+            throw new InvalidDataFormatException(Constants.Alerts.DUPLICATE_RECORD + department.getDepartment());
         }
     }
     public List<Department> searchDepartmentByKeyword(String keyword) {

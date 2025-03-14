@@ -1,5 +1,5 @@
 package Controller;
-import Utils.UtilConstants;
+import Constant.Constants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
@@ -23,11 +23,11 @@ public class MainController {
 
     @FXML
     private void showStudentManagement() {
-        loadPage(UtilConstants.STUDENT_VIEW);
+        loadPage(Constants.Views.STUDENT);
     }
 
     @FXML
-    private void showTeacherManagement() {loadPage(UtilConstants.TEACHER_VIEW);
+    private void showTeacherManagement() {loadPage(Constants.Views.TEACHER);
     }
 
     @FXML
@@ -37,28 +37,28 @@ public class MainController {
 
     @FXML
     public void showFacultyManagement() {
-        loadPage(UtilConstants.FACULTY_VIEW);
+        loadPage(Constants.Views.FACULTY);
     }
 
 
 
     @FXML
     public void showDepartmentManagement() {
-        loadPage(UtilConstants.DEPARTMENT_VIEW);
+        loadPage(Constants.Views.DEPARTMENT);
     }
 
     @FXML
     public void showDegreeManagement() {
-        loadPage(UtilConstants.DEGREE_VIEW);
+        loadPage(Constants.Views.DEGREE);
     }
     @FXML
     public void showCourseManagement() {
-        loadPage(UtilConstants.COURSE_VIEW);
+        loadPage(Constants.Views.COURSE);
     }
 
     @FXML
     public void showEnrollmentManagement() {
-        loadPage(UtilConstants.ENROLLMENT_VIEW);
+        loadPage(Constants.Views.ENROLLMENT);
     }
 
 

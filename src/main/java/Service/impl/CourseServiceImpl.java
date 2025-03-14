@@ -1,14 +1,12 @@
 package Service.impl;
 
+import Constant.Constants;
 import Dao.impl.CoursesDaoImpl;
 import Dto.CourseDto;
 import Mapper.CourseMapper;
 import Model.Course;
-import Model.Department;
-import Model.Teacher;
 import Service.CourseService;
 import Utils.AlertUtil;
-import Utils.UtilConstants;
 import Utils.ValidateUtail;
 
 import java.util.List;
@@ -26,10 +24,10 @@ public class CourseServiceImpl implements CourseService {
         Course course = CourseMapper.toEntity(courseDto);
         try {
             ValidateUtail.validate(course);
-            coursesDao.update(course, UtilConstants.ID_FIELD);
-            AlertUtil.alert(UtilConstants.UPDATE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            coursesDao.update(course, Constants.FieldConstraints.ID);
+            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(exception.getMessage(), Constants.Alerts.ERROR);
         }
     }
 
@@ -50,12 +48,12 @@ public class CourseServiceImpl implements CourseService {
             ValidateUtail.validate(course);
             validateExistCourse(course);
             if(course.getCapacity() > 100){
-                throw new InvalidDataFormatException(UtilConstants.CAPACITY_FIELD);
+                throw new InvalidDataFormatException(Constants.FieldConstraints.MAX_CAPACITY);
             }
             this.coursesDao.insert(course);
-            AlertUtil.alert(UtilConstants.SAVE_SUCCESS_MESSAGE,UtilConstants.INFO_ALERT);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS, Constants.Alerts.SAVE_SUCCESS);
         }catch (InvalidDataFormatException e){
-            AlertUtil.alert(e.getMessage(),UtilConstants.ERROR_ALERT);
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
         }
 
     }
@@ -65,7 +63,7 @@ public class CourseServiceImpl implements CourseService {
     public void delete(CourseDto courseDto) {
         Course course= CourseMapper.idToEntity(courseDto);
         course = this.coursesDao.selectById(course);
-        if(course!=null && AlertUtil.confirmationDialog(UtilConstants.DELETE_CONFIRM_TITLE,UtilConstants.DELETE_CONFIRM_MESSAGE+"\n"+course.getCourse_name())){
+        if(course!=null && AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE, Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+course.getCourse_name())){
             this.coursesDao.delete(course);
         }
 
@@ -85,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
             Course duplicateCourseCode = this.coursesDao.findCourseByCode(course.getCourse_code());
             Course duplicateCourseName = this.coursesDao.findCourseByName(course.getCourse_name());
             if (duplicateCourseCode != null || duplicateCourseName !=null) {
-                throw new InvalidDataFormatException(UtilConstants.DUPLICATE_RECORD_ERROR+course.getCourse_name()+"\n"+course.getCourse_code());
+                throw new InvalidDataFormatException(Constants.Alerts.DUPLICATE_RECORD+course.getCourse_name()+"\n"+course.getCourse_code());
             }
         }
     public Course findCourseByName(String name) {
