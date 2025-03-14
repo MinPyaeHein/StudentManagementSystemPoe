@@ -9,7 +9,6 @@ import Service.impl.EnrollmentServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
 import Utils.DateTimeUtil;
-import Utils.UtilConstants;
 import Utils.viewUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -71,6 +70,9 @@ public class EnrollmentController {
         enrollments = enrollmentService.getAllEnrolledCourses(studentId);
         ObservableList<Enrollment> enrollmentObservableList = FXCollections.observableArrayList(enrollments);
         selectedTable.setItems(enrollmentObservableList);
+       calculateCredit();
+        selectedTable.setItems(FXCollections.observableArrayList(enrollments));
+
     }
 
     private void initializeServices() {
@@ -98,8 +100,6 @@ public class EnrollmentController {
         selectedStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
-
-
     @FXML
     private void handleSearchAction() {
         List<Course> courses= courseService.searchCourseByKeyword(searchField.getText());
@@ -111,15 +111,20 @@ public class EnrollmentController {
     private void handleCourseTableClick(MouseEvent event) {
         Course selectedCourse = courseTable.getSelectionModel().getSelectedItem();
         if (selectedCourse != null) {
-            credit += selectedCourse.getCredits();
-            if (credit > 20) {
+            int newTotalCredits = credit + selectedCourse.getCredits();
+
+            if (newTotalCredits > 20) {
                 AlertUtil.alert(Constants.FieldConstraints.MAX_CREDITS, Constants.Alerts.ERROR);
                 return;
             }
+
+            credit = newTotalCredits;
             creditsTextfield.setText(String.valueOf(credit));
+
             updateCourseAndEnrollment(selectedCourse);
         }
     }
+
 
     private void updateCourseAndEnrollment(Course selectedCourse) {
         Enrollment enrollment = new Enrollment();
@@ -145,17 +150,36 @@ public class EnrollmentController {
     public void enrollmentBtn() {
         List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
         for (Enrollment enrollment : selectedTable.getItems()) {
-            if (!enrollmentService.isEnrollmentRegistered(enrollment)) {
+            if(!enrollment.getStatus().equals("Registered")) {
                 EnrollmentDto enrollmentDto = new EnrollmentDto();
                 enrollmentDto.setStudent_id(String.valueOf(studentId));
                 enrollmentDto.setCourse(enrollment.getCourse().getCourse_name());
+                enrollmentDto.setStatus("Registered");
                 enrollmentDtos.add(enrollmentDto);
-                enrollment.setStatus("Registered");
+                setBackGroundColor();
             }
         }
         enrollmentService.saveEnrollment(enrollmentDtos);
+        reloadEnrollmentTable();
+
+    }
+    private void reloadEnrollmentTable() {
+        List<Enrollment> enrollments = enrollmentService.getAllEnrolledCourses(studentId);
+        calculateCredit();
+        selectedTable.getItems().setAll(FXCollections.observableArrayList(enrollments));
         selectedTable.refresh();
     }
+
+    private void calculateCredit(){
+        credit = 0;
+        for (Enrollment enrollment : enrollments) {
+            if (enrollment.getStatus().equals("Registered")) {
+                credit += enrollment.getCourse().getCredits();
+            }
+        }
+        creditsTextfield.setText(String.valueOf(credit));
+    }
+
 
     @FXML
     private void mainPagebtn(ActionEvent event) {

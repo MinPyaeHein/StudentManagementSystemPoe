@@ -46,5 +46,6 @@ public class Constants {
         public static final String COURSE = "course-management.fxml";
         public static final String LOGIN = "login.fxml";
         public static final String ENROLLMENT = "enrollments.fxml";
+        public static final String ENROLLMENT_LOGIN_VIEW = "enrollments-login.fxml";
     }
 }

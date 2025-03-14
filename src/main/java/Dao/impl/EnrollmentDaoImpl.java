@@ -20,9 +20,11 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
         try {
             String courseCode = rs.getString("course_code");
             String courseName = rs.getString("course_name");
+            int credits = rs.getInt("credits");
             Course course = new Course();
             course.setCourse_code(courseCode);
             course.setCourse_name(courseName);
+            course.setCredits(credits);
 
 
             return new Enrollment(
@@ -32,7 +34,8 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
                     null,
                     rs.getString("grade"),
                     null,
-                    null
+                    null,
+                    rs.getString("status")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -40,17 +43,20 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
     }
 
     public void insert(Enrollment enrollment) {
-        String query = "INSERT INTO enrollments (student_id, course_id) " +
-                "VALUES (?, ?)";
-        executeUpdate(query, enrollment.getStudent_id(), enrollment.getCourse().getId());
+        String query = "INSERT INTO enrollments (student_id, course_id,status) " +
+                "VALUES (?, ?, ?)";
+        executeUpdate(query, enrollment.getStudent_id(), enrollment.getCourse().getId(),enrollment.getStatus());
     }
-
     public List<Enrollment> getEnrollmentByStudentId(int studentid) {
-        String sql = "SELECT c.course_code, c.course_name, e.grade FROM enrollments e " +
+        String sql = "SELECT c.course_code, c.course_name, c.credits, e.grade, e.status " +
+                "FROM enrollments e " +
                 "JOIN courses c ON e.course_id = c.id " +
                 "WHERE e.student_id = ?";
+
         return executeQuerry(sql, studentid);
     }
+
+
 
 
 }

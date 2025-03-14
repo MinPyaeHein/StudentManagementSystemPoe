@@ -26,23 +26,7 @@ public class EnrollmentServiceImpl {
 
     public List<Enrollment> getAllEnrolledCourses(int studentId) {
         List<Enrollment> enrollments = enrollmentDao.getEnrollmentByStudentId(studentId);
-        for (Enrollment enrollment : enrollments) {
-            Course course = enrollment.getCourse();
-            if (course != null) {
-                enrollment.setStatus("Registered");
-            }
-        }
         return enrollments;
     }
-
-    public Boolean isEnrollmentRegistered(Enrollment enrollment){
-        if (!enrollment.getStatus().equals("Registered")) {
-            return false;
-        }
-        return true;
-    }
-
-
-
 
 }

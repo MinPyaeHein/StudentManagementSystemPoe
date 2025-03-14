@@ -22,6 +22,7 @@ public class Enrollment {
     private LocalDateTime created_at;
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
+    @Column(name = "status")
     private String status;
 
     public Enrollment(){
@@ -31,7 +32,7 @@ public class Enrollment {
       this.id = id;
     }
 
-    public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status) {
         this.id = id;
         this.student_id = student_id;
         this.course = course;
@@ -39,15 +40,17 @@ public class Enrollment {
         this.grade = grade;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.status = status;
     }
 
-    public Enrollment(int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Enrollment(int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status) {
         this.student_id = student_id;
         this.course = course;
         this.enrollment_date = enrollment_date;
         this.grade = grade;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.status = status;
     }
 
     public int getId() {
@@ -113,6 +116,7 @@ public class Enrollment {
     public void setStatus(String status) {
         this.status = status;
     }
+
 
     @Override
     public String toString() {

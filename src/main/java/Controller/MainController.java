@@ -58,7 +58,7 @@ public class MainController {
 
     @FXML
     public void showEnrollmentLoginManagement() {
-        loadPage(UtilConstants.ENROLLMENT_LOGIN_VIEW);
+        loadPage(Constants.Views.ENROLLMENT_LOGIN_VIEW);
     }
 
 

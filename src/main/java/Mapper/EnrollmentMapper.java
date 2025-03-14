@@ -17,6 +17,7 @@ public class EnrollmentMapper {
 
         enrollment.setStudent_id(Integer.parseInt(enrollmentDto.getStudent_id()));
         enrollment.setCourse_id(courseService.findCourseByName(enrollmentDto.getCourse()));
+        enrollment.setStatus(enrollmentDto.getStatus());
 
         return enrollment;
     }
