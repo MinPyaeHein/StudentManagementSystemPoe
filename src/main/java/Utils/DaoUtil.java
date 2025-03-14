@@ -13,6 +13,7 @@ import java.util.List;
 
 public class DaoUtil {
     public static Student authStudent=null;
+
     public static List<String> getFieldNameFromObj(Object obj,Boolean need,String... fields){
         List<String> fieldsName = new ArrayList<String>();
         for (Field field: obj.getClass().getDeclaredFields()){

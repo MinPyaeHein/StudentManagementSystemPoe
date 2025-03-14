@@ -15,7 +15,7 @@
                     <MenuItem text="Departments" onAction="#showDepartmentManagement"/>
                     <MenuItem text="Degree" onAction="#showDegreeManagement"/>
                     <MenuItem text="Courses" onAction="#showCourseManagement"/>
-                    <MenuItem text="Enrollment" onAction="#showEnrollmentManagement"/>
+                    <MenuItem text="Enrollment" onAction="#showEnrollmentLoginManagement"/>
 
                 </Menu>
             </menus>

@@ -44,6 +44,9 @@ public class Course {
     public Course(int id){
         this.id = id;
     }
+    public Course(String name){
+        this.course_name = name;
+    }
 
     public Course(int id, String course_name, String course_code, String description, int credits, Department department, Teacher teacher,int capacity, LocalDateTime created_at, LocalDateTime updated_at) {
         this.id = id;

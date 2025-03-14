@@ -160,6 +160,52 @@ public abstract class GeneralDaoImpl<T> implements GeneralDao<T> {
             throw new RuntimeException(e);
         }
     }
+    public int executeInsertAndRetrieveId(String query, Object... obj) {
+        int generatedId = -1;  // Default invalid ID
+
+        try {
+            Connection connection = connectionDao.connectionWithSqlDb();
+            PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            int count = 1;
+
+            // Set parameters in the query
+            for (Object o : obj) {
+                if (o instanceof java.util.Date) {
+                    preparedStatement.setObject(count, o, java.sql.Types.TIMESTAMP);
+                } else {
+                    preparedStatement.setObject(count, o);
+                }
+                count++;
+            }
+
+            // Execute update
+            int rowAffect = preparedStatement.executeUpdate();
+
+            // Retrieve the generated ID (for auto-incremented IDs)
+            if (rowAffect > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedId = generatedKeys.getInt(1);
+                        System.out.println("Generated student ID from DB: " + generatedId);
+                    }
+                }
+            }
+
+            // For manual IDs, log the expected ID if available
+            if (obj.length > 0) {
+                System.out.println("Expected student ID: " + obj[0]);
+            }
+
+            preparedStatement.close();
+            connection.close();
+
+        } catch (RuntimeException | SQLException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return generatedId;
+    }
 
     private String generateInsertQuery(Object obj){
 

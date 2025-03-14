@@ -22,9 +22,13 @@ public class Enrollment {
     private LocalDateTime created_at;
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
+    private String status;
 
     public Enrollment(){
 
+    }
+    public Enrollment(int id){
+      this.id = id;
     }
 
     public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at) {
@@ -102,6 +106,14 @@ public class Enrollment {
         this.updated_at = updated_at;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Enrollments{" +
@@ -114,4 +126,6 @@ public class Enrollment {
                 ", updated_at=" + updated_at +
                 '}';
     }
+
+
 }

@@ -4,7 +4,7 @@ import Constant.Constants;
 import Dao.impl.EnrollmentDaoImpl;
 import Dto.EnrollmentDto;
 import Mapper.EnrollmentMapper;
-import Model.Enrollment;
+import Model.*;
 import Utils.AlertUtil;
 import java.util.List;
 
@@ -23,4 +23,26 @@ public class EnrollmentServiceImpl {
             AlertUtil.alert(Constants.Alerts.NO_SELECTED_ENROLLMENT, Constants.Alerts.ERROR);
         }
     }
+
+    public List<Enrollment> getAllEnrolledCourses(int studentId) {
+        List<Enrollment> enrollments = enrollmentDao.getEnrollmentByStudentId(studentId);
+        for (Enrollment enrollment : enrollments) {
+            Course course = enrollment.getCourse();
+            if (course != null) {
+                enrollment.setStatus("Registered");
+            }
+        }
+        return enrollments;
+    }
+
+    public Boolean isEnrollmentRegistered(Enrollment enrollment){
+        if (!enrollment.getStatus().equals("Registered")) {
+            return false;
+        }
+        return true;
+    }
+
+
+
+
 }

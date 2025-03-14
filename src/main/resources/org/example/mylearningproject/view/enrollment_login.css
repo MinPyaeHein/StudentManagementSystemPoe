@@ -1,0 +1,25 @@
+root{
+-fx-background-color: #CFE2D8;
+
+}
+AnchorPane{
+-fx-background-color: #CFE2D8;
+}
+
+Button{
+-fx-background-color: #515A55;
+-fx-text-fill: white;
+}
+Button:hover {
+    -fx-cursor: hand;
+}
+.text-field {
+    -fx-background-color: #CFE2D8;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, black, 3, 0, 0, 1);
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+}
+
+
