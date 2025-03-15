@@ -100,7 +100,7 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> availableCourses() {
         List<Course> courseList = this.coursesDao.selectAll();
         List<Course> availableCourseList = new ArrayList<>();
-        List<Enrollment> registeredEnrollment = enrollmentService.getAllEnrolledCourses(StudentServiceImpl.studentId);
+        List<Enrollment> registeredEnrollment = enrollmentService.getAllEnrolledCoursesByStudentId(StudentServiceImpl.studentId);
         List<String> registeredCourseNames = new ArrayList<>();
 
         for (Enrollment enrollment : registeredEnrollment) {

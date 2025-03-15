@@ -24,7 +24,7 @@ public class EnrollmentServiceImpl {
         }
     }
 
-    public List<Enrollment> getAllEnrolledCourses(int studentId) {
+    public List<Enrollment> getAllEnrolledCoursesByStudentId(int studentId) {
         List<Enrollment> enrollments = enrollmentDao.getEnrollmentByStudentId(studentId);
         return enrollments;
     }

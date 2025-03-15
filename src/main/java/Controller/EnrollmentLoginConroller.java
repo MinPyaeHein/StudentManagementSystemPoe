@@ -78,8 +78,7 @@ public class EnrollmentLoginConroller {
     }
 
     public void tableView(int studentId) {
-        List<Enrollment> enrollments =
-                enrollmentService.getAllEnrolledCourses(studentId);
+        List<Enrollment> enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
         enrollmentList.addAll(enrollments);
         subjectColumn.setCellValueFactory(cellData -> {
             Course course = cellData.getValue().getCourse();

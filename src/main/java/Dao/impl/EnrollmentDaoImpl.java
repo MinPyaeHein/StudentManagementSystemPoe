@@ -25,6 +25,8 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
             course.setCourse_code(courseCode);
             course.setCourse_name(courseName);
             course.setCredits(credits);
+            Semester semester = new Semester();
+
 
 
             return new Enrollment(
@@ -47,13 +49,14 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
                 "VALUES (?, ?, ?)";
         executeUpdate(query, enrollment.getStudent_id(), enrollment.getCourse().getId(),enrollment.getStatus());
     }
-    public List<Enrollment> getEnrollmentByStudentId(int studentid) {
-        String sql = "SELECT c.course_code, c.course_name, c.credits, e.grade, e.status " +
+    public List<Enrollment> getEnrollmentByStudentIdAndSemesterId(int studentId,int semesterId) {
+        String sql = "SELECT c.course_code, c.course_name, c.credits, e.grade, e.status, s.name AS semester_name, s.start_date, s.end_date " +
                 "FROM enrollments e " +
                 "JOIN courses c ON e.course_id = c.id " +
-                "WHERE e.student_id = ?";
+                "JOIN semester s ON e.semester_id = s.id " +
+                "WHERE e.student_id = ? AND e.semester_id = ?";
 
-        return executeQuerry(sql, studentid);
+        return executeQuerry(sql, studentId, semesterId);
     }
 
 

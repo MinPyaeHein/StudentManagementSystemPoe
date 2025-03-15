@@ -67,10 +67,10 @@ public class EnrollmentController {
         dateField.setText(DateTimeUtil.DateFormatter(LocalDateTime.now()));
         idLabel.setText(String.valueOf(studentId));
         nameLabel.setText(studentName);
-        enrollments = enrollmentService.getAllEnrolledCourses(studentId);
+        enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
         ObservableList<Enrollment> enrollmentObservableList = FXCollections.observableArrayList(enrollments);
         selectedTable.setItems(enrollmentObservableList);
-       calculateCredit();
+        calculateCredit();
         selectedTable.setItems(FXCollections.observableArrayList(enrollments));
 
     }
@@ -117,10 +117,7 @@ public class EnrollmentController {
                 AlertUtil.alert(Constants.FieldConstraints.MAX_CREDITS, Constants.Alerts.ERROR);
                 return;
             }
-
-            credit = newTotalCredits;
-            creditsTextfield.setText(String.valueOf(credit));
-
+            creditsTextfield.setText(String.valueOf(newTotalCredits));
             updateCourseAndEnrollment(selectedCourse);
         }
     }
@@ -142,7 +139,7 @@ public class EnrollmentController {
             credit -= selectedCourse.getCredits();
             creditsTextfield.setText(String.valueOf(credit));
             selectedTable.getItems().remove(selectedEnrollment);
-           courseTable.getItems().add(selectedCourse);
+            courseTable.getItems().add(selectedCourse);
         }
     }
 
@@ -164,7 +161,7 @@ public class EnrollmentController {
 
     }
     private void reloadEnrollmentTable() {
-        List<Enrollment> enrollments = enrollmentService.getAllEnrolledCourses(studentId);
+        List<Enrollment> enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
         calculateCredit();
         selectedTable.getItems().setAll(FXCollections.observableArrayList(enrollments));
         selectedTable.refresh();

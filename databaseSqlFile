@@ -186,3 +186,37 @@ ADD COLUMN password character varying(255) COLLATE pg_catalog."default";
 ALTER TABLE enrollments
 ADD COLUMN status VARCHAR(50);
 
+-- First, create the ENUM type for status
+CREATE TYPE semester_status AS ENUM ('active', 'inactive', 'upcoming', 'completed');
+
+-- Now, create the semester table
+CREATE TABLE semester (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    status semester_status NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- update enrollment table
+ALTER TABLE enrollments
+ADD COLUMN semester_id INT,
+ADD CONSTRAINT fk_enrollments_semester
+FOREIGN KEY (semester_id) REFERENCES semesters(id)
+ON DELETE CASCADE;
+
+--Update Semester Name column
+CREATE TYPE semester_name AS ENUM ('Jun Semester', 'November Semester', 'December Semester','Summer Semester');
+
+--Change data type in semester name column
+ALTER TABLE semesters
+ALTER COLUMN name TYPE semester_name USING name::semester_name;
+
+--Change null with default 1
+UPDATE enrollments
+SET semester_id = 1
+WHERE semester_id IS NULL;
+
+
