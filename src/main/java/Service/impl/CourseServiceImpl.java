@@ -5,11 +5,8 @@ import Dao.impl.CoursesDaoImpl;
 import Dto.CourseDto;
 import Mapper.CourseMapper;
 import Model.Course;
-import Model.Department;
 import Model.Enrollment;
-import Model.Teacher;
 import Service.CourseService;
-import Service.StudentService;
 import Utils.AlertUtil;
 import Utils.ValidateUtail;
 
@@ -58,9 +55,9 @@ public class CourseServiceImpl implements CourseService {
                 throw new InvalidDataFormatException(Constants.FieldConstraints.MAX_CAPACITY);
             }
             this.coursesDao.insert(course);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS, Constants.Alerts.SAVE_SUCCESS);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         }catch (InvalidDataFormatException e){
-            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
         }
 
     }

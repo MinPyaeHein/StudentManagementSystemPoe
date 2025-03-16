@@ -1,7 +1,6 @@
 package Dao.impl;
 
-import Model.Course;
-import Model.Enrollment;
+import Model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,9 +24,11 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
             course.setCourse_code(courseCode);
             course.setCourse_name(courseName);
             course.setCredits(credits);
-            Semester semester = new Semester();
-
-
+            String semesterName = rs.getString("semester_name");
+            String semesterStatus = rs.getString("semester_status");
+            Semester semester=new Semester();
+            semester.setName(SemesterName.valueOf(semesterName));
+            semester.setStatus(SemesterStatus.valueOf(semesterStatus));
 
             return new Enrollment(
                     0,
@@ -37,7 +38,8 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
                     rs.getString("grade"),
                     null,
                     null,
-                    rs.getString("status")
+                    rs.getString("status"),
+                    semester
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -49,15 +51,20 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
                 "VALUES (?, ?, ?)";
         executeUpdate(query, enrollment.getStudent_id(), enrollment.getCourse().getId(),enrollment.getStatus());
     }
-    public List<Enrollment> getEnrollmentByStudentIdAndSemesterId(int studentId,int semesterId) {
-        String sql = "SELECT c.course_code, c.course_name, c.credits, e.grade, e.status, s.name AS semester_name, s.start_date, s.end_date " +
+
+    public List<Enrollment> getEnrollmentByStudentId(int studentId) {
+        String sql = "SELECT c.course_code, c.course_name, c.credits, e.grade, e.status, " +
+                "s.name AS semester_name, s.status AS semester_status, s.start_date, s.end_date " +
                 "FROM enrollments e " +
                 "JOIN courses c ON e.course_id = c.id " +
-                "JOIN semester s ON e.semester_id = s.id " +
-                "WHERE e.student_id = ? AND e.semester_id = ?";
+                "JOIN semesters s ON e.semester_id = s.id " +
+                "WHERE e.student_id = ?";
 
-        return executeQuerry(sql, studentId, semesterId);
+        return executeQuerry(sql, studentId);
     }
+
+
+
 
 
 

@@ -25,6 +25,8 @@ public class CourseMapper {
         course.setCapacity(courseDto.getCapacity().isEmpty() ? 0 : Integer.parseInt(courseDto.getCapacity()));
         course.setDepartment(departmentService.findDepartmentByName(courseDto.getDepartment()));
         course.setTeacher(teacherService.findTeacherByName(courseDto.getTeacher()));
+        course.setCreated_at(courseDto.getCreated_at());
+        course.setUpdated_at(courseDto.getUpdated_at());
 
         return course;
 

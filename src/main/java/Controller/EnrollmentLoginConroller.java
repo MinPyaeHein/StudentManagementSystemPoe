@@ -1,11 +1,13 @@
 package Controller;
+import Constant.Constants;
 import Model.Course;
 import Model.Enrollment;
+import Model.Semester;
 import Model.Student;
 import Service.impl.EnrollmentServiceImpl;
+import Service.impl.SemesterServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.*;
-import java.time.LocalDateTime;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,40 +33,50 @@ public class EnrollmentLoginConroller {
     @FXML private TableView<Enrollment> subjectTable;
     @FXML private TableColumn<Enrollment, String> subjectColumn;
     @FXML private TableColumn<Enrollment, String> gradeColumn;
+    @FXML private TableColumn<Enrollment, String> semesterColumn;
+    @FXML
+    private TableColumn<Enrollment, String> statusColumn;
+
     private static int studentId;
 
     private EnrollmentServiceImpl enrollmentService;
     private StudentServiceImpl studentService;
+    private SemesterServiceImpl semesterService;
     ObservableList<Enrollment> enrollmentList =
             FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
         enrollmentService = new EnrollmentServiceImpl();
+        semesterService = new SemesterServiceImpl();
         studentService = new StudentServiceImpl();
-        dateLabel.setText(DateTimeUtil.DateFormatter(LocalDateTime.now()));
+        dateLabel.setText(String.valueOf(semesterService.getActiveSemesterStartDate()));
     }
 
     @FXML
     private void toEnrollmentPage(ActionEvent event) {
         if (studentService.getStudentById(studentId) != null) {
-            viewUtil.loadPage(event, "/org/example/mylearningproject/view/enrollments.fxml");
+            viewUtil.loadPage(event, Constants.Views.ENROLLMENT);
         }
     }
+
 
     @FXML
     private void searchBtn() {
         int studentIdInput = Integer.parseInt(searchField.getText());
         Student student = studentService.getStudentById(studentIdInput);
+
         if (student == null) {
             clearField();
         } else {
             studentId = student.getId();
             setTextField(student);
             tableView(studentId);
+
             searchField.clear();
         }
     }
+
 
     private void setTextField(Student student) {
         idField.setText(String.valueOf(student.getId()));
@@ -79,17 +91,33 @@ public class EnrollmentLoginConroller {
 
     public void tableView(int studentId) {
         List<Enrollment> enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
+        enrollmentList.clear();
         enrollmentList.addAll(enrollments);
+
         subjectColumn.setCellValueFactory(cellData -> {
             Course course = cellData.getValue().getCourse();
             return new javafx.beans.property.SimpleStringProperty(course != null ? course.getCourse_code() : "");
         });
+
         gradeColumn.setCellValueFactory(cellData -> {
-            Enrollment enollment = cellData.getValue();
-            return new javafx.beans.property.SimpleStringProperty(enollment != null ? enollment.getGrade() : "");
+            Enrollment enrollment = cellData.getValue();
+            return new javafx.beans.property.SimpleStringProperty(enrollment != null ? enrollment.getGrade() : "");
         });
+
+        semesterColumn.setCellValueFactory(cellData -> {
+            Semester semester = cellData.getValue().getSemester();
+            return new javafx.beans.property.SimpleStringProperty(semester != null ? String.valueOf(semester.getName()) : "");
+        });
+
+        statusColumn.setCellValueFactory(cellData -> {
+            Semester semester = cellData.getValue().getSemester();
+            return new javafx.beans.property.SimpleStringProperty(semester != null ? String.valueOf(semester.getStatus()) : "");
+        });
+
+
         subjectTable.setItems(enrollmentList);
     }
+
 
     public void clearField() {
         idField.clear();

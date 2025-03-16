@@ -6,6 +6,7 @@ import Model.Course;
 import Model.Enrollment;
 import Service.impl.CourseServiceImpl;
 import Service.impl.EnrollmentServiceImpl;
+import Service.impl.SemesterServiceImpl;
 import Service.impl.StudentServiceImpl;
 import Utils.AlertUtil;
 import Utils.DateTimeUtil;
@@ -57,14 +58,16 @@ public class EnrollmentController {
     private CourseServiceImpl courseService;
     ObservableList<Course> courseList;
     private EnrollmentServiceImpl enrollmentService;
+    private SemesterServiceImpl semesterService;
     private  List<Enrollment> enrollments;
 
     @FXML
     public void initialize() {
         initializeServices();
-        setupTables();
+        courseTableSetup();
+        selectedTableSetup();
         setBackGroundColor();
-        dateField.setText(DateTimeUtil.DateFormatter(LocalDateTime.now()));
+        dateField.setText(String.valueOf(semesterService.getActiveSemesterStartDate()));
         idLabel.setText(String.valueOf(studentId));
         nameLabel.setText(studentName);
         enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
@@ -78,15 +81,18 @@ public class EnrollmentController {
     private void initializeServices() {
         courseService = new CourseServiceImpl();
         enrollmentService = new EnrollmentServiceImpl();
+        semesterService =new SemesterServiceImpl();
     }
 
-    private void setupTables() {
+    private void courseTableSetup() {
         courseNameColumn.setCellValueFactory(new PropertyValueFactory<>("course_name"));
         courseCodeColumn.setCellValueFactory(new PropertyValueFactory<>("course_code"));
         creditsColumn.setCellValueFactory(new PropertyValueFactory<>("credits"));
         courseList = FXCollections.observableArrayList(courseService.availableCourses());
         courseTable.setItems(courseList);
+    }
 
+    private void selectedTableSetup() {
         selectedCourseCodeColumn.setCellValueFactory(cellData -> {
             Course course = cellData.getValue().getCourse();
             return new javafx.beans.property.SimpleStringProperty(course != null ? course.getCourse_code() : "");
@@ -99,6 +105,7 @@ public class EnrollmentController {
 
         selectedStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
+
 
     @FXML
     private void handleSearchAction() {
@@ -113,7 +120,7 @@ public class EnrollmentController {
         if (selectedCourse != null) {
             int newTotalCredits = credit + selectedCourse.getCredits();
 
-            if (newTotalCredits > 20) {
+            if (newTotalCredits > Constants.FieldConstraints.CREDITS_LIMIT) {
                 AlertUtil.alert(Constants.FieldConstraints.MAX_CREDITS, Constants.Alerts.ERROR);
                 return;
             }
@@ -126,15 +133,15 @@ public class EnrollmentController {
     private void updateCourseAndEnrollment(Course selectedCourse) {
         Enrollment enrollment = new Enrollment();
         enrollment.setCourse_id(selectedCourse);
-        enrollment.setStatus("New");
+        enrollment.setStatus(Constants.FieldConstraints.NEW_STATUS);
         selectedTable.getItems().add(enrollment);
         courseTable.getItems().remove(selectedCourse);
     }
 
     @FXML
-    private void handleResultTableClick(MouseEvent event) {
+    private void selectedCourseTable(MouseEvent event) {
         Enrollment selectedEnrollment = selectedTable.getSelectionModel().getSelectedItem();
-        if (selectedEnrollment != null && !selectedEnrollment.getStatus().equals("Registered")) {
+        if (selectedEnrollment != null && !selectedEnrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
             Course selectedCourse = selectedEnrollment.getCourse();
             credit -= selectedCourse.getCredits();
             creditsTextfield.setText(String.valueOf(credit));
@@ -147,11 +154,11 @@ public class EnrollmentController {
     public void enrollmentBtn() {
         List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
         for (Enrollment enrollment : selectedTable.getItems()) {
-            if(!enrollment.getStatus().equals("Registered")) {
+            if(!enrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
                 EnrollmentDto enrollmentDto = new EnrollmentDto();
                 enrollmentDto.setStudent_id(String.valueOf(studentId));
                 enrollmentDto.setCourse(enrollment.getCourse().getCourse_name());
-                enrollmentDto.setStatus("Registered");
+                enrollmentDto.setStatus(Constants.FieldConstraints.REGISTER_STATUS);
                 enrollmentDtos.add(enrollmentDto);
                 setBackGroundColor();
             }
@@ -170,7 +177,7 @@ public class EnrollmentController {
     private void calculateCredit(){
         credit = 0;
         for (Enrollment enrollment : enrollments) {
-            if (enrollment.getStatus().equals("Registered")) {
+            if (enrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
                 credit += enrollment.getCourse().getCredits();
             }
         }
@@ -180,7 +187,7 @@ public class EnrollmentController {
 
     @FXML
     private void mainPagebtn(ActionEvent event) {
-        viewUtil.loadPage(event,"/org/example/mylearningproject/main-view.fxml");
+        viewUtil.loadPage(event,Constants.Views.MAIN_VIEW);
     }
 
     private void setBackGroundColor(){
@@ -193,7 +200,7 @@ public class EnrollmentController {
                     setStyle("");
                 } else {
                     setText(status);
-                    setStyle(status.equalsIgnoreCase("registered") ? "-fx-background-color: lightgreen; -fx-text-fill: black;" : "");
+                    setStyle(status.equals(Constants.FieldConstraints.REGISTER_STATUS) ? "-fx-background-color: lightgreen; -fx-text-fill: black;" : "");
                 }
             }
         });

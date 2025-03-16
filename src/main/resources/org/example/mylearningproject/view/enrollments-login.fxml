@@ -109,7 +109,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <StackPane layoutX="902.0" layoutY="85.0" prefHeight="306.0" prefWidth="292.0">
+      <StackPane layoutX="902.0" layoutY="94.0" prefHeight="347.0" prefWidth="514.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -122,12 +122,14 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox prefHeight="366.0" prefWidth="542.0">
+                  <VBox prefHeight="357.0" prefWidth="514.0">
                      <children>
-                        <TableView fx:id="subjectTable" prefHeight="278.0" prefWidth="426.0">
+                        <TableView fx:id="subjectTable" prefHeight="277.0" prefWidth="514.0">
                           <columns>
                             <TableColumn fx:id="subjectColumn" prefWidth="157.60003662109375" text="Subjects" />
                             <TableColumn fx:id="gradeColumn" prefWidth="132.79998779296875" text="Grades" />
+                              <TableColumn fx:id="semesterColumn" prefWidth="132.79998779296875" text="Semester" />
+                              <TableColumn fx:id="statusColumn" prefWidth="89.59995117187498" text="Status" />
                           </columns>
                         </TableView>
                      </children>

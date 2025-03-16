@@ -34,6 +34,9 @@ public class Constants {
         public static final String ID = "id";
         public static final String MAX_CAPACITY = "The maximum capacity is 100";
         public static final String MAX_CREDITS = "Credit cannot be more than 20";
+        public static final String NEW_STATUS = "New";
+        public static final String REGISTER_STATUS = "Registered";
+        public static final int  CREDITS_LIMIT= 20;
     }
 
     // View Paths
@@ -45,7 +48,10 @@ public class Constants {
         public static final String DEPARTMENT = "department-management.fxml";
         public static final String COURSE = "course-management.fxml";
         public static final String LOGIN = "login.fxml";
-        public static final String ENROLLMENT = "enrollments.fxml";
+        public static final String ENROLLMENT = "/org/example/mylearningproject/view/enrollments.fxml";
         public static final String ENROLLMENT_LOGIN_VIEW = "enrollments-login.fxml";
+        public static final String MAIN_VIEW = "/org/example/mylearningproject/main-view.fxml";
+        public static final String SEMESTER = "semester.fxml";
+
     }
 }

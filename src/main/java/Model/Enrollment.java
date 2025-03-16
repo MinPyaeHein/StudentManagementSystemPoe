@@ -25,6 +25,11 @@ public class Enrollment {
     @Column(name = "status")
     private String status;
 
+
+    @NotNull(message = "semester id cannot be null")
+    @ManyToOne(name = "semester_id")
+    private Semester semester;
+
     public Enrollment(){
 
     }
@@ -32,7 +37,7 @@ public class Enrollment {
       this.id = id;
     }
 
-    public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status) {
+    public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status,Semester semester) {
         this.id = id;
         this.student_id = student_id;
         this.course = course;
@@ -41,9 +46,10 @@ public class Enrollment {
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.status = status;
+        this.semester = semester;
     }
 
-    public Enrollment(int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status) {
+    public Enrollment(int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status,Semester semester) {
         this.student_id = student_id;
         this.course = course;
         this.enrollment_date = enrollment_date;
@@ -51,6 +57,7 @@ public class Enrollment {
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.status = status;
+        this.semester = semester;
     }
 
     public int getId() {
@@ -117,6 +124,14 @@ public class Enrollment {
         this.status = status;
     }
 
+
+    public Semester getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Semester semester) {
+        this.semester = semester;
+    }
 
     @Override
     public String toString() {

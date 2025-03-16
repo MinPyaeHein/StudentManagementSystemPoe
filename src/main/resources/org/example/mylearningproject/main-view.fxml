@@ -7,16 +7,19 @@
     <top>
         <MenuBar>
             <menus>
-                <Menu text="Manage">
+                <Menu text="User Master">
                     <MenuItem text="Students" onAction="#showStudentManagement"/>
                     <MenuItem text="Teachers" onAction="#showTeacherManagement"/>
-                    <MenuItem text="Classrooms" onAction="#showClassroomManagement"/>
+                </Menu>
+                <Menu text="Management master">
                     <MenuItem text="Faculties" onAction="#showFacultyManagement"/>
                     <MenuItem text="Departments" onAction="#showDepartmentManagement"/>
                     <MenuItem text="Degree" onAction="#showDegreeManagement"/>
                     <MenuItem text="Courses" onAction="#showCourseManagement"/>
+                </Menu>
+                <Menu text="Enrollment">
                     <MenuItem text="Enrollment" onAction="#showEnrollmentLoginManagement"/>
-
+                    <MenuItem text="Semester" onAction="#showSemesterManagement"/>
                 </Menu>
             </menus>
         </MenuBar>

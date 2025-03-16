@@ -12,7 +12,7 @@
                <children>
                   <Pane layoutX="444.0" layoutY="41.0" prefHeight="336.0" prefWidth="509.0">
                      <children>
-                        <TableView fx:id="selectedTable" layoutX="5.0" layoutY="23.0" onMouseClicked="#handleResultTableClick" prefHeight="312.0" prefWidth="499.0">
+                        <TableView fx:id="selectedTable" layoutX="5.0" layoutY="23.0" onMouseClicked="#selectedCourseTable" prefHeight="312.0" prefWidth="499.0">
                           <columns>
                             <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="175.199951171875" text="Course Code " />
                             <TableColumn fx:id="selectedCourseNameColumn" prefWidth="189.60003662109375" text="Course Name" />

@@ -54,7 +54,7 @@ public class StudentServiceImpl implements StudentService {
                 return studentRow;
             }
         } catch (IndexOutOfBoundsException ex) {
-//            AlertUtil.alert("Student id does not Exist", UtilConstants.ERROR_ALERT);
+        AlertUtil.alert( Constants.Alerts.STUDENT_NOT_FOUND, Constants.Alerts.ERROR);
         }
         return null;
     }

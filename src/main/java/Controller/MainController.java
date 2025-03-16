@@ -60,6 +60,10 @@ public class MainController {
     public void showEnrollmentLoginManagement() {
         loadPage(Constants.Views.ENROLLMENT_LOGIN_VIEW);
     }
+    @FXML
+    public void showSemesterManagement(){
+        loadPage(Constants.Views.SEMESTER);
+    }
 
 
 
