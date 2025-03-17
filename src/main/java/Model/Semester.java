@@ -24,8 +24,10 @@ public class Semester {
     @Column(name = "status")
     private SemesterStatus status;
 
+    public Semester(int id) {
+     this.id = id;
+    }
     public Semester() {
-
     }
 
     public Semester(int id, SemesterName name, LocalDate start_Date, LocalDate end_Date, SemesterStatus status) {

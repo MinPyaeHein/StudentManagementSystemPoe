@@ -3,17 +3,11 @@ package Dto;
 
 public class EnrollmentDto {
     private String id;
-    private String student_id;
+    private String studentId;
     private String course;
     private String status;
+    private String semesterId;
 
-    public String getStudent_id() {
-        return student_id;
-    }
-
-    public void setStudent_id(String student_id) {
-        this.student_id = student_id;
-    }
 
     public String getId() {
         return id;
@@ -38,5 +32,21 @@ public class EnrollmentDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getSemesterId() {
+        return semesterId;
+    }
+
+    public void setSemesterId(String semesterId) {
+        this.semesterId = semesterId;
     }
 }

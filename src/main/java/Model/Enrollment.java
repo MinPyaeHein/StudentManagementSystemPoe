@@ -8,12 +8,15 @@ import java.time.LocalDateTime;
 public class Enrollment {
     @Id(name = "id")
     private int id;
+
     @NotNull(message = "Student id can't be null")
-    @Column(name = "student_id")
-    private int student_id;
+    @ManyToOne(name = "student_id")
+    private Student student;
+
     @NotNull(message = "Course id cannot be null")
     @ManyToOne(name = "course_id")
     private Course course;
+
     @Column(name = "enrollment_date")
     private LocalDateTime enrollment_date;
     @Column(name = "grade")
@@ -36,9 +39,9 @@ public class Enrollment {
       this.id = id;
     }
 
-    public Enrollment(int id, int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status,Semester semester) {
+    public Enrollment(int id,Student student, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status,Semester semester) {
         this.id = id;
-        this.student_id = student_id;
+        this.student = student;
         this.course = course;
         this.enrollment_date = enrollment_date;
         this.grade = grade;
@@ -48,8 +51,8 @@ public class Enrollment {
         this.semester = semester;
     }
 
-    public Enrollment(int student_id, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status,Semester semester) {
-        this.student_id = student_id;
+    public Enrollment(Student student, Course course, LocalDateTime enrollment_date, String grade, LocalDateTime created_at, LocalDateTime updated_at,String status,Semester semester) {
+        this.student = student;
         this.course = course;
         this.enrollment_date = enrollment_date;
         this.grade = grade;
@@ -67,20 +70,8 @@ public class Enrollment {
         this.id = id;
     }
 
-    public int getStudent_id() {
-        return student_id;
-    }
-
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
-    }
-
     public Course getCourse() {
         return course;
-    }
-
-    public void setCourse_id(Course course) {
-        this.course = course;
     }
 
     public LocalDateTime getEnrollment_date() {
@@ -132,18 +123,31 @@ public class Enrollment {
         this.semester = semester;
     }
 
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
     @Override
     public String toString() {
-        return "Enrollments{" +
+        return "Enrollment{" +
                 "id=" + id +
-                ", student_id=" + student_id +
+                ", student=" + student +
                 ", course=" + course +
                 ", enrollment_date=" + enrollment_date +
                 ", grade='" + grade + '\'' +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
+                ", status='" + status + '\'' +
+                ", semester=" + semester +
                 '}';
     }
-
-
 }

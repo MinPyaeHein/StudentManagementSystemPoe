@@ -67,7 +67,7 @@ public class EnrollmentController {
         courseTableSetup();
         selectedTableSetup();
         setBackGroundColor();
-        dateField.setText(String.valueOf(semesterService.getActiveSemesterStartDate()));
+        dateField.setText(String.valueOf(semesterService.getUpcomingSemesterStartDate()));
         idLabel.setText(String.valueOf(studentId));
         nameLabel.setText(studentName);
         enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
@@ -132,7 +132,7 @@ public class EnrollmentController {
 
     private void updateCourseAndEnrollment(Course selectedCourse) {
         Enrollment enrollment = new Enrollment();
-        enrollment.setCourse_id(selectedCourse);
+        enrollment.setCourse(selectedCourse);
         enrollment.setStatus(Constants.FieldConstraints.NEW_STATUS);
         selectedTable.getItems().add(enrollment);
         courseTable.getItems().remove(selectedCourse);
@@ -156,7 +156,7 @@ public class EnrollmentController {
         for (Enrollment enrollment : selectedTable.getItems()) {
             if(!enrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
                 EnrollmentDto enrollmentDto = new EnrollmentDto();
-                enrollmentDto.setStudent_id(String.valueOf(studentId));
+                enrollmentDto.setStudentId(String.valueOf(studentId));
                 enrollmentDto.setCourse(enrollment.getCourse().getCourse_name());
                 enrollmentDto.setStatus(Constants.FieldConstraints.REGISTER_STATUS);
                 enrollmentDtos.add(enrollmentDto);
