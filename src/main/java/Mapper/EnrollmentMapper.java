@@ -2,6 +2,8 @@ package Mapper;
 
 import Dto.EnrollmentDto;
 import Model.Enrollment;
+import Model.Semester;
+import Model.Student;
 import Service.impl.CourseServiceImpl;
 
 public class EnrollmentMapper {
@@ -15,8 +17,9 @@ public class EnrollmentMapper {
             enrollment.setId(Integer.parseInt(enrollmentDto.getId()));
         }
 
-        enrollment.setStudent_id(Integer.parseInt(enrollmentDto.getStudent_id()));
-        enrollment.setCourse_id(courseService.findCourseByName(enrollmentDto.getCourse()));
+        enrollment.setStudent(new Student(Integer.parseInt(enrollmentDto.getStudentId())));
+        enrollment.setCourse(courseService.findCourseByName(enrollmentDto.getCourse()));
+        enrollment.setSemester(new Semester(Integer.parseInt(enrollmentDto.getSemesterId())));
         enrollment.setStatus(enrollmentDto.getStatus());
 
         return enrollment;

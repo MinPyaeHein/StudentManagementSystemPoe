@@ -15,8 +15,8 @@ public class EnrollmentServiceImpl {
     public void saveEnrollment(List<EnrollmentDto> enrollmentDtos) {
         if (!enrollmentDtos.isEmpty()) {
             for (EnrollmentDto enrollmentDto : enrollmentDtos) {
-                Enrollment enrollments = EnrollmentMapper.toEntity(enrollmentDto);
-                this.enrollmentDao.insert(enrollments);
+                Enrollment enrollment= EnrollmentMapper.toEntity(enrollmentDto);
+                this.enrollmentDao.insert(enrollment);
             }
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         } else {

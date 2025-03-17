@@ -50,8 +50,8 @@ public SemesterServiceImpl(){
         return this.semesterDao.selectAll();
     }
 
-    public LocalDate getActiveSemesterStartDate() {
-        Semester activeSemester = semesterDao.findActiveSemester();
+    public LocalDate getUpcomingSemesterStartDate() {
+        Semester activeSemester = semesterDao.findUpcomingSemester();
         return activeSemester != null ? activeSemester.getStart_Date() : null;
     }
 

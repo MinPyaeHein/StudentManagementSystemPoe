@@ -40,8 +40,8 @@ public class SemesterDaoImpl extends GeneralDaoImpl<Semester>{
         executeUpdate(query, semester.getName().name(), semester.getStart_Date(), semester.getEnd_Date(), semester.getStatus().name(), semester.getId());
     }
 
-    public Semester findActiveSemester() {
-        String query = "SELECT * FROM semesters WHERE status = 'active' LIMIT 1";
+    public Semester findUpcomingSemester() {
+        String query = "SELECT * FROM semesters WHERE status = 'upcoming' LIMIT 1";
         List<Semester> resultSet = executeQuerry(query);
 
         for (Semester semester : resultSet) {

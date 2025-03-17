@@ -32,7 +32,7 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
 
             return new Enrollment(
                     0,
-                    0,
+                    null,
                     course,
                     null,
                     rs.getString("grade"),
@@ -47,9 +47,9 @@ public class EnrollmentDaoImpl extends GeneralDaoImpl<Enrollment> {
     }
 
     public void insert(Enrollment enrollment) {
-        String query = "INSERT INTO enrollments (student_id, course_id,status) " +
-                "VALUES (?, ?, ?)";
-        executeUpdate(query, enrollment.getStudent_id(), enrollment.getCourse().getId(),enrollment.getStatus());
+        String query = "INSERT INTO enrollments (student_id, course_id,status,semester_id) " +
+                "VALUES (?, ?, ?,?)";
+        executeUpdate(query, enrollment.getStudent().getId(), enrollment.getCourse().getId(),enrollment.getStatus(),enrollment.getSemester().getId());
     }
 
     public List<Enrollment> getEnrollmentByStudentId(int studentId) {

@@ -50,7 +50,7 @@ public class EnrollmentLoginConroller {
         enrollmentService = new EnrollmentServiceImpl();
         semesterService = new SemesterServiceImpl();
         studentService = new StudentServiceImpl();
-        dateLabel.setText(String.valueOf(semesterService.getActiveSemesterStartDate()));
+        dateLabel.setText(String.valueOf(semesterService.getUpcomingSemesterStartDate()));
     }
 
     @FXML
