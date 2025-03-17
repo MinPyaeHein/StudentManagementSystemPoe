@@ -25,8 +25,7 @@ public class Enrollment {
     @Column(name = "status")
     private String status;
 
-
-    @NotNull(message = "semester id cannot be null")
+    @NotNull(message = "semester  cannot be null")
     @ManyToOne(name = "semester_id")
     private Semester semester;
 
