@@ -23,7 +23,7 @@ public SemesterServiceImpl(){
     public void saveSemester(SemesterDto semesterDto) {
         Semester semester = SemesterMapper.toEntity(semesterDto);
         try{
-        ValidateUtail.validate(semester);
+        ValidateUtail.validate(semesterDto);
         this.semesterDao.insert(semester);
         AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
     }catch(InvalidDataFormatException exception){
@@ -36,7 +36,7 @@ public SemesterServiceImpl(){
     Semester semester = SemesterMapper.toEntity(semesterDto);
 
     try{
-        ValidateUtail.validate(semester);
+        ValidateUtail.validate(semesterDto);
         semesterDao.update(semester,Constants.FieldConstraints.ID);
        AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
     }catch(InvalidDataFormatException exception){

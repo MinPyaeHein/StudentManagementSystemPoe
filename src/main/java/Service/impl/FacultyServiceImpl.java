@@ -23,7 +23,7 @@ public class FacultyServiceImpl  implements FacultyService {
     public void saveFaculty(FacultyDto facultyDto) {
         Faculty faculty= FacultyMapper.toEntity(facultyDto);
         try{
-            ValidateUtail.validate(faculty);
+            ValidateUtail.validate(facultyDto);
             validateExistFaculty(faculty);
             this.facultyDao.insert(faculty);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
@@ -36,7 +36,7 @@ public class FacultyServiceImpl  implements FacultyService {
     public void update(FacultyDto facultyDto) {
         Faculty faculty= FacultyMapper.toEntity(facultyDto);
         try {
-            ValidateUtail.validate(faculty);
+            ValidateUtail.validate(facultyDto);
             facultyDao.update(faculty, Constants.FieldConstraints.ID);
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){

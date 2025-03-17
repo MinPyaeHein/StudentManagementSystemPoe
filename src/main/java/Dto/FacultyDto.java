@@ -1,10 +1,18 @@
 package Dto;
 
+import annotation.EmailValidate;
+import annotation.NotNull;
+
 public class FacultyDto {
     private String id;
+    @NotNull(message="Name cannot be null!!")
     private String name;
+    @NotNull(message="Email cannot be null!!")
+    @EmailValidate(message="Email is not valid!!")
     private String email;
+    @NotNull(message="Website Link cannot be null!!")
     private String website_link;
+    @NotNull(message="Phone Number cannot be null!!")
     private String phone;
 
     public String getId() {

@@ -20,9 +20,10 @@ public class DegreeServiceImpl implements DegreeService {
 
     @Override
     public void update(DegreeDto degreeDto) {
+
         Degree degree = DegreeMapper.toEntity(degreeDto);
         try {
-            ValidateUtail.validate(degree);
+            ValidateUtail.validate(degreeDto);
             degreeDao.update(degree, "id");
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
@@ -45,7 +46,7 @@ public class DegreeServiceImpl implements DegreeService {
     public void saveDegree(DegreeDto degreeDto) {
         Degree degree= DegreeMapper.toEntity(degreeDto);
         try{
-            ValidateUtail.validate(degree);
+            ValidateUtail.validate(degreeDto);
             validateExistDepartment(degree);
             this.degreeDao.insert(degree);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);

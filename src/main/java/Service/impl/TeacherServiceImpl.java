@@ -25,7 +25,7 @@ public class TeacherServiceImpl implements TeacherService {
     public void update(TeacherDto teacherDto){
         Teacher teacher = TeacherMapper.toEntity(teacherDto);
         try{
-            ValidateUtail.validate(teacher);
+            ValidateUtail.validate(teacherDto);
             teacherDao.update(teacher,"id");
             ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), Constants.ImagePaths.TEACHER_FOLDER);
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
@@ -47,7 +47,7 @@ public class TeacherServiceImpl implements TeacherService {
     public void saveTeacher(TeacherDto teacherDto){
         Teacher teacher = TeacherMapper.toEntity(teacherDto);
         try{
-            ValidateUtail.validate(teacher);
+            ValidateUtail.validate(teacherDto);
             checkDuplicateTeacher(teacher);
             ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), Constants.ImagePaths.TEACHER_FOLDER);
             this.teacherDao.insert(teacher);

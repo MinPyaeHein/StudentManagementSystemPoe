@@ -1,11 +1,17 @@
 package Dto;
 
 
+import annotation.NotNull;
+
 public class EnrollmentDto {
     private String id;
+    @NotNull(message = "Student id can't be null")
     private String studentId;
+    @NotNull(message = "Course id cannot be null")
     private String course;
+    @NotNull(message = "status cannot be null")
     private String status;
+    @NotNull(message = "semester  cannot be null")
     private String semesterId;
 
 

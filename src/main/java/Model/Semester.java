@@ -11,16 +11,12 @@ import java.time.LocalDate;
 public class Semester {
     @Id(name = "id")
     private int id;
-    @NotNull(message = "Name cannot be null")
     @Column(name = "name")
     private SemesterName name;
-    @NotNull(message = "start date cannot be null")
     @Column(name = "start_date")
     private LocalDate start_Date;
-    @NotNull(message = "end date cannot be null")
     @Column(name = "end_date")
     private LocalDate end_Date;
-    @NotNull
     @Column(name = "status")
     private SemesterStatus status;
 

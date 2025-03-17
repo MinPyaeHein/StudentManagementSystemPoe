@@ -22,7 +22,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void update(DepartmentDto departmentDto) {
         Department department=DepartmentMapper.toEntity(departmentDto);
         try {
-            ValidateUtail.validate(department);
+            ValidateUtail.validate(departmentDto);
             departmentDao.update(department, Constants.FieldConstraints.ID);
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
@@ -42,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void saveDepartment(DepartmentDto departmentDto) {
         Department department= DepartmentMapper.toEntity(departmentDto);
         try{
-            ValidateUtail.validate(department);
+            ValidateUtail.validate(departmentDto);
             validateExistDepartment(department);
             this.departmentDao.insert(department);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);

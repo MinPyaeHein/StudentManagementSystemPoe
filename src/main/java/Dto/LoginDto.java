@@ -3,7 +3,6 @@ package Dto;
 import annotation.NotNull;
 
 public class LoginDto {
-
     @NotNull(message = "student gmail can't be null")
     private String gmail;
     @NotNull(message = "student password can't be null")

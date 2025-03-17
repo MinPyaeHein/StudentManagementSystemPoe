@@ -1,7 +1,10 @@
 package Dto;
 
+import annotation.NotNull;
+
 public class DepartmentDto {
     private String id;
+    @NotNull(message = "Department can't be null!!")
     private String department;
 
     public String getDepartment() {

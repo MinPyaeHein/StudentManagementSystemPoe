@@ -27,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
     public void update(CourseDto courseDto) {
         Course course = CourseMapper.toEntity(courseDto);
         try {
-            ValidateUtail.validate(course);
+            ValidateUtail.validate(courseDto);
             coursesDao.update(course, Constants.FieldConstraints.ID);
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
@@ -49,7 +49,7 @@ public class CourseServiceImpl implements CourseService {
     public void saveCourse(CourseDto courseDto) {
         Course course= CourseMapper.toEntity(courseDto);
         try {
-            ValidateUtail.validate(course);
+            ValidateUtail.validate(courseDto);
             validateExistCourse(course);
             if(course.getCapacity() > 100){
                 throw new InvalidDataFormatException(Constants.FieldConstraints.MAX_CAPACITY);

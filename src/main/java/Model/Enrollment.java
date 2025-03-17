@@ -8,15 +8,10 @@ import java.time.LocalDateTime;
 public class Enrollment {
     @Id(name = "id")
     private int id;
-
-    @NotNull(message = "Student id can't be null")
     @ManyToOne(name = "student_id")
     private Student student;
-
-    @NotNull(message = "Course id cannot be null")
     @ManyToOne(name = "course_id")
     private Course course;
-
     @Column(name = "enrollment_date")
     private LocalDateTime enrollment_date;
     @Column(name = "grade")
@@ -27,8 +22,6 @@ public class Enrollment {
     private LocalDateTime updated_at;
     @Column(name = "status")
     private String status;
-
-    @NotNull(message = "semester  cannot be null")
     @ManyToOne(name = "semester_id")
     private Semester semester;
 

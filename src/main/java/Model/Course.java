@@ -9,31 +9,22 @@ public class Course {
 
     @Id(name = "id")
     private int id;
-    @NotNull(message = "Course Name cannot be null")
     @Column(name = "course_name")
     private String course_name;
-    @NotNull(message = "course code cannot be null")
     @Column(name = "course_code")
     private String course_code;
     @Column(name = "description")
     private String description;
-    @NotNull(message = "credits cannot be null")
     @Column(name = "credits")
     private int credits;
-    @NotNull(message = "Department cannot be null")
     @ManyToOne(name = "department_id")
     private Department department;
-    @NotNull(message = "teacher cannot be null")
     @ManyToOne(name="teacher_id")
     private Teacher teacher;
-
-    @NotNull(message = "capacity cannot be null")
     @Column(name = "capacity")
     private int capacity;
-
     @Column(name = "created_at")
     private LocalDateTime created_at;
-
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 

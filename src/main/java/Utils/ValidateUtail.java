@@ -19,7 +19,7 @@ public class ValidateUtail {
                 field.setAccessible(true);
                 try {
                     Object value=field.get(obj);
-                    if(value==null || value.toString().isEmpty()||value instanceof Integer && ((Integer) value) == 0){
+                    if(value==null || value.toString().isEmpty()||value instanceof Integer && ((Integer) value) == 0 ||  (value instanceof Enum && value == null)){
                         NotNull annotation = field.getAnnotation(NotNull.class);
                         errorMessage+=annotation.message()+"\n";
                     }

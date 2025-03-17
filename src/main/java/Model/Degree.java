@@ -10,7 +10,6 @@ import annotation.Table;
 public class Degree {
     @Id(name = "id")
     private int id;
-    @NotNull(message = "Degree can't be Null!!")
     @Column(name="degree")
     private String degree;
 

@@ -9,7 +9,6 @@ import annotation.Table;
 public class Department {
     @Id(name="id")
     private int id;
-    @NotNull(message = "Department can't be null!!")
     @Column(name="department")
     private String department;
 

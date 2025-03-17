@@ -28,7 +28,7 @@ public class StudentServiceImpl implements StudentService {
     public void update(StudentDto studentDto) {
         Student student= StudentMapper.toEntity(studentDto);
      try {
-         ValidateUtail.validate(student);
+         ValidateUtail.validate(studentDto);
          ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(), Constants.ImagePaths.STUDENT_FOLDER);
          studentDao.update(student, Constants.FieldConstraints.ID);
          AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
@@ -63,7 +63,7 @@ public class StudentServiceImpl implements StudentService {
     public void saveStudent(StudentDto studentDto) {
         Student student=StudentMapper.toEntity(studentDto);
         try{
-            ValidateUtail.validate(student);
+            ValidateUtail.validate(studentDto);
             validateExistStudent(student);
             ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),Constants.ImagePaths.STUDENT_FOLDER);
             this.studentDao.insert(student);
@@ -78,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void delete(StudentDto studentDto) {
         Student student = StudentMapper.idToEntity(studentDto);
-        student = this.studentDao.selectById( student);
+        student = this.studentDao.selectById(student);
         try {
             if(student!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+student.getEmail()+"\n"+student.getName())){
                 this.studentDao.delete(student);

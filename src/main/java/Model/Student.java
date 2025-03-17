@@ -6,33 +6,18 @@ import annotation.*;
     public class Student {
         @Id(name="id")
         private int id;
-        @NotNull(message="Name cannot be null!!")
         @Column(name="name")
         private String name;
-
-        @NotNull(message="Email cannot be null!!")
-        @EmailValidate(message="Email is not valid!!")
         @Column(name="email")
         private String email;
-
-        @NotNull(message="Address cannot be null!!")
         @Column(name="address")
         private String address;
-
-        @NotNull(message="Phone Number cannot be null!!")
-        @PhoneValidate(message = "Phone number is not valid!!")
         @Column(name = "phone")
         private String phone;
-
-        @NotNull(message="Faculty cannot be null!")
         @ManyToOne(name = "faculty_id")
         private Faculty faculty;
-
-        @NotNull(message="Gender cannot be null!!")
         @Column(name = "gender")
         private Gender gender;
-
-        @NotNull(message = "Password cannot be null!")
         @Column(name = "password")
         private String password;
         public Student() {

@@ -6,20 +6,12 @@ import annotation.*;
 public class Faculty {
     @Id(name="id")
     private int id;
-    @NotNull(message="Name cannot be null!!")
     @Column(name="name")
     private String name;
-
-    @NotNull(message="Email cannot be null!!")
-    @EmailValidate(message="Email is not valid!!")
     @Column(name="email")
     private String email;
-
-    @NotNull(message="Website Link cannot be null!!")
     @Column(name="website_link")
     private String website_link;
-
-    @NotNull(message="Phone Number cannot be null!!")
     @Column(name="phone")
     private String phone;
 

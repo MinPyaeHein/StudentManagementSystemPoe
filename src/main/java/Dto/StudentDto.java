@@ -1,16 +1,29 @@
 package Dto;
 
+import annotation.EmailValidate;
+import annotation.NotNull;
+import annotation.PhoneValidate;
+
 import java.io.File;
 
 public class StudentDto {
     private String id;
+    @NotNull(message="Name cannot be null!!")
     private String name;
+    @NotNull(message="Email cannot be null!!")
+    @EmailValidate(message="Email is not valid!!")
     private String email;
+    @NotNull(message="Address cannot be null!!")
     private String address;
+    @NotNull(message="gender cannot be null!!")
     private String gender;
+    @NotNull(message="Phone Number cannot be null!!")
+    @PhoneValidate(message = "Phone number is not valid!!")
     private String phone;
+    @NotNull(message="Faculty cannot be null!")
     private String faculty;
     private File imageFile;
+    @NotNull(message = "Password cannot be null!")
     private String password;
 
     public String getId() {

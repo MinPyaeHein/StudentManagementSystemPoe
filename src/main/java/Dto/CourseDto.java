@@ -1,15 +1,23 @@
 package Dto;
 
+import annotation.NotNull;
+
 import java.time.LocalDateTime;
 
 public class CourseDto {
     private String id;
+    @NotNull(message = "Course Name cannot be null")
     private String course_name;
+    @NotNull(message = "course code cannot be null")
     private String course_code;
     private String description;
+    @NotNull(message = "credits cannot be null")
     private String credits;
+    @NotNull(message = "Department cannot be null")
     private String department;
+    @NotNull(message = "teacher cannot be null")
     private String teacher;
+    @NotNull(message = "capacity cannot be null")
     private String capacity;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;

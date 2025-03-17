@@ -6,6 +6,8 @@ import Dto.EnrollmentDto;
 import Mapper.EnrollmentMapper;
 import Model.*;
 import Utils.AlertUtil;
+import Utils.ValidateUtail;
+
 import java.util.List;
 
 public class EnrollmentServiceImpl {
@@ -16,6 +18,7 @@ public class EnrollmentServiceImpl {
         if (!enrollmentDtos.isEmpty()) {
             for (EnrollmentDto enrollmentDto : enrollmentDtos) {
                 Enrollment enrollment= EnrollmentMapper.toEntity(enrollmentDto);
+                ValidateUtail.validate(enrollmentDto);
                 this.enrollmentDao.insert(enrollment);
             }
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
