@@ -15,10 +15,10 @@ public class SemesterMapper {
         if(semesterDto.getId()!=null){
             semester.setId(Integer.parseInt(semesterDto.getId()));
         }
-        semester.setName(SemesterName.valueOf(semesterDto.getName()));
+        semester.setName((semesterDto.getName()));
         semester.setStart_Date(semesterDto.getStart_Date());
         semester.setEnd_Date(semesterDto.getEnd_Date());
-        semester.setStatus(SemesterStatus.valueOf(semesterDto.getStatus()));
+        semester.setStatus(semesterDto.getStatus());
         return semester;
     }
 }

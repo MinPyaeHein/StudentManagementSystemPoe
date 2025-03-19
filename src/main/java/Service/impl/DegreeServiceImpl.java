@@ -50,8 +50,8 @@ public class DegreeServiceImpl implements DegreeService {
             validateExistDepartment(degree);
             this.degreeDao.insert(degree);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         }
     }
 

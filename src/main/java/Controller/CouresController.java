@@ -129,8 +129,9 @@ public class CouresController {
     }
 
     @FXML
-    private void addCourse(){
-        CourseDto courseDto=new CourseDto();
+    private void addCourse() {
+        try{
+        CourseDto courseDto = new CourseDto();
         courseDto.setCourse_name(courseNameField.getText());
         courseDto.setCourse_code(courseCodeField.getText());
         courseDto.setDescription(descriptionField.getText());
@@ -140,16 +141,22 @@ public class CouresController {
         courseDto.setCapacity(capacityFied.getText());
         courseDto.setCreated_at(LocalDateTime.now());
         this.courseService.saveCourse(courseDto);
-            loadDummyData();
-            clearFields();
+        loadDummyData();
+        clearFields();
+    }catch (RuntimeException e){
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+        }
     }
     @FXML
     private void deleteCourse(){
         CourseDto courseDto=new CourseDto();
-        courseDto.setId(idField.getText());
+        if(AlertUtil.getSelectedItem(courseTable, "course") !=null) {
+            courseDto.setId(idField.getText());
             this.courseService.delete(courseDto);
-        loadDummyData();
-        clearFields();
+            loadDummyData();
+            clearFields();
+        }
+
     }
     @FXML
     private void cleanForm() {
@@ -158,7 +165,7 @@ public class CouresController {
 
     @FXML
     private void updateCourse(){
-        try{
+        if(AlertUtil.getSelectedItem(courseTable, "course") !=null) {
             CourseDto courseDto=new CourseDto();
             courseDto.setId(idField.getText());
             courseDto.setCourse_name(courseNameField.getText());
@@ -174,10 +181,7 @@ public class CouresController {
             courseTable.refresh();
             loadDummyData();
             clearFields();
-        }catch (RuntimeException e){
-            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
         }
-
     }
 
     @FXML
@@ -214,9 +218,6 @@ public class CouresController {
         departmentChoiceBox.getSelectionModel().selectFirst();
         teacherChoiceBox.getSelectionModel().selectFirst();
         capacityFied.clear();
-
-
-
     }
 
 }

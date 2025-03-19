@@ -141,19 +141,23 @@ public class TeacherController {
 
     @FXML
     private void addTeacher() {
-        TeacherDto teacherDto=new TeacherDto();
-        teacherDto.setName(nameField.getText());
-        teacherDto.setEmail(emailField.getText());
-        teacherDto.setAddress(addressField.getText());
-        teacherDto.setPhone(phoneField.getText());
-        teacherDto.setDegree(degreeChoiceField.getSelectionModel().getSelectedItem());
-        teacherDto.setDepartment(choiceBoxField.getSelectionModel().getSelectedItem());
-        teacherDto.setGender(maleField.isSelected() ? "male" : "female");
-        teacherDto.setImageFile(ImgUtil.selectedImageFile);
-        this.teacherService.saveTeacher(teacherDto);
+        try {
+            TeacherDto teacherDto = new TeacherDto();
+            teacherDto.setName(nameField.getText());
+            teacherDto.setEmail(emailField.getText());
+            teacherDto.setAddress(addressField.getText());
+            teacherDto.setPhone(phoneField.getText());
+            teacherDto.setDegree(degreeChoiceField.getSelectionModel().getSelectedItem());
+            teacherDto.setDepartment(choiceBoxField.getSelectionModel().getSelectedItem());
+            teacherDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
+            teacherDto.setImageFile(ImgUtil.selectedImageFile);
+            this.teacherService.saveTeacher(teacherDto);
 
-        this.loadDummyData();
-        clearFields();
+            this.loadDummyData();
+            clearFields();
+        }catch(RuntimeException e){
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+        }
     }
 
 
@@ -186,7 +190,7 @@ public class TeacherController {
         teacherDto.setPhone(phoneField.getText());
         teacherDto.setDegree(this.degreeChoiceField.getSelectionModel().getSelectedItem());
         teacherDto.setDepartment(this.choiceBoxField.getSelectionModel().getSelectedItem());
-        teacherDto.setGender(maleField.isSelected() ? "male" : "female");
+        teacherDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
         teacherDto.setImageFile(ImgUtil.selectedImageFile);
         this.teacherService.update(teacherDto);
         teacherTable.refresh();

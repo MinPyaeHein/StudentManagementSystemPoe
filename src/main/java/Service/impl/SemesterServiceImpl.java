@@ -26,8 +26,8 @@ public SemesterServiceImpl(){
         ValidateUtail.validate(semesterDto);
         this.semesterDao.insert(semester);
         AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
-    }catch(InvalidDataFormatException exception){
-        AlertUtil.alert(exception.getMessage(), Constants.Alerts.ERROR);
+    }catch(InvalidDataFormatException e){
+       throw new InvalidDataFormatException(e.getMessage());
     }
 }
 

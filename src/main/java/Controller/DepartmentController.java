@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Constant.Constants;
 import Dto.DepartmentDto;
 import Model.Department;
 import Service.impl.DepartmentServiceImpl;
@@ -51,12 +52,16 @@ public class DepartmentController {
 
     @FXML
     private void addDepartment() {
-        DepartmentDto departmentDto=new DepartmentDto();
+        try{
+        DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setDepartment(departmentField.getText());
         this.departmentService.saveDepartment(departmentDto);
         this.loadDummyData();
         clearFields();
+    }catch(RuntimeException e){
+        AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
     }
+}
 
     @FXML
     private void deleteDepartment() {

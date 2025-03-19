@@ -52,12 +52,10 @@ public class TeacherServiceImpl implements TeacherService {
             ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), Constants.ImagePaths.TEACHER_FOLDER);
             this.teacherDao.insert(teacher);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(UserAlreadyExist exception){
-            AlertUtil.alert(exception.getMessage() + teacher.getEmail(), Constants.Alerts.ERROR);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
-        }catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     @Override

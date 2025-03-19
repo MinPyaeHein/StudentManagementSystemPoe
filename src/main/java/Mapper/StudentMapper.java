@@ -23,7 +23,7 @@ public class StudentMapper {
         student.setPhone(studentDto.getPhone());
         Faculty faculty = facultyService.findFacultyByName(studentDto.getFaculty());
         student.setFaculty(faculty);
-        student.setGender(Gender.valueOf(studentDto.getGender()));
+        student.setGender((studentDto.getGender()));
         student.setPassword(studentDto.getPassword());
 
         return student;

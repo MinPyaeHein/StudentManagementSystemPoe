@@ -1,5 +1,6 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.DegreeDto;
 import Model.Degree;
 import Service.impl.DegreeServiceImpl;
@@ -50,11 +51,15 @@ public class DegreeController {
 
     @FXML
     private void addDegree() {
+        try {
         DegreeDto degreeDto=new DegreeDto();
-        degreeDto.setDegree(degreeField.getText());
-        this.degreeService.saveDegree(degreeDto);
-        this.loadDummyData();
-        clearFields();
+            degreeDto.setDegree(degreeField.getText());
+            this.degreeService.saveDegree(degreeDto);
+            this.loadDummyData();
+            clearFields();
+        }catch(RuntimeException e){
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+        }
     }
 
     @FXML

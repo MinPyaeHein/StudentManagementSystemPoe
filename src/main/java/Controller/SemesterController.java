@@ -1,10 +1,12 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.SemesterDto;
 import Model.Semester;
 import Model.SemesterName;
 import Model.SemesterStatus;
 import Service.impl.SemesterServiceImpl;
+import Utils.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -70,24 +72,28 @@ public class SemesterController {
 
     @FXML
     private void addSemester() {
-        SemesterDto semesterDto=new SemesterDto();
-        semesterDto.setName(String.valueOf(this.nameChoiceBox.getSelectionModel().getSelectedItem()));
-        semesterDto.setStart_Date(this.startDatePicker.getValue());
-        semesterDto.setEnd_Date(this.endDatePicker.getValue());
-        semesterDto.setStatus(String.valueOf(this.statusChoiceBox.getSelectionModel().getSelectedItem()));
-        this.semesterService.saveSemester(semesterDto);
-        loadSemesterData();
-        clearForm();
+        try {
+            SemesterDto semesterDto = new SemesterDto();
+            semesterDto.setName((this.nameChoiceBox.getSelectionModel().getSelectedItem()));
+            semesterDto.setStart_Date(this.startDatePicker.getValue());
+            semesterDto.setEnd_Date(this.endDatePicker.getValue());
+            semesterDto.setStatus((this.statusChoiceBox.getSelectionModel().getSelectedItem()));
+            this.semesterService.saveSemester(semesterDto);
+            loadSemesterData();
+            clearForm();
+        }catch(RuntimeException e){
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+        }
     }
 
     @FXML
     private void updateSemester() {
         SemesterDto semesterDto=new SemesterDto();
         semesterDto.setId(idField.getText());
-        semesterDto.setName(String.valueOf(this.nameChoiceBox.getSelectionModel().getSelectedItem()));
+        semesterDto.setName((this.nameChoiceBox.getSelectionModel().getSelectedItem()));
         semesterDto.setStart_Date(this.startDatePicker.getValue());
         semesterDto.setEnd_Date(this.endDatePicker.getValue());
-        semesterDto.setStatus(String.valueOf(this.statusChoiceBox.getSelectionModel().getSelectedItem()));
+        semesterDto.setStatus((this.statusChoiceBox.getSelectionModel().getSelectedItem()));
         this.semesterService.update(semesterDto);
         semesterTable.refresh();
         loadSemesterData();

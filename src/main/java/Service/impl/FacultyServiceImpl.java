@@ -27,8 +27,8 @@ public class FacultyServiceImpl  implements FacultyService {
             validateExistFaculty(faculty);
             this.facultyDao.insert(faculty);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         }
     }
 

@@ -31,7 +31,6 @@ public class AlertUtil {
 
     public static <T> T getSelectedItem(TableView<T> tableView, String itemType) {
         T selectedItem = tableView.getSelectionModel().getSelectedItem();
-
         if (selectedItem == null) {
             AlertUtil.alert("Please select a " + itemType + " from table", "ERROR");
             return null;

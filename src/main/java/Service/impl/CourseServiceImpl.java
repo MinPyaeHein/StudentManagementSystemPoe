@@ -27,13 +27,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void update(CourseDto courseDto) {
         Course course = CourseMapper.toEntity(courseDto);
-        try {
             ValidateUtail.validate(courseDto);
             coursesDao.update(course, Constants.FieldConstraints.ID);
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            throw new InvalidDataFormatException(exception.getMessage());
-        }
     }
 
     @Override
@@ -58,7 +54,7 @@ public class CourseServiceImpl implements CourseService {
             this.coursesDao.insert(course);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         }catch (InvalidDataFormatException e){
-            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+            throw new InvalidDataFormatException(e.getMessage());
         }
 
     }

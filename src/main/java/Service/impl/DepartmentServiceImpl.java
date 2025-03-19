@@ -46,8 +46,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             validateExistDepartment(department);
             this.departmentDao.insert(department);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         }
     }
     @Override

@@ -26,7 +26,7 @@ public class Constants {
         public static final String DUPLICATE_RECORD = "Duplicate Record found!!! ";
         public static final String STUDENT_NOT_FOUND = "Student not found. Try again";
         public static final String INCORRECT_PASSWORD = "Incorrect password. Try again.";
-        public static final String NO_SELECTED_ENROLLMENT = "No enrollments Selected";
+        public static final String NO_SELECTED = "Row does not Selected";
     }
 
     // Common Selections

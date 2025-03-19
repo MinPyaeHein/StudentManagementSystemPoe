@@ -133,22 +133,24 @@ public class StudentController {
     }
 
     @FXML
-    private void addStudent() throws IOException {
-       if(AlertUtil.getSelectedItem(studentTable, "student") !=null) {
-           StudentDto studentDto = new StudentDto();
-           studentDto.setName(nameField.getText());
-           studentDto.setEmail(emailField.getText());
-           studentDto.setAddress(addressField.getText());
-           studentDto.setPhone(phoneField.getText());
-           studentDto.setGender(maleField.isSelected() ? "male" : "female");
-           studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
-           studentDto.setImageFile(ImgUtil.selectedImageFile);
-           studentDto.setPassword(passwordField.getText());
+    private void addStudent(){
+        try {
+                StudentDto studentDto = new StudentDto();
+                studentDto.setName(nameField.getText());
+                studentDto.setEmail(emailField.getText());
+                studentDto.setAddress(addressField.getText());
+                studentDto.setPhone(phoneField.getText());
+                studentDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
+                studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
+                studentDto.setImageFile(ImgUtil.selectedImageFile);
+                studentDto.setPassword(passwordField.getText());
 
-           this.studentService.saveStudent(studentDto);
-       }
-        this.loadDummyData();
-        clearFields();
+                this.studentService.saveStudent(studentDto);
+            this.loadDummyData();
+            clearFields();
+        } catch (RuntimeException e) {
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+        }
     }
 
     @FXML
@@ -170,20 +172,22 @@ public class StudentController {
 
     @FXML
     private void updateStudent() {
-        StudentDto studentDto =new StudentDto();
+        if (AlertUtil.getSelectedItem(studentTable, "student") != null) {
+            StudentDto studentDto = new StudentDto();
             studentDto.setId(idField.getText());
             studentDto.setName(nameField.getText());
             studentDto.setEmail(emailField.getText());
             studentDto.setAddress(addressField.getText());
             studentDto.setPhone(phoneField.getText());
             studentDto.setFaculty(this.choiceBoxField.getSelectionModel().getSelectedItem());
-            studentDto.setGender(maleField.isSelected() ? "male" : "female");
+            studentDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
             studentDto.setImageFile(ImgUtil.selectedImageFile);
             studentDto.setPassword(passwordField.getText());
             this.studentService.update(studentDto);
             studentTable.refresh();
             loadDummyData();
             clearFields();
+        }
         }
 
     @FXML

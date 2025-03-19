@@ -1,5 +1,6 @@
 package Controller;
 
+import Constant.Constants;
 import Dto.FacultyDto;
 import Model.Faculty;
 import Service.impl.FacultyServiceImpl;
@@ -66,14 +67,18 @@ public class FacultyController {
 
     @FXML
     private void addFaculty() {
-        FacultyDto facultyDto=new FacultyDto();
-        facultyDto.setName(nameField.getText());
-        facultyDto.setEmail(emailField.getText());
-        facultyDto.setWebsite_link(websiteField.getText());
-        facultyDto.setPhone(phoneField.getText());
-        this.facultyService.saveFaculty(facultyDto);
-        this.loadDummyData();
-        clearFields();
+        try {
+            FacultyDto facultyDto = new FacultyDto();
+            facultyDto.setName(nameField.getText());
+            facultyDto.setEmail(emailField.getText());
+            facultyDto.setWebsite_link(websiteField.getText());
+            facultyDto.setPhone(phoneField.getText());
+            this.facultyService.saveFaculty(facultyDto);
+            this.loadDummyData();
+            clearFields();
+        }catch(RuntimeException e){
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+        }
     }
     @FXML
     private void clearForm() {

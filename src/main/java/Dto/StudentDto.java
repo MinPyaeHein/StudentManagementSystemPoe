@@ -1,5 +1,6 @@
 package Dto;
 
+import Model.Gender;
 import annotation.EmailValidate;
 import annotation.NotNull;
 import annotation.PhoneValidate;
@@ -16,7 +17,7 @@ public class StudentDto {
     @NotNull(message="Address cannot be null!!")
     private String address;
     @NotNull(message="gender cannot be null!!")
-    private String gender;
+    private Gender gender;
     @NotNull(message="Phone Number cannot be null!!")
     @PhoneValidate(message = "Phone number is not valid!!")
     private String phone;
@@ -58,13 +59,7 @@ public class StudentDto {
         this.address = address;
     }
 
-    public String getGender() {
-        return gender;
-    }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     public String getPhone() {
         return phone;
@@ -96,5 +91,13 @@ public class StudentDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

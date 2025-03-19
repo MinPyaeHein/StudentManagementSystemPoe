@@ -23,7 +23,7 @@ public class EnrollmentServiceImpl {
             }
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         } else {
-            AlertUtil.alert(Constants.Alerts.NO_SELECTED_ENROLLMENT, Constants.Alerts.ERROR);
+            AlertUtil.alert(Constants.Alerts.NO_SELECTED, Constants.Alerts.ERROR);
         }
     }
 

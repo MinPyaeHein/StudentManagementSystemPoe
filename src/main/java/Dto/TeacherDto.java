@@ -1,5 +1,6 @@
 package Dto;
 
+import Model.Gender;
 import annotation.EmailValidate;
 import annotation.NotNull;
 import annotation.PhoneValidate;
@@ -24,7 +25,7 @@ public class TeacherDto {
     @NotNull(message = "Department cannot be null!!")
     private String department;
     @NotNull(message="Gender cannot be null!!")
-    private String gender;
+    private Gender gender;
     private File imageFile;
 
     public File getImageFile() {
@@ -91,13 +92,12 @@ public class TeacherDto {
         this.degree = degree;
     }
 
-    public String getGender() {
+
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
-
-
 }

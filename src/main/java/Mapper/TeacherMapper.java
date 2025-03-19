@@ -27,7 +27,7 @@ public class TeacherMapper {
         teacher.setPhone(teacherDto.getPhone());
         teacher.setDegree(degreeService.findDegreeByName(teacherDto.getDegree()));
         teacher.setDepartment(departmentService.findDepartmentByName(teacherDto.getDepartment()));
-        teacher.setGender(Gender.valueOf(teacherDto.getGender()));
+        teacher.setGender((teacherDto.getGender()));
 
         return teacher;
     }

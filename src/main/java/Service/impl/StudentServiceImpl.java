@@ -30,8 +30,6 @@ public class StudentServiceImpl implements StudentService {
          ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(), Constants.ImagePaths.STUDENT_FOLDER);
          studentDao.update(student, Constants.FieldConstraints.ID);
          AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
-     }catch(InvalidDataFormatException exception){
-         AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
      } catch (IOException e) {
          AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
      }
@@ -64,10 +62,10 @@ public class StudentServiceImpl implements StudentService {
             ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),Constants.ImagePaths.STUDENT_FOLDER);
             this.studentDao.insert(student);
             AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+            throw new RuntimeException(e);
         }
     }
 
