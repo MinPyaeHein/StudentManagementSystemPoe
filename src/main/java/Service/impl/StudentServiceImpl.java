@@ -18,8 +18,6 @@ import java.util.Optional;
 
 public class StudentServiceImpl implements StudentService {
     private StudentDaoImpl studentDao;
-    public static int studentId;
-    public static String studentName;
     public StudentServiceImpl() {
         this.studentDao = new StudentDaoImpl();
     }
@@ -49,8 +47,6 @@ public class StudentServiceImpl implements StudentService {
         try {
             Student studentRow = studentDao.selectById(new Student(id));
             if (studentRow != null) {
-                studentId = studentRow.getId();
-                studentName = studentRow.getName();
                 return studentRow;
             }
         } catch (IndexOutOfBoundsException ex) {

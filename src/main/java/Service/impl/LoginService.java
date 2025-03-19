@@ -1,5 +1,6 @@
 package Service.impl;
 
+import Constant.Constants;
 import Dao.impl.StudentDaoImpl;
 import Dto.LoginDto;
 import Model.Student;
@@ -25,7 +26,7 @@ public class LoginService {
         if (student == null ) {
             throw new UserNotFountException("Please enter correct email and password !!");
         }else{
-            DaoUtil.authStudent=student;
+            Constants.authStudent=student;
         }
     }
 }

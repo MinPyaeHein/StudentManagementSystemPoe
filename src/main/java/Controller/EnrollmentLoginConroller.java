@@ -55,8 +55,12 @@ public class EnrollmentLoginConroller {
 
     @FXML
     private void toEnrollmentPage(ActionEvent event) {
-        if (studentService.getStudentById(studentId) != null) {
+         Constants.upcomingSemester= semesterService.getUpcomingSemester();
+         Constants.enrollmentStudent=studentService.getStudentById(studentId);
+        if (Constants.enrollmentStudent != null && Constants.upcomingSemester != null) {
             viewUtil.loadPage(event, Constants.Views.ENROLLMENT);
+        }else if(Constants.upcomingSemester == null){
+            AlertUtil.alert("Upcoming semester not found!",Constants.Alerts.ERROR);
         }
     }
 

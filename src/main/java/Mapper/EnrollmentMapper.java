@@ -1,5 +1,6 @@
 package Mapper;
 
+import Constant.Constants;
 import Dto.EnrollmentDto;
 import Model.Enrollment;
 import Model.Semester;
@@ -19,7 +20,7 @@ public class EnrollmentMapper {
 
         enrollment.setStudent(new Student(Integer.parseInt(enrollmentDto.getStudentId())));
         enrollment.setCourse(courseService.findCourseByName(enrollmentDto.getCourse()));
-        enrollment.setSemester(new Semester(Integer.parseInt(enrollmentDto.getSemesterId())));
+        enrollment.setSemester(Constants.upcomingSemester);
         enrollment.setStatus(enrollmentDto.getStatus());
 
         return enrollment;

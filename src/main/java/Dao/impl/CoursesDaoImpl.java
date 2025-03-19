@@ -72,6 +72,15 @@ public class CoursesDaoImpl extends GeneralDaoImpl<Course> {
         }
         return null;
     }
+    public List<Course> findCoursesNotRegisteredByStudent(int studentId) {
+        String query = "SELECT c.* FROM courses c " +
+                "WHERE NOT EXISTS (" +
+                "    SELECT 1 FROM enrollments e " +
+                "    WHERE e.course_id = c.id " +
+                "    AND e.student_id = ?" +
+                ")";
+        return executeQuerry(query, studentId);
+    }
 
 
 

@@ -6,6 +6,7 @@ import Dto.CourseDto;
 import Mapper.CourseMapper;
 import Model.Course;
 import Model.Enrollment;
+import Model.Student;
 import Service.CourseService;
 import Utils.AlertUtil;
 import Utils.ValidateUtail;
@@ -31,7 +32,7 @@ public class CourseServiceImpl implements CourseService {
             coursesDao.update(course, Constants.FieldConstraints.ID);
             AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
         }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(), Constants.Alerts.ERROR);
+            throw new InvalidDataFormatException(exception.getMessage());
         }
     }
 
@@ -94,21 +95,11 @@ public class CourseServiceImpl implements CourseService {
         return coursesDao.findCourseByName(name);
     }
 
-    public List<Course> availableCourses() {
-        List<Course> courseList = this.coursesDao.selectAll();
-        List<Course> availableCourseList = new ArrayList<>();
-        List<Enrollment> registeredEnrollment = enrollmentService.getAllEnrolledCoursesByStudentId(StudentServiceImpl.studentId);
-        List<String> registeredCourseNames = new ArrayList<>();
 
-        for (Enrollment enrollment : registeredEnrollment) {
-            registeredCourseNames.add(enrollment.getCourse().getCourse_name());
-        }
-        for (Course course : courseList) {
-            if (!registeredCourseNames.contains(course.getCourse_name())) {
-                availableCourseList.add(course);
-            }
-        }
-        return availableCourseList;
+
+    public List<Course> availableCoursesByStudent(Student student) {
+        return coursesDao.findCoursesNotRegisteredByStudent(student.getId());
     }
+
 
 }

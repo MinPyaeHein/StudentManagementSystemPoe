@@ -2,6 +2,8 @@ package Utils;
 
 
 
+import Model.Enrollment;
+import Model.Semester;
 import Model.Student;
 import annotation.Column;
 import annotation.Id;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaoUtil {
-    public static Student authStudent=null;
+
 
     public static List<String> getFieldNameFromObj(Object obj,Boolean need,String... fields){
         List<String> fieldsName = new ArrayList<String>();

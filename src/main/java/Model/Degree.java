@@ -16,13 +16,9 @@ public class Degree {
     public Degree(){
 
     }
-
-
     public Degree(int id){
         this.id = id;
     }
-
-
     public Degree(int id,String degree){
         this.id = id;
         this.degree = degree;

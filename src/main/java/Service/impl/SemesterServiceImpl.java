@@ -54,5 +54,9 @@ public SemesterServiceImpl(){
         Semester activeSemester = semesterDao.findUpcomingSemester();
         return activeSemester != null ? activeSemester.getStart_Date() : null;
     }
+    public Semester getUpcomingSemester() {
+        Semester upComingSemester = semesterDao.findUpcomingSemester();
+        return upComingSemester;
+    }
 
 }

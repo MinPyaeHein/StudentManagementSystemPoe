@@ -7,6 +7,7 @@ import Model.*;
 import Service.impl.CourseServiceImpl;
 import Service.impl.DepartmentServiceImpl;
 import Service.impl.TeacherServiceImpl;
+import Utils.AlertUtil;
 import Utils.DateTimeUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -157,22 +158,26 @@ public class CouresController {
 
     @FXML
     private void updateCourse(){
-        CourseDto courseDto=new CourseDto();
-        courseDto.setId(idField.getText());
-        courseDto.setCourse_name(courseNameField.getText());
-        courseDto.setCourse_code(courseCodeField.getText());
-        courseDto.setDescription(descriptionField.getText());
-        courseDto.setCredits(creditField.getText());
-        courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
-        courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
-        courseDto.setCapacity(capacityFied.getText());
-        LocalDateTime updatedTime = LocalDateTime.now();
-        courseDto.setUpdated_at(updatedTime);
-        this.courseService.update(courseDto);
+        try{
+            CourseDto courseDto=new CourseDto();
+            courseDto.setId(idField.getText());
+            courseDto.setCourse_name(courseNameField.getText());
+            courseDto.setCourse_code(courseCodeField.getText());
+            courseDto.setDescription(descriptionField.getText());
+            courseDto.setCredits(creditField.getText());
+            courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
+            courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
+            courseDto.setCapacity(capacityFied.getText());
+            LocalDateTime updatedTime = LocalDateTime.now();
+            courseDto.setUpdated_at(updatedTime);
+            this.courseService.update(courseDto);
+            courseTable.refresh();
+            loadDummyData();
+            clearFields();
+        }catch (RuntimeException e){
+            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+        }
 
-        courseTable.refresh();
-        loadDummyData();
-        clearFields();
     }
 
     @FXML

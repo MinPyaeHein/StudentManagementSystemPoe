@@ -1,7 +1,12 @@
 package Constant;
 
-public class Constants {
+import Model.Semester;
+import Model.Student;
 
+public class Constants {
+    public static Student authStudent=null;
+    public static Semester upcomingSemester=null;
+    public static Student enrollmentStudent=null;
     // Image Paths
     public static class ImagePaths {
         public static final String STUDENT = "student_images/";

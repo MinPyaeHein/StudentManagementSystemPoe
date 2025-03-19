@@ -52,9 +52,6 @@ public class EnrollmentController {
     private TableColumn<Enrollment,String>selectedStatusColumn;
 
     private static int credit = 0;
-    private int studentId = StudentServiceImpl.studentId;
-    private String studentName = StudentServiceImpl.studentName;
-
     private CourseServiceImpl courseService;
     ObservableList<Course> courseList;
     private EnrollmentServiceImpl enrollmentService;
@@ -67,10 +64,10 @@ public class EnrollmentController {
         courseTableSetup();
         selectedTableSetup();
         setBackGroundColor();
-        dateField.setText(String.valueOf(semesterService.getUpcomingSemesterStartDate()));
-        idLabel.setText(String.valueOf(studentId));
-        nameLabel.setText(studentName);
-        enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
+        dateField.setText(Constants.upcomingSemester.getName()+String.valueOf(Constants.upcomingSemester.getStart_Date()));
+        idLabel.setText(String.valueOf(Constants.enrollmentStudent.getId()));
+        nameLabel.setText(Constants.enrollmentStudent.getName());
+        enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(Constants.enrollmentStudent.getId());
         ObservableList<Enrollment> enrollmentObservableList = FXCollections.observableArrayList(enrollments);
         selectedTable.setItems(enrollmentObservableList);
         calculateCredit();
@@ -88,7 +85,7 @@ public class EnrollmentController {
         courseNameColumn.setCellValueFactory(new PropertyValueFactory<>("course_name"));
         courseCodeColumn.setCellValueFactory(new PropertyValueFactory<>("course_code"));
         creditsColumn.setCellValueFactory(new PropertyValueFactory<>("credits"));
-        courseList = FXCollections.observableArrayList(courseService.availableCourses());
+        courseList = FXCollections.observableArrayList(courseService.availableCoursesByStudent(Constants.enrollmentStudent));
         courseTable.setItems(courseList);
     }
 
@@ -156,7 +153,7 @@ public class EnrollmentController {
         for (Enrollment enrollment : selectedTable.getItems()) {
             if(!enrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
                 EnrollmentDto enrollmentDto = new EnrollmentDto();
-                enrollmentDto.setStudentId(String.valueOf(studentId));
+                enrollmentDto.setStudentId(String.valueOf(Constants.enrollmentStudent.getId()));
                 enrollmentDto.setCourse(enrollment.getCourse().getCourse_name());
                 enrollmentDto.setStatus(Constants.FieldConstraints.REGISTER_STATUS);
                 enrollmentDtos.add(enrollmentDto);
@@ -168,7 +165,7 @@ public class EnrollmentController {
 
     }
     private void reloadEnrollmentTable() {
-        List<Enrollment> enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(studentId);
+        List<Enrollment> enrollments = enrollmentService.getAllEnrolledCoursesByStudentId(Constants.enrollmentStudent.getId());
         calculateCredit();
         selectedTable.getItems().setAll(FXCollections.observableArrayList(enrollments));
         selectedTable.refresh();

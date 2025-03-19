@@ -11,7 +11,6 @@ public class EnrollmentDto {
     private String course;
     @NotNull(message = "status cannot be null")
     private String status;
-    @NotNull(message = "semester  cannot be null")
     private String semesterId;
 
 

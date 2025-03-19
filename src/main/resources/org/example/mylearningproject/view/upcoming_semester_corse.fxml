@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1500.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EnrollmentController">
+   <children>
+      <StackPane layoutX="316.0" layoutY="155.0" prefHeight="438.0" prefWidth="967.0">
+         <children>
+            <Pane prefHeight="406.0" prefWidth="989.0">
+               <children>
+                  <Pane layoutX="444.0" layoutY="41.0" prefHeight="336.0" prefWidth="509.0">
+                     <children>
+                        <TableView fx:id="selectedTable" layoutX="5.0" layoutY="23.0" onMouseClicked="#selectedCourseTable" prefHeight="312.0" prefWidth="499.0">
+                          <columns>
+                            <TableColumn fx:id="selectedCourseCodeColumn" prefWidth="175.199951171875" text="Course Code " />
+                            <TableColumn fx:id="selectedCourseNameColumn" prefWidth="189.60003662109375" text="Course Name" />
+                              <TableColumn fx:id="selectedStatusColumn" prefWidth="132.5999755859375" text="Status" />
+                          </columns>
+                        </TableView>
+                        <HBox layoutY="-15.0" prefHeight="26.0" prefWidth="210.0" spacing="15.0">
+                           <children>
+                              <Label prefHeight="22.0" prefWidth="107.0" text="Current Credit ">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="creditsTextfield" disable="true" prefHeight="26.0" prefWidth="86.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="57.0" layoutY="24.0" prefHeight="354.0" prefWidth="366.0">
+                     <children>
+                        <TableView fx:id="courseTable" layoutX="1.0" layoutY="50.0" onMouseClicked="#handleCourseTableClick" prefHeight="302.0" prefWidth="365.0">
+                          <columns>
+                            <TableColumn fx:id="courseCodeColumn" prefWidth="87.0" text="Course Code" />
+                            <TableColumn fx:id="courseNameColumn" prefWidth="168.0" text="Course Name" />
+                              <TableColumn fx:id="creditsColumn" prefWidth="109.60003051757815" text="Credit" />
+                          </columns>
+                        </TableView>
+                        <HBox layoutX="1.0" layoutY="20.0" prefHeight="30.0" prefWidth="210.0" spacing="20.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="96.0" text="Search:" />
+                              <TextField fx:id="searchField" onKeyPressed="#handleSearchAction" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                  <Button fx:id="enrollmentbutton" layoutX="444.0" layoutY="393.0" mnemonicParsing="false" onAction="#enrollmentBtn" text="Enrollment" />
+                  <Label layoutX="793.0" layoutY="31.0" text="Maxinum Credit  20">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+      <Label layoutY="14.0" prefHeight="30.0" prefWidth="1550.0" style="-fx-alignment: center;" text="Upcoming Semester Course Register ">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="675.0" layoutY="54.0" text="Semester Date: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="dateField" layoutX="800.0" layoutY="54.0" prefHeight="27.0" prefWidth="163.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="81.0" layoutY="55.0" mnemonicParsing="false" onAction="#mainPagebtn" text="Back to Main Page" />
+      <HBox layoutX="675.0" layoutY="123.0" prefHeight="22.0" prefWidth="242.0" spacing="20.0">
+         <children>
+            <Label text="Stduent Name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameLabel" prefHeight="20.0" prefWidth="118.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="675.0" layoutY="94.0" prefHeight="20.0" prefWidth="242.0" spacing="40.0">
+         <children>
+            <Label text="Student ID: ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="idLabel" prefHeight="25.0" prefWidth="62.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
