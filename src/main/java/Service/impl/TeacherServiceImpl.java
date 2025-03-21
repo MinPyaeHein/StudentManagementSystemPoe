@@ -23,17 +23,14 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void update(TeacherDto teacherDto){
+        try {
         Teacher teacher = TeacherMapper.toEntity(teacherDto);
-        try{
-            ValidateUtail.validate(teacherDto);
             teacherDao.update(teacher,"id");
             ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), Constants.ImagePaths.TEACHER_FOLDER);
-            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),"ERROR");
         } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),"ERROR");
+            throw new RuntimeException(e);
         }
+
     }
     @Override
     public List<Teacher> getAllTeacher(){
@@ -45,29 +42,24 @@ public class TeacherServiceImpl implements TeacherService {
     }
     @Override
     public void saveTeacher(TeacherDto teacherDto){
-        Teacher teacher = TeacherMapper.toEntity(teacherDto);
         try{
+        Teacher teacher = TeacherMapper.toEntity(teacherDto);
             ValidateUtail.validate(teacherDto);
             checkDuplicateTeacher(teacher);
             ImgUtil.saveImageWithId(teacher.getId(), teacherDto.getImageFile(), Constants.ImagePaths.TEACHER_FOLDER);
             this.teacherDao.insert(teacher);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException e){
-            throw new InvalidDataFormatException(e.getMessage());
-        } catch (IOException e) {
+        }catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void delete(TeacherDto teacherDto){
+        try {
         Teacher teacher = TeacherMapper.idToEntity(teacherDto);
         teacher =  this.teacherDao.selectById(teacher);
-        try {
-            if(teacher != null &&
-                    AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+ "\n"+teacher.getEmail())){
-                this.teacherDao.delete(teacher);
-            }
-            ImgUtil.deleteImageWithId(teacher.getId(),teacherDto.getImageFile(),Constants.ImagePaths.TEACHER_FOLDER);
+        this.teacherDao.delete(teacher);
+        ImgUtil.deleteImageWithId(teacher.getId(),teacherDto.getImageFile(),Constants.ImagePaths.TEACHER_FOLDER);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

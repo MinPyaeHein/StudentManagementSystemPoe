@@ -88,18 +88,24 @@ public class SemesterController {
 
     @FXML
     private void updateSemester() {
-        SemesterDto semesterDto=new SemesterDto();
-        semesterDto.setId(idField.getText());
-        semesterDto.setName((this.nameChoiceBox.getSelectionModel().getSelectedItem()));
-        semesterDto.setStart_Date(this.startDatePicker.getValue());
-        semesterDto.setEnd_Date(this.endDatePicker.getValue());
-        semesterDto.setStatus((this.statusChoiceBox.getSelectionModel().getSelectedItem()));
-        this.semesterService.update(semesterDto);
-        semesterTable.refresh();
-        loadSemesterData();
+        try{
+        if(AlertUtil.getSelectedItem(semesterTable, "course") !=null) {
+            SemesterDto semesterDto = new SemesterDto();
+            semesterDto.setId(idField.getText());
+            semesterDto.setName((this.nameChoiceBox.getSelectionModel().getSelectedItem()));
+            semesterDto.setStart_Date(this.startDatePicker.getValue());
+            semesterDto.setEnd_Date(this.endDatePicker.getValue());
+            semesterDto.setStatus((this.statusChoiceBox.getSelectionModel().getSelectedItem()));
+            this.semesterService.update(semesterDto);
+            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
+            semesterTable.refresh();
+            loadSemesterData();
+        }
+        }catch (RuntimeException e) {
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+        }
         clearForm();
-
-    }
+}
 
     @FXML
     private void clearForm() {

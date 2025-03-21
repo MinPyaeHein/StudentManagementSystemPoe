@@ -152,7 +152,7 @@ public class TeacherController {
             teacherDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
             teacherDto.setImageFile(ImgUtil.selectedImageFile);
             this.teacherService.saveTeacher(teacherDto);
-
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
             this.loadDummyData();
             clearFields();
         }catch(RuntimeException e){
@@ -169,32 +169,41 @@ public class TeacherController {
 
     @FXML
     private void deleteTeacher() {
-        AlertUtil.getSelectedItem(teacherTable, "teacher");
-        TeacherDto teacherDto=new TeacherDto();
-        teacherDto.setId(idField.getText());
-        teacherDto.setImageFile(ImgUtil.selectedImageFile);
-         this.teacherService.delete(teacherDto);
+        if(AlertUtil.getSelectedItem(teacherTable, "teacher") != null) {
+            TeacherDto teacherDto = new TeacherDto();
+            teacherDto.setId(idField.getText());
+            teacherDto.setImageFile(ImgUtil.selectedImageFile);
+            if(AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE)) {
+                this.teacherService.delete(teacherDto);
+            }
             loadDummyData();
             clearFields();
+        }
     }
 
     @FXML
     private void updateTeacher() {
-        AlertUtil.getSelectedItem(teacherTable, "teacher");
-
-        TeacherDto teacherDto=new TeacherDto();
-        teacherDto.setId(idField.getText());
-        teacherDto.setName(nameField.getText());
-        teacherDto.setEmail(emailField.getText());
-        teacherDto.setAddress(addressField.getText());
-        teacherDto.setPhone(phoneField.getText());
-        teacherDto.setDegree(this.degreeChoiceField.getSelectionModel().getSelectedItem());
-        teacherDto.setDepartment(this.choiceBoxField.getSelectionModel().getSelectedItem());
-        teacherDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
-        teacherDto.setImageFile(ImgUtil.selectedImageFile);
-        this.teacherService.update(teacherDto);
-        teacherTable.refresh();
-        loadDummyData();
+        try{
+        if(AlertUtil.getSelectedItem(teacherTable, "teacher") != null) {
+            TeacherDto teacherDto = new TeacherDto();
+            teacherDto.setId(idField.getText());
+            teacherDto.setName(nameField.getText());
+            teacherDto.setEmail(emailField.getText());
+            teacherDto.setAddress(addressField.getText());
+            teacherDto.setPhone(phoneField.getText());
+            teacherDto.setDegree(this.degreeChoiceField.getSelectionModel().getSelectedItem());
+            teacherDto.setDepartment(this.choiceBoxField.getSelectionModel().getSelectedItem());
+            teacherDto.setGender(maleField.isSelected() ? Gender.male : Gender.female);
+            teacherDto.setImageFile(ImgUtil.selectedImageFile);
+            this.teacherService.update(teacherDto);
+            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
+            teacherTable.refresh();
+            loadDummyData();
+            clearFields();
+        }
+        }catch (RuntimeException e) {
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+        }
         clearFields();
     }
 

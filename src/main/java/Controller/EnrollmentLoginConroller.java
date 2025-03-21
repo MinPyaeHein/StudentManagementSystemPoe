@@ -55,18 +55,23 @@ public class EnrollmentLoginConroller {
 
     @FXML
     private void toEnrollmentPage(ActionEvent event) {
-         Constants.upcomingSemester= semesterService.getUpcomingSemester();
-         Constants.enrollmentStudent=studentService.getStudentById(studentId);
-        if (Constants.enrollmentStudent != null && Constants.upcomingSemester != null) {
-            viewUtil.loadPage(event, Constants.Views.ENROLLMENT);
-        }else if(Constants.upcomingSemester == null){
-            AlertUtil.alert("Upcoming semester not found!",Constants.Alerts.ERROR);
+        try {
+            Constants.upcomingSemester = semesterService.getUpcomingSemester();
+            Constants.enrollmentStudent = studentService.getStudentById(studentId);
+            if (Constants.enrollmentStudent != null && Constants.upcomingSemester != null) {
+                viewUtil.loadPage(event, Constants.Views.ENROLLMENT);
+            } else if (Constants.upcomingSemester == null) {
+                AlertUtil.alert("Upcoming semester not found!", Constants.Alerts.ERROR);
+            }
+        } catch (RuntimeException e) {
+            AlertUtil.alert( Constants.Alerts.STUDENT_NOT_FOUND, Constants.Alerts.ERROR);
         }
     }
 
 
     @FXML
     private void searchBtn() {
+        try{
         int studentIdInput = Integer.parseInt(searchField.getText());
         Student student = studentService.getStudentById(studentIdInput);
 
@@ -78,6 +83,9 @@ public class EnrollmentLoginConroller {
             tableView(studentId);
 
             searchField.clear();
+        }
+    }catch(RuntimeException e){
+            AlertUtil.alert( Constants.Alerts.STUDENT_NOT_FOUND, Constants.Alerts.ERROR);
         }
     }
 

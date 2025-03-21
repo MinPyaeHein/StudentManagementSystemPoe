@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import Exception.*;
 
 public class CouresController {
 
@@ -130,33 +131,36 @@ public class CouresController {
 
     @FXML
     private void addCourse() {
-        try{
-        CourseDto courseDto = new CourseDto();
-        courseDto.setCourse_name(courseNameField.getText());
-        courseDto.setCourse_code(courseCodeField.getText());
-        courseDto.setDescription(descriptionField.getText());
-        courseDto.setCredits(creditField.getText());
-        courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
-        courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
-        courseDto.setCapacity(capacityFied.getText());
-        courseDto.setCreated_at(LocalDateTime.now());
-        this.courseService.saveCourse(courseDto);
-        loadDummyData();
-        clearFields();
-    }catch (RuntimeException e){
-            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+        try {
+            CourseDto courseDto = new CourseDto();
+            courseDto.setCourse_name(courseNameField.getText());
+            courseDto.setCourse_code(courseCodeField.getText());
+            courseDto.setDescription(descriptionField.getText());
+            courseDto.setCredits(creditField.getText());
+            courseDto.setDepartment(departmentChoiceBox.getSelectionModel().getSelectedItem());
+            courseDto.setTeacher(teacherChoiceBox.getSelectionModel().getSelectedItem());
+            courseDto.setCapacity(capacityFied.getText());
+            courseDto.setCreated_at(LocalDateTime.now());
+            this.courseService.saveCourse(courseDto);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS, Constants.Alerts.INFO);
+            loadDummyData();
+            clearFields();
+        }catch (RuntimeException e) {
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
         }
     }
+
     @FXML
     private void deleteCourse(){
-        CourseDto courseDto=new CourseDto();
-        if(AlertUtil.getSelectedItem(courseTable, "course") !=null) {
+        if(AlertUtil.getSelectedItem(courseTable, "course") !=null){
+            CourseDto courseDto=new CourseDto();
             courseDto.setId(idField.getText());
-            this.courseService.delete(courseDto);
+            if(AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE)) {
+                this.courseService.delete(courseDto);
+            }
             loadDummyData();
             clearFields();
         }
-
     }
     @FXML
     private void cleanForm() {
@@ -165,23 +169,28 @@ public class CouresController {
 
     @FXML
     private void updateCourse(){
-        if(AlertUtil.getSelectedItem(courseTable, "course") !=null) {
-            CourseDto courseDto=new CourseDto();
-            courseDto.setId(idField.getText());
-            courseDto.setCourse_name(courseNameField.getText());
-            courseDto.setCourse_code(courseCodeField.getText());
-            courseDto.setDescription(descriptionField.getText());
-            courseDto.setCredits(creditField.getText());
-            courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
-            courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
-            courseDto.setCapacity(capacityFied.getText());
-            LocalDateTime updatedTime = LocalDateTime.now();
-            courseDto.setUpdated_at(updatedTime);
-            this.courseService.update(courseDto);
-            courseTable.refresh();
-            loadDummyData();
-            clearFields();
+        try {
+            if (AlertUtil.getSelectedItem(courseTable, "course") != null) {
+                CourseDto courseDto = new CourseDto();
+                courseDto.setId(idField.getText());
+                courseDto.setCourse_name(courseNameField.getText());
+                courseDto.setCourse_code(courseCodeField.getText());
+                courseDto.setDescription(descriptionField.getText());
+                courseDto.setCredits(creditField.getText());
+                courseDto.setDepartment(this.departmentChoiceBox.getSelectionModel().getSelectedItem());
+                courseDto.setTeacher(this.teacherChoiceBox.getSelectionModel().getSelectedItem());
+                courseDto.setCapacity(capacityFied.getText());
+                LocalDateTime updatedTime = LocalDateTime.now();
+                courseDto.setUpdated_at(updatedTime);
+                this.courseService.update(courseDto);
+                AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
+                courseTable.refresh();
+                loadDummyData();
+            }
+        }catch (RuntimeException e) {
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
         }
+        clearFields();
     }
 
     @FXML

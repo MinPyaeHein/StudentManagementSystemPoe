@@ -20,13 +20,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void update(DepartmentDto departmentDto) {
-        Department department=DepartmentMapper.toEntity(departmentDto);
         try {
+          Department department=DepartmentMapper.toEntity(departmentDto);
             ValidateUtail.validate(departmentDto);
             departmentDao.update(department, Constants.FieldConstraints.ID);
-            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         }
     }
 
@@ -41,14 +40,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void saveDepartment(DepartmentDto departmentDto) {
         Department department= DepartmentMapper.toEntity(departmentDto);
-        try{
             ValidateUtail.validate(departmentDto);
             validateExistDepartment(department);
             this.departmentDao.insert(department);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException e){
-            throw new InvalidDataFormatException(e.getMessage());
-        }
     }
     @Override
     public Department findDepartmentByName(String name) {
@@ -59,9 +53,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void delete(DepartmentDto departmentDto) {
         Department department = DepartmentMapper.idToEntity(departmentDto);
         department = this.departmentDao.selectById(department);
-        if(department!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+department.getDepartment())){
-            this.departmentDao.delete(department);
-        }
+        this.departmentDao.delete(department);
+
     }
 
     private void validateExistDepartment(Department department) {

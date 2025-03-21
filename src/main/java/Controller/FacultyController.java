@@ -74,6 +74,7 @@ public class FacultyController {
             facultyDto.setWebsite_link(websiteField.getText());
             facultyDto.setPhone(phoneField.getText());
             this.facultyService.saveFaculty(facultyDto);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
             this.loadDummyData();
             clearFields();
         }catch(RuntimeException e){
@@ -87,26 +88,36 @@ public class FacultyController {
 
     @FXML
     private void deleteFaculty() {
-        FacultyDto facultyDto=new FacultyDto();
-        facultyDto.setId(idField.getText());
-        this.facultyService.delete(facultyDto);
-        loadDummyData();
-        clearFields();
+        if(AlertUtil.getSelectedItem(facultyTable, "faculty") !=null) {
+            FacultyDto facultyDto = new FacultyDto();
+            facultyDto.setId(idField.getText());
+            if(AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE)) {
+                this.facultyService.delete(facultyDto);
+            }
+            loadDummyData();
+            clearFields();
+        }
     }
 
     @FXML
     private void updateFaculty() {
-        FacultyDto facultyDto=new FacultyDto();
-        facultyDto.setId(idField.getText());
-        facultyDto.setName(nameField.getText());
-        facultyDto.setEmail(emailField.getText());
-        facultyDto.setWebsite_link(websiteField.getText());
-        facultyDto.setPhone(phoneField.getText());
-        this.facultyService.update(facultyDto);
-        facultyTable.refresh();
-        loadDummyData();
-        clearFields();
-
+        try {
+            if (AlertUtil.getSelectedItem(facultyTable, "faculty") != null) {
+                FacultyDto facultyDto = new FacultyDto();
+                facultyDto.setId(idField.getText());
+                facultyDto.setName(nameField.getText());
+                facultyDto.setEmail(emailField.getText());
+                facultyDto.setWebsite_link(websiteField.getText());
+                facultyDto.setPhone(phoneField.getText());
+                this.facultyService.update(facultyDto);
+                AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
+                facultyTable.refresh();
+                loadDummyData();
+            }
+        }catch (RuntimeException e) {
+                AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+            }
+            clearFields();
     }
 
     @FXML

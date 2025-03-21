@@ -33,17 +33,14 @@ public SemesterServiceImpl(){
 
     @Override
     public void update(SemesterDto semesterDto) {
-    Semester semester = SemesterMapper.toEntity(semesterDto);
-
     try{
+        Semester semester = SemesterMapper.toEntity(semesterDto);
         ValidateUtail.validate(semesterDto);
         semesterDao.update(semester,Constants.FieldConstraints.ID);
-       AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
-    }catch(InvalidDataFormatException exception){
-        AlertUtil.alert(exception.getMessage(), Constants.Alerts.ERROR);
+    }catch(InvalidDataFormatException e){
+        throw new InvalidDataFormatException(e.getMessage());
     }
-}
-
+   }
 
     @Override
     public List<Semester> getAllSemester() {

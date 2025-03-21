@@ -22,25 +22,19 @@ public class FacultyServiceImpl  implements FacultyService {
     @Override
     public void saveFaculty(FacultyDto facultyDto) {
         Faculty faculty= FacultyMapper.toEntity(facultyDto);
-        try{
             ValidateUtail.validate(facultyDto);
             validateExistFaculty(faculty);
             this.facultyDao.insert(faculty);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException e){
-            throw new InvalidDataFormatException(e.getMessage());
-        }
     }
 
     @Override
     public void update(FacultyDto facultyDto) {
-        Faculty faculty= FacultyMapper.toEntity(facultyDto);
         try {
+        Faculty faculty= FacultyMapper.toEntity(facultyDto);
             ValidateUtail.validate(facultyDto);
             facultyDao.update(faculty, Constants.FieldConstraints.ID);
-            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         }
     }
 
@@ -48,10 +42,7 @@ public class FacultyServiceImpl  implements FacultyService {
     public void delete(FacultyDto facultyDto){
         Faculty faculty = FacultyMapper.idToEntity(facultyDto);
         faculty = this.facultyDao.selectById(faculty);
-        if(faculty != null &&
-                AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+faculty.getEmail())){
-               this.facultyDao.delete(faculty);
-        }
+        this.facultyDao.delete(faculty);
     }
 
     @Override

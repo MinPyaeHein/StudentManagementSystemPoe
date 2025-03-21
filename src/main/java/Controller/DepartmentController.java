@@ -65,23 +65,34 @@ public class DepartmentController {
 
     @FXML
     private void deleteDepartment() {
-        DepartmentDto departmentDto=new DepartmentDto();
-        departmentDto.setId(idField.getText());
-            this.departmentService.delete(departmentDto);
+        if(AlertUtil.getSelectedItem(departmentTable, "department") !=null) {
+            DepartmentDto departmentDto = new DepartmentDto();
+            departmentDto.setId(idField.getText());
+            if(AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE)) {
+                this.departmentService.delete(departmentDto);
+            }
             this.loadDummyData();
             clearFields();
+        }
 
     }
 
     @FXML
     private void updateDepartment() {
-    DepartmentDto departmentDto=new DepartmentDto();
-    departmentDto.setId(idField.getText());
-    departmentDto.setDepartment(departmentField.getText());
-            this.departmentService.update(departmentDto);
-            departmentTable.refresh();
-            this.loadDummyData();
-            clearFields();
+        try {
+            if (AlertUtil.getSelectedItem(departmentTable, "department") != null) {
+                DepartmentDto departmentDto = new DepartmentDto();
+                departmentDto.setId(idField.getText());
+                departmentDto.setDepartment(departmentField.getText());
+                this.departmentService.update(departmentDto);
+                AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
+                departmentTable.refresh();
+                this.loadDummyData();
+            }
+        }catch (RuntimeException e) {
+            AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+        }
+        clearFields();
     }
 
 

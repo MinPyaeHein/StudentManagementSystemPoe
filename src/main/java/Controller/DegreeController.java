@@ -52,9 +52,10 @@ public class DegreeController {
     @FXML
     private void addDegree() {
         try {
-        DegreeDto degreeDto=new DegreeDto();
+            DegreeDto degreeDto=new DegreeDto();
             degreeDto.setDegree(degreeField.getText());
             this.degreeService.saveDegree(degreeDto);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS, Constants.Alerts.INFO);
             this.loadDummyData();
             clearFields();
         }catch(RuntimeException e){
@@ -64,24 +65,34 @@ public class DegreeController {
 
     @FXML
     private void deleteDegree() {
-        DegreeDto degreeDto=new DegreeDto();
-        degreeDto.setId(idField.getText());
-            this.degreeService.delete(degreeDto);
+        if(AlertUtil.getSelectedItem(degreeTable, "course") !=null) {
+            DegreeDto degreeDto = new DegreeDto();
+            degreeDto.setId(idField.getText());
+            if(AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE)) {
+                this.degreeService.delete(degreeDto);
+            }
             loadDummyData();
             clearFields();
         }
+    }
 
 
     @FXML
     private void updateDegree() {
-    DegreeDto degreeDto=new DegreeDto();
-    degreeDto.setId(idField.getText());
-    degreeDto.setDegree(degreeField.getText());
-    this.degreeService.update(degreeDto);
-    degreeTable.refresh();
-    this.loadDummyData();
-    clearFields();
+        try {
+            if (AlertUtil.getSelectedItem(degreeTable, "course") != null) {
+                DegreeDto degreeDto = new DegreeDto();
+                degreeDto.setId(idField.getText());
+                degreeDto.setDegree(degreeField.getText());
+                this.degreeService.update(degreeDto);
+                degreeTable.refresh();
+                this.loadDummyData();
+            }
+        }catch (RuntimeException e) {
+                AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
         }
+         clearFields();
+    }
 
 
     @FXML

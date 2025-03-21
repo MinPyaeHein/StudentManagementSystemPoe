@@ -144,8 +144,8 @@ public class StudentController {
                 studentDto.setFaculty(choiceBoxField.getSelectionModel().getSelectedItem());
                 studentDto.setImageFile(ImgUtil.selectedImageFile);
                 studentDto.setPassword(passwordField.getText());
-
                 this.studentService.saveStudent(studentDto);
+                 AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
             this.loadDummyData();
             clearFields();
         } catch (RuntimeException e) {
@@ -159,7 +159,9 @@ public class StudentController {
             StudentDto studentDto = new StudentDto();
             studentDto.setId(idField.getText());
             studentDto.setImageFile(ImgUtil.selectedImageFile);
-            this.studentService.delete(studentDto);
+            if(AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE)) {
+                this.studentService.delete(studentDto);
+            }
         }
         loadDummyData();
         clearFields();
@@ -172,6 +174,7 @@ public class StudentController {
 
     @FXML
     private void updateStudent() {
+        try{
         if (AlertUtil.getSelectedItem(studentTable, "student") != null) {
             StudentDto studentDto = new StudentDto();
             studentDto.setId(idField.getText());
@@ -184,11 +187,16 @@ public class StudentController {
             studentDto.setImageFile(ImgUtil.selectedImageFile);
             studentDto.setPassword(passwordField.getText());
             this.studentService.update(studentDto);
+            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
             studentTable.refresh();
             loadDummyData();
+        }
+        }catch (RuntimeException e) {
+                AlertUtil.alert(e.getMessage(), Constants.Alerts.ERROR);
+            }
             clearFields();
         }
-        }
+
 
     @FXML
     private void handleMouseAction(MouseEvent event) {

@@ -17,13 +17,10 @@ public class EnrollmentServiceImpl {
     public void saveEnrollment(List<EnrollmentDto> enrollmentDtos) {
         if (!enrollmentDtos.isEmpty()) {
             for (EnrollmentDto enrollmentDto : enrollmentDtos) {
-                Enrollment enrollment= EnrollmentMapper.toEntity(enrollmentDto);
+                Enrollment enrollment = EnrollmentMapper.toEntity(enrollmentDto);
                 ValidateUtail.validate(enrollmentDto);
                 this.enrollmentDao.insert(enrollment);
             }
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        } else {
-            AlertUtil.alert(Constants.Alerts.NO_SELECTED, Constants.Alerts.ERROR);
         }
     }
 

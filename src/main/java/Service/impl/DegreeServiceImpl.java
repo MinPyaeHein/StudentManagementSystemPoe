@@ -20,14 +20,12 @@ public class DegreeServiceImpl implements DegreeService {
 
     @Override
     public void update(DegreeDto degreeDto) {
-
         Degree degree = DegreeMapper.toEntity(degreeDto);
         try {
             ValidateUtail.validate(degreeDto);
             degreeDao.update(degree, "id");
-            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException exception){
-            AlertUtil.alert(exception.getMessage(),Constants.Alerts.ERROR);
+        }catch(InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
         }
     }
 
@@ -45,14 +43,9 @@ public class DegreeServiceImpl implements DegreeService {
     @Override
     public void saveDegree(DegreeDto degreeDto) {
         Degree degree= DegreeMapper.toEntity(degreeDto);
-        try{
             ValidateUtail.validate(degreeDto);
             validateExistDepartment(degree);
             this.degreeDao.insert(degree);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch(InvalidDataFormatException e){
-            throw new InvalidDataFormatException(e.getMessage());
-        }
     }
 
     @Override
@@ -64,9 +57,8 @@ public class DegreeServiceImpl implements DegreeService {
     public void delete(DegreeDto degreeDto) {
         Degree degree = DegreeMapper.idToEntity(degreeDto);
         degree = this.degreeDao.selectById(degree);
-        if(degree!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+degree.getDegree())){
-            this.degreeDao.delete(degree);
-        }
+        this.degreeDao.delete(degree);
+
     }
 
     @Override

@@ -1,17 +1,12 @@
 package Service.impl;
-
 import Constant.Constants;
 import Dao.impl.CoursesDaoImpl;
 import Dto.CourseDto;
 import Mapper.CourseMapper;
 import Model.Course;
-import Model.Enrollment;
 import Model.Student;
 import Service.CourseService;
-import Utils.AlertUtil;
 import Utils.ValidateUtail;
-
-import java.util.ArrayList;
 import java.util.List;
 import Exception.*;
 
@@ -24,12 +19,16 @@ public class CourseServiceImpl implements CourseService {
         coursesDao = new CoursesDaoImpl();
         enrollmentService = new EnrollmentServiceImpl();
     }
+
     @Override
     public void update(CourseDto courseDto) {
-        Course course = CourseMapper.toEntity(courseDto);
+        try {
+            Course course = CourseMapper.toEntity(courseDto);
             ValidateUtail.validate(courseDto);
             coursesDao.update(course, Constants.FieldConstraints.ID);
-            AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS, Constants.Alerts.INFO);
+        }catch (InvalidDataFormatException e){
+            throw new InvalidDataFormatException(e.getMessage());
+        }
     }
 
     @Override
@@ -44,19 +43,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void saveCourse(CourseDto courseDto) {
-        Course course= CourseMapper.toEntity(courseDto);
-        try {
+           Course course = CourseMapper.toEntity(courseDto);
             ValidateUtail.validate(courseDto);
             validateExistCourse(course);
-            if(course.getCapacity() > 100){
+            if (course.getCapacity() > 100) {
                 throw new InvalidDataFormatException(Constants.FieldConstraints.MAX_CAPACITY);
             }
             this.coursesDao.insert(course);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
-        }catch (InvalidDataFormatException e){
-            throw new InvalidDataFormatException(e.getMessage());
-        }
-
     }
 
 
@@ -64,10 +57,7 @@ public class CourseServiceImpl implements CourseService {
     public void delete(CourseDto courseDto) {
         Course course= CourseMapper.idToEntity(courseDto);
         course = this.coursesDao.selectById(course);
-        if(course!=null && AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE, Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+course.getCourse_name())){
-            this.coursesDao.delete(course);
-        }
-
+        this.coursesDao.delete(course);
     }
 
     @Override
@@ -86,12 +76,11 @@ public class CourseServiceImpl implements CourseService {
             if (duplicateCourseCode != null || duplicateCourseName !=null) {
                 throw new InvalidDataFormatException(Constants.Alerts.DUPLICATE_RECORD+course.getCourse_name()+"\n"+course.getCourse_code());
             }
-        }
+    }
+
     public Course findCourseByName(String name) {
         return coursesDao.findCourseByName(name);
     }
-
-
 
     public List<Course> availableCoursesByStudent(Student student) {
         return coursesDao.findCoursesNotRegisteredByStudent(student.getId());

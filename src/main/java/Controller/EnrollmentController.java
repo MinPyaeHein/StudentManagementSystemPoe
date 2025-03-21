@@ -128,7 +128,7 @@ public class EnrollmentController {
 
 
     private void updateCourseAndEnrollment(Course selectedCourse) {
-        Enrollment enrollment = new Enrollment();
+            Enrollment enrollment = new Enrollment();
         enrollment.setCourse(selectedCourse);
         enrollment.setStatus(Constants.FieldConstraints.NEW_STATUS);
         selectedTable.getItems().add(enrollment);
@@ -149,19 +149,25 @@ public class EnrollmentController {
 
     @FXML
     public void enrollmentBtn() {
-        List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
-        for (Enrollment enrollment : selectedTable.getItems()) {
-            if(!enrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
-                EnrollmentDto enrollmentDto = new EnrollmentDto();
-                enrollmentDto.setStudentId(String.valueOf(Constants.enrollmentStudent.getId()));
-                enrollmentDto.setCourse(enrollment.getCourse().getCourse_name());
-                enrollmentDto.setStatus(Constants.FieldConstraints.REGISTER_STATUS);
-                enrollmentDtos.add(enrollmentDto);
-                setBackGroundColor();
+        try {
+            List<EnrollmentDto> enrollmentDtos = new ArrayList<>();
+            for (Enrollment enrollment : selectedTable.getItems()) {
+                if (!enrollment.getStatus().equals(Constants.FieldConstraints.REGISTER_STATUS)) {
+                    EnrollmentDto enrollmentDto = new EnrollmentDto();
+                    enrollmentDto.setStudentId(String.valueOf(Constants.enrollmentStudent.getId()));
+                    enrollmentDto.setCourse(enrollment.getCourse().getCourse_name());
+                    enrollmentDto.setStatus(Constants.FieldConstraints.REGISTER_STATUS);
+                    enrollmentDtos.add(enrollmentDto);
+                    setBackGroundColor();
+                }
             }
+            enrollmentService.saveEnrollment(enrollmentDtos);
+            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS, Constants.Alerts.INFO);
+        } catch (RuntimeException e) {
+            AlertUtil.alert(Constants.Alerts.NO_SELECTED, Constants.Alerts.ERROR);
         }
-        enrollmentService.saveEnrollment(enrollmentDtos);
         reloadEnrollmentTable();
+
 
     }
     private void reloadEnrollmentTable() {

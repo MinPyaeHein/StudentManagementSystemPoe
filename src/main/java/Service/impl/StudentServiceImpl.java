@@ -24,14 +24,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void update(StudentDto studentDto) {
+        try {
         Student student= StudentMapper.toEntity(studentDto);
-     try {
          ValidateUtail.validate(studentDto);
          ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(), Constants.ImagePaths.STUDENT_FOLDER);
          studentDao.update(student, Constants.FieldConstraints.ID);
-         AlertUtil.alert(Constants.Alerts.UPDATE_SUCCESS,Constants.Alerts.INFO);
      } catch (IOException e) {
-         AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+            throw new RuntimeException(e);
      }
     }
 
@@ -48,20 +47,19 @@ public class StudentServiceImpl implements StudentService {
                 return studentRow;
             }
         } catch (IndexOutOfBoundsException ex) {
-        AlertUtil.alert( Constants.Alerts.STUDENT_NOT_FOUND, Constants.Alerts.ERROR);
+            throw new IndexOutOfBoundsException(ex.getMessage());
         }
         return null;
     }
 
     @Override
     public void saveStudent(StudentDto studentDto) {
-        Student student=StudentMapper.toEntity(studentDto);
         try{
+        Student student=StudentMapper.toEntity(studentDto);
             ValidateUtail.validate(studentDto);
             validateExistStudent(student);
             ImgUtil.saveImageWithId(student.getId(),studentDto.getImageFile(),Constants.ImagePaths.STUDENT_FOLDER);
             this.studentDao.insert(student);
-            AlertUtil.alert(Constants.Alerts.SAVE_SUCCESS,Constants.Alerts.INFO);
         }catch(InvalidDataFormatException e){
             throw new InvalidDataFormatException(e.getMessage());
         } catch (IOException e) {
@@ -74,14 +72,11 @@ public class StudentServiceImpl implements StudentService {
         Student student = StudentMapper.idToEntity(studentDto);
         student = this.studentDao.selectById(student);
         try {
-            if(student!=null&& AlertUtil.confirmationDialog(Constants.Alerts.DELETE_CONFIRM_TITLE,Constants.Alerts.DELETE_CONFIRM_MESSAGE+"\n"+student.getEmail()+"\n"+student.getName())){
-                this.studentDao.delete(student);
-            }
+            this.studentDao.delete(student);
             ImgUtil.deleteImageWithId(student.getId(),studentDto.getImageFile(),Constants.ImagePaths.STUDENT_FOLDER);
         } catch (IOException e) {
-            AlertUtil.alert(e.getMessage(),Constants.Alerts.ERROR);
+            throw new RuntimeException(e);
         }
-
     }
 
     private void validateExistStudent(Student student) {
